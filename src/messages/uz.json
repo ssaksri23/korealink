@@ -173,5 +173,14 @@
     "blocked": "Bloklangan",
     "deleted": "O'chirilgan"
   },
-  "disclaimer": "KoreaLink — ma'lumot platformasi bo'lib, ish sharoitlari yoki savdo xavfsizligiga bevosita kafolat bermaydi. Shartnoma tuzish, ishlash yoki savdo qilishdan oldin shartlarni kompaniya bilan albatta tekshiring."
+  "disclaimer": "KoreaLink — ma'lumot platformasi bo'lib, ish sharoitlari yoki savdo xavfsizligiga bevosita kafolat bermaydi. Shartnoma tuzish, ishlash yoki savdo qilishdan oldin shartlarni kompaniya bilan albatta tekshiring.",
+  "legal": {
+    "termsTitle": "Foydalanish shartlari",
+    "privacyTitle": "Maxfiylik siyosati",
+    "reportPolicyTitle": "Shikoyat va kontentni olib tashlash siyosati",
+    "koreanOnlyNotice": "Ushbu hujjat faqat koreys tilida taqdim etilgan bo'lib, koreyscha matn yuridik kuchga ega.",
+    "contactEmail": "ssaksri23@naver.com",
+    "agreeTerms": "Men <terms>Foydalanish shartlari</terms> va <privacy>Maxfiylik siyosati</privacy>ga roziman.",
+    "agreeTermsRequired": "Ro'yxatdan o'tish uchun Foydalanish shartlari va Maxfiylik siyosatiga rozi bo'lishingiz kerak."
+  }
 }

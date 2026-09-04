@@ -9,10 +9,12 @@ import { signupSchema, type SignupInput } from "@/lib/validation/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Link } from "@/i18n/navigation";
 
 export function SignupForm() {
   const t = useTranslations("auth");
+  const tLegal = useTranslations("legal");
   const locale = useLocale();
   const [serverError, setServerError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -94,6 +96,35 @@ export function SignupForm() {
               ? t("confirmPassword")
               : errors.confirmPassword.message}
           </p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Checkbox
+          {...register("agreeTerms")}
+          label={tLegal.rich("agreeTerms", {
+            terms: (chunks) => (
+              <Link
+                href="/terms"
+                target="_blank"
+                className="font-medium text-teal-700 hover:underline"
+              >
+                {chunks}
+              </Link>
+            ),
+            privacy: (chunks) => (
+              <Link
+                href="/privacy"
+                target="_blank"
+                className="font-medium text-teal-700 hover:underline"
+              >
+                {chunks}
+              </Link>
+            ),
+          })}
+        />
+        {errors.agreeTerms && (
+          <p className="text-sm text-red-600">{tLegal("agreeTermsRequired")}</p>
         )}
       </div>
 

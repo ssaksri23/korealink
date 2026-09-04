@@ -173,5 +173,14 @@
     "blocked": "已封禁",
     "deleted": "已删除"
   },
-  "disclaimer": "KoreaLink 是信息提供平台，不直接保证雇佣条件或交易安全。签订合同、就业或交易前，请务必与商家核实相关条件。"
+  "disclaimer": "KoreaLink 是信息提供平台，不直接保证雇佣条件或交易安全。签订合同、就业或交易前，请务必与商家核实相关条件。",
+  "legal": {
+    "termsTitle": "服务条款",
+    "privacyTitle": "隐私政策",
+    "reportPolicyTitle": "举报与下架政策",
+    "koreanOnlyNotice": "本文件仅提供韩语版本，以韩语原文为准。",
+    "contactEmail": "ssaksri23@naver.com",
+    "agreeTerms": "我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。",
+    "agreeTermsRequired": "您必须同意服务条款和隐私政策才能注册。"
+  }
 }

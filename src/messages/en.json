@@ -173,5 +173,14 @@
     "blocked": "Blocked",
     "deleted": "Deleted"
   },
-  "disclaimer": "KoreaLink is an information platform and does not directly guarantee employment conditions or transaction safety. Please verify all terms with the business before signing a contract, working, or trading."
+  "disclaimer": "KoreaLink is an information platform and does not directly guarantee employment conditions or transaction safety. Please verify all terms with the business before signing a contract, working, or trading.",
+  "legal": {
+    "termsTitle": "Terms of Service",
+    "privacyTitle": "Privacy Policy",
+    "reportPolicyTitle": "Report & Takedown Policy",
+    "koreanOnlyNotice": "This document is provided in Korean only, and the Korean text is authoritative.",
+    "contactEmail": "ssaksri23@naver.com",
+    "agreeTerms": "I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+    "agreeTermsRequired": "You must agree to the Terms of Service and Privacy Policy to sign up."
+  }
 }

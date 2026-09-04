@@ -12,10 +12,15 @@ export const signupSchema = z
     email: z.string().min(1).email(),
     password: z.string().min(8).max(72),
     confirmPassword: z.string().min(8).max(72),
+    agreeTerms: z.boolean(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "PASSWORD_MISMATCH",
+  })
+  .refine((data) => data.agreeTerms === true, {
+    path: ["agreeTerms"],
+    message: "AGREE_REQUIRED",
   });
 export type SignupInput = z.infer<typeof signupSchema>;
 

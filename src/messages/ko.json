@@ -173,5 +173,14 @@
     "blocked": "차단됨",
     "deleted": "삭제됨"
   },
-  "disclaimer": "KoreaLink는 정보 제공 플랫폼이며 고용조건과 거래 안전성을 직접 보증하지 않습니다. 계약, 취업 또는 거래 전에 업체와 조건을 반드시 확인하세요."
+  "disclaimer": "KoreaLink는 정보 제공 플랫폼이며 고용조건과 거래 안전성을 직접 보증하지 않습니다. 계약, 취업 또는 거래 전에 업체와 조건을 반드시 확인하세요.",
+  "legal": {
+    "termsTitle": "이용약관",
+    "privacyTitle": "개인정보처리방침",
+    "reportPolicyTitle": "신고 및 게시중단요청 정책",
+    "koreanOnlyNotice": "본 문서는 한국어로만 제공되며, 한국어 원문이 우선합니다.",
+    "contactEmail": "ssaksri23@naver.com",
+    "agreeTerms": "<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다.",
+    "agreeTermsRequired": "이용약관 및 개인정보처리방침에 동의해야 가입할 수 있습니다."
+  }
 }
