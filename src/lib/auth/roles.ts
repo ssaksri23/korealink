@@ -42,7 +42,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     displayName: profile?.display_name ?? null,
     preferredLanguage: profile?.preferred_language ?? null,
     roles: (roleRows ?? []).map((r) => ({
-      code: r.role_code,
+      code: r.role_code as RoleCode,
       scopeLanguageCode: r.scope_language_code,
     })),
   };

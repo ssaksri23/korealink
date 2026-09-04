@@ -31,7 +31,7 @@ export async function getCategories(): Promise<CategoryRow[]> {
     if (error || !data || data.length === 0) return FALLBACK_CATEGORIES;
 
     return data.map((c) => ({
-      slug: c.slug,
+      slug: c.slug as PostCategory,
       icon: c.icon ?? "layout-grid",
       displayOrder: c.display_order,
     }));
