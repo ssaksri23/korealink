@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AdminOrderConfirmAction } from "@/components/admin/order-confirm-action";
 import { AdminOrderRefundAction } from "@/components/admin/order-refund-action";
+import { OrderDeleteButton } from "@/components/admin/order-delete-button";
 
 const ORDER_STATUS_LABEL: Record<string, string> = {
   payment_pending: "입금대기",
@@ -45,12 +46,15 @@ export default async function AdminOrdersPage() {
               <p className="mt-1 text-xs text-slate-400">
                 {new Date(o.createdAt).toLocaleString()}
               </p>
-              {o.payment?.status === "waiting" && (
-                <AdminOrderConfirmAction orderId={o.id} />
-              )}
-              {o.payment?.status === "refund_requested" && (
-                <AdminOrderRefundAction orderId={o.id} />
-              )}
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                {o.payment?.status === "waiting" && (
+                  <AdminOrderConfirmAction orderId={o.id} />
+                )}
+                {o.payment?.status === "refund_requested" && (
+                  <AdminOrderRefundAction orderId={o.id} />
+                )}
+                <OrderDeleteButton orderId={o.id} />
+              </div>
             </Card>
           ))}
         </div>
