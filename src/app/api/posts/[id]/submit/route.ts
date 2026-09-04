@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { LOCALE_CODES } from "@/config/languages";
 import { findProhibitedWords } from "@/lib/prohibited-words";
+import { notifyAdmin } from "@/lib/telegram";
 
 const bodySchema = z.object({
   mode: z.enum(["original_only", "selected", "all"]),
@@ -30,7 +31,7 @@ export async function POST(
   // RLS로 소유권 확인(본인 게시글이 아니면 0건 반환)
   const { data: post } = await supabase
     .from("posts")
-    .select("id, original_language_code")
+    .select("id, original_language_code, categories(name_ko)")
     .eq("id", id)
     .eq("created_by", user.id)
     .maybeSingle();
@@ -102,6 +103,12 @@ export async function POST(
   if (statusError) {
     return NextResponse.json({ error: statusError.message }, { status: 500 });
   }
+
+  const category = Array.isArray(post.categories) ? post.categories[0] : post.categories;
+  const adminUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/ko/admin/posts/${id}`;
+  await notifyAdmin(
+    `🆕 새 게시글 제출됨\n[${category?.name_ko ?? "카테고리"}] ${translation.translated_title}\n\n검수하러 가기: ${adminUrl}`,
+  );
 
   return NextResponse.json({ ok: true });
 }

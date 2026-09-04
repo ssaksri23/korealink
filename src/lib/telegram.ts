@@ -1,9 +1,9 @@
 import "server-only";
+import { getSystemSetting } from "@/lib/system-settings";
 
 /**
  * Telegram Bot API는 무료이며 봇 토큰만 있으면 호출 가능하다(유료 API 신청 대상 아님).
- * TELEGRAM_BOT_TOKEN이 설정되어 있지 않으면 항상 실패로 처리한다 — 이 함수는
- * queueDistributionForPost 안에서만 호출되며, 실제로 메시지가 나가는 유일한 경로다.
+ * TELEGRAM_BOT_TOKEN이 설정되어 있지 않으면 항상 실패로 처리한다.
  */
 export async function sendTelegramMessage(
   chatId: string,
@@ -34,4 +34,15 @@ export async function sendTelegramMessage(
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : "network error" };
   }
+}
+
+/**
+ * 새 게시글 제출 등 관리자가 처리해야 할 이벤트를 관리자 전용 텔레그램 채널로 알린다.
+ * system_settings.admin_telegram_chat_id가 설정되어 있지 않으면 조용히 아무 것도
+ * 하지 않는다(관리자 알림 채널 설정은 선택사항이며, 실패해도 원래 동작을 막지 않는다).
+ */
+export async function notifyAdmin(text: string): Promise<void> {
+  const chatId = await getSystemSetting<string>("admin_telegram_chat_id");
+  if (!chatId) return;
+  await sendTelegramMessage(chatId, text);
 }
