@@ -76,7 +76,7 @@ npm run build     # 프로덕션 빌드
 
 ## 데이터베이스
 
-- `supabase/migrations/00000000000001_*.sql` ~ `..._013_*.sql` 순서대로 적용합니다.
+- `supabase/migrations/00000000000001_*.sql` ~ `..._014_*.sql` 순서대로 적용합니다.
 - 모든 테이블에 Row Level Security가 적용되어 있으며, 프론트엔드 메뉴 숨김이 아니라 **DB 레벨에서 권한을 강제**합니다.
 - 실제 Postgres 16 엔진에 전체 마이그레이션을 적용하고, 다음 항목을 직접 검증했습니다.
   - 익명 사용자: `languages`/`categories` 등 공개 테이블만 조회 가능, `profiles`는 0건
@@ -84,6 +84,10 @@ npm run build     # 프로덕션 빌드
   - admin: 모든 게시글 조회 가능하지만 `user_roles`에 직접 행 삽입은 불가(super_admin 전용 정책이 정상 차단)
   - 원문(원본 언어) 수정 시 다른 언어 번역이 자동으로 `re_review_required`로 전환
   - 신고 5건 누적 시 게시글이 자동으로 `hidden` 처리되고 관리자에게 알림이 정확히 1건 생성
+- 위 마이그레이션 전체를 실제 Supabase 프로젝트(`korealink`, 서울 리전, free tier, 월 $0)에도 그대로 적용해
+  회원가입 트리거·RLS·시드데이터가 라이브 인프라에서 정상 동작함을 확인했고, Supabase 보안 어드바이저가
+  지적한 `search_path` 미고정/트리거 함수 과다노출 경고도 `014_security_hardening.sql`로 조치했습니다
+  (프로젝트 접속 정보는 대화창에서 별도로 전달했으며 저장소에는 커밋하지 않았습니다).
 
 `src/lib/supabase/database.types.ts`는 위 마이그레이션과 맞춰 손으로 작성한 최소 타입이며, 실제 프로젝트 연결 후에는 다음 명령으로 자동 생성 타입으로 교체하는 것을 권장합니다.
 
