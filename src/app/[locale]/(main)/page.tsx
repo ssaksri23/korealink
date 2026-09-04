@@ -7,6 +7,7 @@ import {
   Users,
   Calendar,
   LayoutGrid,
+  Send,
   type LucideIcon,
 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -34,11 +35,12 @@ export default async function HomePage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [tCommon, tHome, tCategories, categories, counts, recentPosts, urgentJobs] =
+  const [tCommon, tHome, tCategories, tChannels, categories, counts, recentPosts, urgentJobs] =
     await Promise.all([
       getTranslations("common"),
       getTranslations("home"),
       getTranslations("categories"),
+      getTranslations("channels"),
       getCategories(),
       getCategoryPostCounts(),
       listRecentPublishedPosts(locale, 6),
@@ -53,6 +55,21 @@ export default async function HomePage({
           {tCommon("taglineEn")}
         </p>
       </section>
+
+      <Link href="/channels">
+        <Card className="mb-6 flex items-center gap-3 border-teal-200 bg-teal-50 p-4 transition hover:border-teal-400 hover:shadow-md">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-teal-600 text-white">
+            <Send className="size-5" />
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-slate-900">{tChannels("title")}</p>
+            <p className="text-xs text-slate-500">{tChannels("subtitle")}</p>
+          </div>
+          <span className="shrink-0 text-xs font-semibold text-teal-700">
+            {tChannels("viewAll")}
+          </span>
+        </Card>
+      </Link>
 
       <section className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {categories.map((c) => {

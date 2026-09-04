@@ -325,6 +325,7 @@
     "title": "Telegram Channels by Language",
     "subtitle": "Get new post updates in your language directly on Telegram.",
     "join": "Join Channel",
+    "viewAll": "View all channels",
     "empty": "No channels are registered yet."
   }
 }
