@@ -237,7 +237,7 @@ export function CategoryDetailsFields({
           <Input type="date" value={(details.eventDate as string) ?? ""} onChange={(e) => set("eventDate", e.target.value)} />
         </Field>
         <Field label="시간">
-          <Input placeholder="예: 14:00" value={(details.eventTime as string) ?? ""} onChange={(e) => set("eventTime", e.target.value)} />
+          <Input type="time" value={(details.eventTime as string) ?? ""} onChange={(e) => set("eventTime", e.target.value)} />
         </Field>
       </div>
       <Field label="장소">
