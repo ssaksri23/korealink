@@ -13,6 +13,7 @@ export interface PostCardData {
   region: string | null;
   createdAt: string;
   categorySlug: PostCategory;
+  thumbnailUrl: string | null;
 }
 
 interface RawPostRow {
@@ -37,11 +38,22 @@ interface RawPostRow {
       | "failed"
       | "re_review_required";
   }[];
+  post_images: { image_url: string; is_primary: boolean; sort_order: number }[];
 }
 
 function toOne<T>(value: T | T[] | null): T | null {
   if (!value) return null;
   return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+function primaryImageUrl(
+  images: { image_url: string; is_primary: boolean; sort_order: number }[] | null | undefined,
+): string | null {
+  const sorted = [...(images ?? [])].sort((a, b) => {
+    if (a.is_primary !== b.is_primary) return a.is_primary ? -1 : 1;
+    return a.sort_order - b.sort_order;
+  });
+  return sorted[0]?.image_url ?? null;
 }
 
 function mapRow(row: RawPostRow, locale: string): PostCardData {
@@ -68,11 +80,12 @@ function mapRow(row: RawPostRow, locale: string): PostCardData {
     region: region ? [region.sido, region.sigungu].filter(Boolean).join(" ") : null,
     createdAt: row.created_at,
     categorySlug: category?.slug ?? "jobs",
+    thumbnailUrl: primaryImageUrl(row.post_images),
   };
 }
 
 const POST_SELECT =
-  "id, share_code, is_urgent, is_featured, created_at, original_language_code, categories(slug), regions(sido, sigungu), post_translations(language_code, translated_title, translated_content, translation_status)";
+  "id, share_code, is_urgent, is_featured, created_at, original_language_code, categories(slug), regions(sido, sigungu), post_translations(language_code, translated_title, translated_content, translation_status), post_images(image_url, is_primary, sort_order)";
 
 export async function getCategoryPostCounts(): Promise<
   Record<PostCategory, number>
@@ -236,6 +249,7 @@ export async function getPostById(
     region: region ? [region.sido, region.sigungu].filter(Boolean).join(" ") : null,
     createdAt: row.created_at,
     categorySlug: category?.slug ?? "jobs",
+    thumbnailUrl: primaryImageUrl(row.post_images),
     viewCount: row.view_count,
     createdBy: row.created_by,
     status: row.status,
