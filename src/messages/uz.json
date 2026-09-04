@@ -93,6 +93,7 @@
   },
   "post": {
     "viewCount": "{count} marta ko'rilgan",
+    "transactionWarning": "KoreaLink ushbu bitimning tarafi emas va mahsulot, to'lov yoki bitimning bajarilishiga kafolat bermaydi. Pul o'tkazishdan oldin sotuvchi va mahsulotni bevosita tekshiring. Agar oldindan to'lov talab qilishsa, bu firibgarlik bo'lishi mumkinligidan shubhalaning.",
     "inquiry": "Savol",
     "inquiryPlaceholder": "Savolingizni kiriting",
     "inquirySend": "Yuborish",

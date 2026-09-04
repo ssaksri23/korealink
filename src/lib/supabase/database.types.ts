@@ -1873,6 +1873,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_prohibited_content: {
+        Args: { content: string }
+        Returns: {
+          severity: string
+          word: string
+        }[]
+      }
       generate_share_code: { Args: never; Returns: string }
       has_role: {
         Args: { target_profile?: string; target_role: string }

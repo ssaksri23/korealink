@@ -187,7 +187,8 @@ export function PostWizard({
     });
     setSubmitting(false);
     if (!res.ok) {
-      setError((await res.json().catch(() => null))?.error ?? t("submitError"));
+      const data = await res.json().catch(() => null);
+      setError(data?.message ?? t("submitError"));
       return;
     }
     router.push("/me/posts");

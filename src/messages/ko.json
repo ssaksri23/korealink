@@ -93,6 +93,7 @@
   },
   "post": {
     "viewCount": "조회 {count}",
+    "transactionWarning": "코리아링크는 거래 당사자가 아니며 상품, 대금 지급 및 거래 이행을 보증하지 않습니다. 송금 전 판매자와 물품을 직접 확인하세요. 선입금을 요구하면 사기를 의심하세요.",
     "inquiry": "문의",
     "inquiryPlaceholder": "문의 내용을 입력해주세요",
     "inquirySend": "보내기",

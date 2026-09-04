@@ -93,6 +93,7 @@
   },
   "post": {
     "viewCount": "{count} lượt xem",
+    "transactionWarning": "KoreaLink không phải là bên trong giao dịch và không đảm bảo về hàng hóa, thanh toán hay việc hoàn tất giao dịch. Hãy trực tiếp kiểm tra người bán và hàng hóa trước khi chuyển tiền. Nếu bị yêu cầu chuyển tiền trước, hãy nghi ngờ đó là lừa đảo.",
     "inquiry": "Hỏi đáp",
     "inquiryPlaceholder": "Nhập nội dung cần hỏi",
     "inquirySend": "Gửi",

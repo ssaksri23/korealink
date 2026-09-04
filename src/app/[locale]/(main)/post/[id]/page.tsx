@@ -30,9 +30,16 @@ export default async function PostDetailPage({
 
   const isOwner = !!user && (post.createdBy === user.id || isAdmin(user));
   const isDeletable = post.status !== "blocked" && post.status !== "deleted";
+  const TRANSACTION_CATEGORIES = ["jobs", "business", "used", "housing", "groupbuy"];
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 pb-28">
+      {TRANSACTION_CATEGORIES.includes(post.categorySlug) && (
+        <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-800">
+          {tPost("transactionWarning")}
+        </p>
+      )}
+
       <div className="mb-3 flex flex-wrap items-center gap-1.5">
         {post.isUrgent && <Badge variant="urgent">{t("urgentBadge")}</Badge>}
         {post.isFeatured && <Badge variant="accent">{t("featuredBadge")}</Badge>}

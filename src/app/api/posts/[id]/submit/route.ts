@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { LOCALE_CODES } from "@/config/languages";
+import { findProhibitedWords } from "@/lib/prohibited-words";
 
 const bodySchema = z.object({
   mode: z.enum(["original_only", "selected", "all"]),
@@ -48,6 +49,22 @@ export async function POST(
   if (!translation?.translated_title || !translation?.translated_content) {
     return NextResponse.json(
       { error: "title and content are required before submitting" },
+      { status: 400 },
+    );
+  }
+
+  // 마약·성매매·도박 등 명백한 금칙어는 관리자 검수 큐에 들어가기 전에 1차로 차단한다.
+  // 최종 판단은 여전히 관리자 검수가 담당하며, 이 검사는 1차 방어선일 뿐이다.
+  const { blocked } = await findProhibitedWords(
+    `${translation.translated_title} ${translation.translated_content}`,
+  );
+  if (blocked.length > 0) {
+    return NextResponse.json(
+      {
+        error: "prohibited_content",
+        message:
+          "게시글에 금지된 단어가 포함되어 있어 제출할 수 없습니다. 내용을 수정한 후 다시 시도해주세요.",
+      },
       { status: 400 },
     );
   }

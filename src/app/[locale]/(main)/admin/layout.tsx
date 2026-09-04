@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "상품" },
   { href: "/admin/orders", label: "주문·입금" },
   { href: "/admin/distribution", label: "배포관리" },
+  { href: "/admin/prohibited-words", label: "금칙어관리" },
 ];
 
 export default async function AdminLayout({

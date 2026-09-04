@@ -93,6 +93,7 @@
   },
   "post": {
     "viewCount": "浏览 {count} 次",
+    "transactionWarning": "KoreaLink不是交易当事人，不对商品、付款或交易的履行提供任何保证。转账前请直接核实卖家和商品信息。如果对方要求提前付款，请提高警惕，谨防诈骗。",
     "inquiry": "咨询",
     "inquiryPlaceholder": "请输入咨询内容",
     "inquirySend": "发送",

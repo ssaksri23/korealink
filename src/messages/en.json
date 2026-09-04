@@ -93,6 +93,7 @@
   },
   "post": {
     "viewCount": "{count} views",
+    "transactionWarning": "KoreaLink is not a party to this transaction and does not guarantee the item, payment, or completion of the deal. Verify the seller and item directly before sending any money. Be suspicious of anyone demanding payment in advance.",
     "inquiry": "Inquiry",
     "inquiryPlaceholder": "Enter your inquiry",
     "inquirySend": "Send",
