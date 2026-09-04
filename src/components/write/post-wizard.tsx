@@ -247,10 +247,19 @@ export function PostWizard({
             <Label>{t("region")}</Label>
             <Select value={regionId} onChange={(e) => setRegionId(e.target.value)}>
               <option value="">{t("selectRegion")}</option>
-              {regions.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.sido} {r.sigungu ?? ""}
-                </option>
+              {Object.entries(
+                regions.reduce<Record<string, typeof regions>>((groups, r) => {
+                  (groups[r.sido] ??= []).push(r);
+                  return groups;
+                }, {}),
+              ).map(([sido, sidoRegions]) => (
+                <optgroup key={sido} label={sido}>
+                  {sidoRegions.map((r) => (
+                    <option key={r.id} value={r.id}>
+                      {r.sigungu ?? sido}
+                    </option>
+                  ))}
+                </optgroup>
               ))}
             </Select>
           </div>

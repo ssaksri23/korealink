@@ -15,7 +15,8 @@ export async function getRegions(): Promise<RegionRow[]> {
     const { data, error } = await supabase
       .from("regions")
       .select("id, sido, sigungu")
-      .order("sido", { ascending: true });
+      .order("sido", { ascending: true })
+      .order("sigungu", { ascending: true });
 
     if (error || !data) return [];
     return data;
