@@ -60,6 +60,9 @@ export function PostWizard({
   const [title, setTitle] = useState(draft.title ?? "");
   const [content, setContent] = useState(draft.content ?? "");
   const [regionId, setRegionId] = useState(draft.regionId ?? "");
+  const [selectedSido, setSelectedSido] = useState(
+    regions.find((r) => r.id === draft.regionId)?.sido ?? "",
+  );
   const [contactName, setContactName] = useState(draft.contactName ?? "");
   const [contactPhone, setContactPhone] = useState(draft.contactPhone ?? "");
   const [details, setDetails] = useState<DetailsState>(detailsToCamel(draft.details));
@@ -191,6 +194,8 @@ export function PostWizard({
   }
 
   const progress = ((step + 1) / STEP_KEYS.length) * 100;
+  const sidoList = [...new Set(regions.map((r) => r.sido))];
+  const sigunguOptions = regions.filter((r) => r.sido === selectedSido);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 pb-28">
@@ -243,25 +248,39 @@ export function PostWizard({
 
       {step === 2 && (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label>{t("region")}</Label>
-            <Select value={regionId} onChange={(e) => setRegionId(e.target.value)}>
-              <option value="">{t("selectRegion")}</option>
-              {Object.entries(
-                regions.reduce<Record<string, typeof regions>>((groups, r) => {
-                  (groups[r.sido] ??= []).push(r);
-                  return groups;
-                }, {}),
-              ).map(([sido, sidoRegions]) => (
-                <optgroup key={sido} label={sido}>
-                  {sidoRegions.map((r) => (
-                    <option key={r.id} value={r.id}>
-                      {r.sigungu ?? sido}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </Select>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <Label>{t("regionSido")}</Label>
+              <Select
+                value={selectedSido}
+                onChange={(e) => {
+                  setSelectedSido(e.target.value);
+                  setRegionId("");
+                }}
+              >
+                <option value="">{t("selectRegionSido")}</option>
+                {sidoList.map((sido) => (
+                  <option key={sido} value={sido}>
+                    {sido}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label>{t("regionSigungu")}</Label>
+              <Select
+                value={regionId}
+                disabled={!selectedSido}
+                onChange={(e) => setRegionId(e.target.value)}
+              >
+                <option value="">{t("selectRegionSigungu")}</option>
+                {sigunguOptions.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {r.sigungu ?? r.sido}
+                  </option>
+                ))}
+              </Select>
+            </div>
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="contact-name">{t("contactName")}</Label>
