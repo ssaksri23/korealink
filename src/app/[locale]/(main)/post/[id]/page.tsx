@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getPostById, isPostBookmarked } from "@/lib/posts";
-import { getCurrentUser } from "@/lib/auth/roles";
+import { getCurrentUser, isAdmin } from "@/lib/auth/roles";
+import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { PostActions } from "@/components/post-actions";
+import { PostDeleteButton } from "@/components/write/post-delete-button";
 
 export default async function PostDetailPage({
   params,
@@ -11,11 +13,12 @@ export default async function PostDetailPage({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { locale, id } = await params;
-  const [t, tCategories, tPost, tRoot, post, bookmarked, user] = await Promise.all([
+  const [t, tCategories, tPost, tRoot, tWrite, post, bookmarked, user] = await Promise.all([
     getTranslations("common"),
     getTranslations("categories"),
     getTranslations("post"),
     getTranslations(),
+    getTranslations("write"),
     getPostById(id, locale),
     isPostBookmarked(id),
     getCurrentUser(),
@@ -24,6 +27,9 @@ export default async function PostDetailPage({
   if (!post) {
     notFound();
   }
+
+  const isOwner = !!user && (post.createdBy === user.id || isAdmin(user));
+  const isDeletable = post.status !== "blocked" && post.status !== "deleted";
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 pb-28">
@@ -36,6 +42,15 @@ export default async function PostDetailPage({
       <h1 className="text-2xl font-bold text-slate-900">
         {post.title ?? t("translationPending")}
       </h1>
+
+      {isOwner && (
+        <div className="mt-2 flex gap-3 text-sm">
+          <Link href={`/write/${post.id}`} className="text-teal-700 hover:underline">
+            {tWrite("editPost")}
+          </Link>
+          {isDeletable && <PostDeleteButton postId={post.id} redirectTo="/me/posts" />}
+        </div>
+      )}
 
       {post.isFallback && !post.isPending && (
         <p className="mt-1 text-sm text-amber-600">{t("translationPending")}</p>

@@ -154,6 +154,7 @@
     "noMyPosts": "작성한 게시글이 없습니다.",
     "rejectionReason": "반려 사유",
     "continueEditing": "이어서 작성",
+    "editPost": "수정",
     "viewPost": "게시글 보기",
     "deletePost": "삭제",
     "deleteConfirm": "정말 삭제하시겠습니까? 삭제한 게시글은 복구할 수 없습니다.",

@@ -185,6 +185,8 @@ export interface PostDetailData extends PostCardData {
   viewCount: number;
   isOriginal: boolean;
   isFallback: boolean;
+  createdBy: string;
+  status: string;
 }
 
 export async function getPostById(
@@ -197,10 +199,10 @@ export async function getPostById(
   const { data, error } = await supabase
     .from("posts")
     .select(
-      `${POST_SELECT}, view_count`,
+      `${POST_SELECT}, view_count, created_by, status`,
     )
     .eq("id", id)
-    .returns<(RawPostRow & { view_count: number })[]>();
+    .returns<(RawPostRow & { view_count: number; created_by: string; status: string })[]>();
 
   const row = data?.[0];
   if (error || !row) return null;
@@ -235,6 +237,8 @@ export async function getPostById(
     createdAt: row.created_at,
     categorySlug: category?.slug ?? "jobs",
     viewCount: row.view_count,
+    createdBy: row.created_by,
+    status: row.status,
   };
 }
 

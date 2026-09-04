@@ -4,7 +4,13 @@ import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-export function PostDeleteButton({ postId }: { postId: string }) {
+export function PostDeleteButton({
+  postId,
+  redirectTo,
+}: {
+  postId: string;
+  redirectTo?: string;
+}) {
   const t = useTranslations("write");
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -18,7 +24,11 @@ export function PostDeleteButton({ postId }: { postId: string }) {
       window.alert(t("deleteError"));
       return;
     }
-    router.refresh();
+    if (redirectTo) {
+      router.push(redirectTo);
+    } else {
+      router.refresh();
+    }
   }
 
   return (

@@ -62,10 +62,15 @@ export default async function MyPostsPage({
                   {t("rejectionReason")}: {p.rejectionReason}
                 </p>
               )}
-              <div className="mt-2 flex gap-3 text-sm">
-                {(p.status === "draft" || p.status === "rejected") && (
+              <div className="mt-2 flex flex-wrap gap-3 text-sm">
+                {p.status === "draft" && (
                   <Link href={`/write/${p.id}`} className="text-teal-700 hover:underline">
                     {t("continueEditing")}
+                  </Link>
+                )}
+                {p.status !== "draft" && p.status !== "blocked" && p.status !== "deleted" && (
+                  <Link href={`/write/${p.id}`} className="text-teal-700 hover:underline">
+                    {t("editPost")}
                   </Link>
                 )}
                 {p.status === "published" && (
@@ -84,9 +89,9 @@ export default async function MyPostsPage({
                     </Link>
                   </>
                 )}
-                {(p.status === "draft" ||
-                  p.status === "pending_review" ||
-                  p.status === "rejected") && <PostDeleteButton postId={p.id} />}
+                {p.status !== "blocked" && p.status !== "deleted" && (
+                  <PostDeleteButton postId={p.id} />
+                )}
               </div>
             </Card>
           ))}
