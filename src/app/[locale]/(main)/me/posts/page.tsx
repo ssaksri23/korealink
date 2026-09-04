@@ -68,9 +68,17 @@ export default async function MyPostsPage({
                   </Link>
                 )}
                 {p.status === "published" && (
-                  <Link href={`/post/${p.id}`} className="text-teal-700 hover:underline">
-                    {t("viewPost")}
-                  </Link>
+                  <>
+                    <Link href={`/post/${p.id}`} className="text-teal-700 hover:underline">
+                      {t("viewPost")}
+                    </Link>
+                    <Link
+                      href={{ pathname: "/orders/new", query: { postId: p.id } }}
+                      className="text-teal-700 hover:underline"
+                    >
+                      광고 신청
+                    </Link>
+                  </>
                 )}
               </div>
             </Card>

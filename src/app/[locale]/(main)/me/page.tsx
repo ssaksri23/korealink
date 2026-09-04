@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { ChevronRight, FileText, Bookmark, ShieldCheck } from "lucide-react";
+import { ChevronRight, FileText, Bookmark, Receipt, ShieldCheck } from "lucide-react";
 import { Link, redirect } from "@/i18n/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth/roles";
 import { getLanguages } from "@/lib/languages";
@@ -78,6 +78,7 @@ export default async function MePage({
       <Card className="divide-y divide-slate-100 overflow-hidden p-0">
         <MenuLink href="/me/posts" icon={FileText} label="내 게시글" />
         <MenuLink href="/me/bookmarks" icon={Bookmark} label="저장한 게시글" />
+        <MenuLink href="/me/orders" icon={Receipt} label="내 주문" />
         {isAdmin(user) && (
           <MenuLink href="/admin" icon={ShieldCheck} label="관리자" />
         )}
