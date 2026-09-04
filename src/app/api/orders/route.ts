@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 const bodySchema = z.object({
   productId: z.string().uuid().optional(),
@@ -42,10 +44,12 @@ export async function POST(request: Request) {
 
   const { data: products } = await supabase
     .from("products")
-    .select("id, price, is_active")
+    .select("id, name_ko, price, is_active")
     .in("id", productIds);
 
   const orderIds: string[] = [];
+  const orderedProductNames: string[] = [];
+  let totalOfAll = 0;
   for (const productId of productIds) {
     const product = products?.find((p) => p.id === productId);
     if (!product || !product.is_active) {
@@ -82,7 +86,14 @@ export async function POST(request: Request) {
     }
 
     orderIds.push(order.id);
+    orderedProductNames.push(product.name_ko);
+    totalOfAll += totalPrice;
   }
+
+  const appUrl = await getAppUrl();
+  await notifyAdmin(
+    `🛒 광고상품 신청됨\n${orderedProductNames.join(", ")} · 합계 ${totalOfAll.toLocaleString()}원\n입금자명 제출 및 확인 대기중입니다.\n\n확인하러 가기: ${appUrl}/ko/admin/orders`,
+  );
 
   return NextResponse.json({ id: orderIds[0], ids: orderIds });
 }
