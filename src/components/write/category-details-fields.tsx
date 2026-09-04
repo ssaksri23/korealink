@@ -232,7 +232,7 @@ export function CategoryDetailsFields({
           ))}
         </Select>
       </Field>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <Field label="날짜">
           <Input type="date" value={(details.eventDate as string) ?? ""} onChange={(e) => set("eventDate", e.target.value)} />
         </Field>
