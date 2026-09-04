@@ -16,6 +16,30 @@ export interface DistributionChannelRow {
   isActive: boolean;
 }
 
+export interface PublicTelegramChannel {
+  languageCode: string;
+  nameNative: string;
+  flagEmoji: string;
+  telegramUsername: string;
+}
+
+/**
+ * 공개 채널 목록 화면(/channels)용. distribution_channels는 관리자 전용 RLS가
+ * 걸려 있으므로, 안전한 컬럼만 노출하는 SECURITY DEFINER 함수를 통해 조회한다.
+ */
+export async function listPublicTelegramChannels(): Promise<PublicTelegramChannel[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("list_public_telegram_channels");
+
+  if (error || !data) return [];
+  return data.map((row) => ({
+    languageCode: row.language_code,
+    nameNative: row.name_native,
+    flagEmoji: row.flag_emoji,
+    telegramUsername: row.telegram_username,
+  }));
+}
+
 export async function listDistributionChannels(): Promise<DistributionChannelRow[]> {
   const supabase = await createClient();
   const { data, error } = await supabase

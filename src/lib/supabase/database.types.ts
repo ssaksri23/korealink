@@ -487,6 +487,7 @@ export type Database = {
           language_code: string
           platform: string
           telegram_chat_id: string | null
+          telegram_username: string | null
           updated_at: string
         }
         Insert: {
@@ -497,6 +498,7 @@ export type Database = {
           language_code: string
           platform?: string
           telegram_chat_id?: string | null
+          telegram_username?: string | null
           updated_at?: string
         }
         Update: {
@@ -507,6 +509,7 @@ export type Database = {
           language_code?: string
           platform?: string
           telegram_chat_id?: string | null
+          telegram_username?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -1894,6 +1897,15 @@ export type Database = {
         Returns: boolean
       }
       is_super_admin: { Args: { target_profile?: string }; Returns: boolean }
+      list_public_telegram_channels: {
+        Args: never
+        Returns: {
+          flag_emoji: string
+          language_code: string
+          name_native: string
+          telegram_username: string
+        }[]
+      }
       manages_chat_room: {
         Args: { target_chat_room: string; target_profile?: string }
         Returns: boolean

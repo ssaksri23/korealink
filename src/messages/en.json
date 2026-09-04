@@ -318,6 +318,13 @@
     "koreanOnlyNotice": "This document is provided in Korean only, and the Korean text is authoritative.",
     "contactEmail": "ssaksri23@naver.com",
     "agreeTerms": "I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
-    "agreeTermsRequired": "You must agree to the Terms of Service and Privacy Policy to sign up."
+    "agreeTermsRequired": "You must agree to the Terms of Service and Privacy Policy to sign up.",
+    "telegramChannels": "Telegram Channels"
+  },
+  "channels": {
+    "title": "Telegram Channels by Language",
+    "subtitle": "Get new post updates in your language directly on Telegram.",
+    "join": "Join Channel",
+    "empty": "No channels are registered yet."
   }
 }

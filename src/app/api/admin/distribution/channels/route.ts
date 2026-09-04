@@ -8,6 +8,7 @@ const bodySchema = z.object({
   languageCode: z.string().min(2).max(10),
   channelName: z.string().min(1).max(100),
   telegramChatId: z.string().max(100).optional(),
+  telegramUsername: z.string().max(100).optional(),
 });
 
 export async function POST(request: Request) {
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       language_code: parsed.data.languageCode,
       channel_name: parsed.data.channelName,
       telegram_chat_id: parsed.data.telegramChatId || null,
+      telegram_username: parsed.data.telegramUsername?.replace(/^@/, "") || null,
     })
     .select("id")
     .single();

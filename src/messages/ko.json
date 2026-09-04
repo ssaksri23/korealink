@@ -318,6 +318,13 @@
     "koreanOnlyNotice": "본 문서는 한국어로만 제공되며, 한국어 원문이 우선합니다.",
     "contactEmail": "ssaksri23@naver.com",
     "agreeTerms": "<terms>이용약관</terms> 및 <privacy>개인정보처리방침</privacy>에 동의합니다.",
-    "agreeTermsRequired": "이용약관 및 개인정보처리방침에 동의해야 가입할 수 있습니다."
+    "agreeTermsRequired": "이용약관 및 개인정보처리방침에 동의해야 가입할 수 있습니다.",
+    "telegramChannels": "텔레그램 채널"
+  },
+  "channels": {
+    "title": "언어별 텔레그램 채널",
+    "subtitle": "내 언어로 새 게시글 소식을 텔레그램에서 바로 받아보세요.",
+    "join": "채널 참여하기",
+    "empty": "아직 등록된 채널이 없습니다."
   }
 }

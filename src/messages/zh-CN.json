@@ -187,6 +187,13 @@
     "koreanOnlyNotice": "本文件仅提供韩语版本，以韩语原文为准。",
     "contactEmail": "ssaksri23@naver.com",
     "agreeTerms": "我同意<terms>服务条款</terms>和<privacy>隐私政策</privacy>。",
-    "agreeTermsRequired": "您必须同意服务条款和隐私政策才能注册。"
+    "agreeTermsRequired": "您必须同意服务条款和隐私政策才能注册。",
+    "telegramChannels": "Telegram 频道"
+  },
+  "channels": {
+    "title": "各语言 Telegram 频道",
+    "subtitle": "直接在 Telegram 上用您的语言接收新帖子通知。",
+    "join": "加入频道",
+    "empty": "暂无已注册的频道。"
   }
 }

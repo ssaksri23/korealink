@@ -187,6 +187,13 @@
     "koreanOnlyNotice": "Ushbu hujjat faqat koreys tilida taqdim etilgan bo'lib, koreyscha matn yuridik kuchga ega.",
     "contactEmail": "ssaksri23@naver.com",
     "agreeTerms": "Men <terms>Foydalanish shartlari</terms> va <privacy>Maxfiylik siyosati</privacy>ga roziman.",
-    "agreeTermsRequired": "Ro'yxatdan o'tish uchun Foydalanish shartlari va Maxfiylik siyosatiga rozi bo'lishingiz kerak."
+    "agreeTermsRequired": "Ro'yxatdan o'tish uchun Foydalanish shartlari va Maxfiylik siyosatiga rozi bo'lishingiz kerak.",
+    "telegramChannels": "Telegram kanallari"
+  },
+  "channels": {
+    "title": "Til bo'yicha Telegram kanallari",
+    "subtitle": "Yangi e'lonlarni o'z tilingizda to'g'ridan-to'g'ri Telegram orqali oling.",
+    "join": "Kanalga qo'shilish",
+    "empty": "Hozircha ro'yxatdan o'tgan kanal yo'q."
   }
 }

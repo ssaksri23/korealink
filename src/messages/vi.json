@@ -187,6 +187,13 @@
     "koreanOnlyNotice": "Tài liệu này chỉ có bằng tiếng Hàn và bản tiếng Hàn có giá trị pháp lý.",
     "contactEmail": "ssaksri23@naver.com",
     "agreeTerms": "Tôi đồng ý với <terms>Điều khoản dịch vụ</terms> và <privacy>Chính sách bảo mật</privacy>.",
-    "agreeTermsRequired": "Bạn phải đồng ý với điều khoản dịch vụ và chính sách bảo mật để đăng ký."
+    "agreeTermsRequired": "Bạn phải đồng ý với điều khoản dịch vụ và chính sách bảo mật để đăng ký.",
+    "telegramChannels": "Kênh Telegram"
+  },
+  "channels": {
+    "title": "Kênh Telegram theo ngôn ngữ",
+    "subtitle": "Nhận tin đăng mới bằng ngôn ngữ của bạn trực tiếp trên Telegram.",
+    "join": "Tham gia kênh",
+    "empty": "Chưa có kênh nào được đăng ký."
   }
 }

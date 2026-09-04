@@ -17,6 +17,9 @@ export async function AppFooter() {
           <Link href="/report-policy" className="hover:underline">
             {t("reportPolicyTitle")}
           </Link>
+          <Link href="/channels" className="hover:underline">
+            {t("telegramChannels")}
+          </Link>
         </div>
         <p>
           리치(Rich) · 대표: 나선일 · 사업자등록번호: 110-22-53859 · 통신판매업
