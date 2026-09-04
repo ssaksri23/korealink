@@ -41,15 +41,21 @@ insert into public.regions (sido, sigungu, eupmyeondong) values
   ('인천광역시', '남동구', null);
 
 -- 가격/기간은 관리자가 시스템에서 언제든 변경 가능 (코드에 하드코딩하지 않음)
-insert into public.products (code, name_ko, description, price, duration_days, unit, sort_order) values
-  ('urgent_badge', '긴급 표시', '게시글에 긴급 배지를 노출합니다.', 5000, 1, '건', 1),
-  ('top_pin', '상단 고정', '카테고리 목록 상단에 게시글을 고정합니다.', 5000, 1, '일', 2),
-  ('multi_lang_3', '다국어 게시(3개 언어)', '선택한 3개 언어로 번역하여 게시합니다.', 20000, null, '건', 3),
-  ('all_lang', '전체 언어 게시', '지원하는 모든 언어로 번역하여 게시합니다.', 50000, null, '건', 4),
-  ('telegram_distribution', '텔레그램 배포', '선택 언어 텔레그램 채널에 1회 배포합니다.', 10000, null, '회', 5),
-  ('business_subscription', '업체 이용권', '업체 홍보 게시글 상시 등록 이용권입니다.', 49000, 30, '월', 6),
-  ('business_featured', '업체 추천광고', '업체 목록 상단 추천 영역에 노출됩니다.', 50000, 30, '월', 7),
-  ('chatroom_featured', '채팅방 추천', '채팅방 목록 상단 추천 영역에 노출됩니다.', 30000, 30, '월', 8);
+-- multi_lang_3/all_lang: 번역 언어 선택은 글쓰기 마법사에서 이미 무료로 제공되어 별도
+--   결제 대상이 아니므로 비활성으로 시딩한다.
+-- business_subscription/business_featured/chatroom_featured: 업체 계정 생성·채팅방
+--   기능이 아직 화면에 연결되어 있지 않아, 실제로 아무 효과도 주지 못하는 상태로
+--   판매하지 않도록 비활성으로 시딩한다. 해당 기능이 만들어지면 관리자가
+--   /admin/products에서 다시 활성화하면 된다.
+insert into public.products (code, name_ko, description, price, duration_days, unit, sort_order, is_active) values
+  ('urgent_badge', '긴급 표시', '게시글에 긴급 배지를 노출합니다.', 5000, 1, '건', 1, true),
+  ('top_pin', '상단 고정', '카테고리 목록 상단에 게시글을 고정합니다.', 5000, 1, '일', 2, true),
+  ('multi_lang_3', '다국어 게시(3개 언어)', '선택한 3개 언어로 번역하여 게시합니다.', 20000, null, '건', 3, false),
+  ('all_lang', '전체 언어 게시', '지원하는 모든 언어로 번역하여 게시합니다.', 50000, null, '건', 4, false),
+  ('telegram_distribution', '텔레그램 배포', '선택 언어 텔레그램 채널에 1회 배포합니다.', 10000, null, '회', 5, true),
+  ('business_subscription', '업체 이용권', '업체 홍보 게시글 상시 등록 이용권입니다.', 49000, 30, '월', 6, false),
+  ('business_featured', '업체 추천광고', '업체 목록 상단 추천 영역에 노출됩니다.', 50000, 30, '월', 7, false),
+  ('chatroom_featured', '채팅방 추천', '채팅방 목록 상단 추천 영역에 노출됩니다.', 30000, 30, '월', 8, false);
 
 insert into public.system_settings (key, value, description) values
   ('site_name', '"KoreaLink"', '사이트 이름'),

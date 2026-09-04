@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import { logAdminAction } from "@/lib/admin";
+import { queueDistributionForPost } from "@/lib/distribution";
 
 export async function POST(
   _request: Request,
@@ -53,14 +54,21 @@ export async function POST(
     return NextResponse.json({ error: orderError.message }, { status: 500 });
   }
 
-  // 상품 효과 적용: 게시글에 직접 반영되는 상품만 자동 처리(그 외는 관리자가 수동 확인)
+  // 상품 효과 적용
+  let distributionQueued: number | undefined;
   if (order.post_id && product?.code === "urgent_badge") {
     await supabase.from("posts").update({ is_urgent: true }).eq("id", order.post_id);
   } else if (order.post_id && product?.code === "top_pin") {
     await supabase.from("posts").update({ is_pinned: true, is_featured: true }).eq("id", order.post_id);
+  } else if (order.post_id && product?.code === "telegram_distribution") {
+    const result = await queueDistributionForPost(order.post_id, admin.id);
+    distributionQueued = result.ok ? result.queued : 0;
   }
 
-  await logAdminAction(admin.id, "confirm_deposit", "orders", id, { productCode: product?.code });
+  await logAdminAction(admin.id, "confirm_deposit", "orders", id, {
+    productCode: product?.code,
+    distributionQueued,
+  });
 
   return NextResponse.json({ ok: true });
 }

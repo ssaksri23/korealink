@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireRole } from "@/lib/auth/roles";
-import { createClient } from "@/lib/supabase/server";
-import { isTelegramConfigured } from "@/lib/distribution";
+import { queueDistributionForPost } from "@/lib/distribution";
 import { logAdminAction } from "@/lib/admin";
 
 const bodySchema = z.object({ postId: z.string().uuid() });
@@ -25,61 +24,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const supabase = await createClient();
-
-  const { data: post } = await supabase
-    .from("posts")
-    .select("id, status, original_language_code, post_translations(language_code, translation_status)")
-    .eq("id", parsed.data.postId)
-    .maybeSingle();
-
-  if (!post || post.status !== "published") {
-    return NextResponse.json({ error: "post not found or not published" }, { status: 404 });
+  const result = await queueDistributionForPost(parsed.data.postId, admin.id);
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const translations = post.post_translations as
-    | { language_code: string; translation_status: string }[]
-    | null;
-  const readyLanguages = new Set([
-    post.original_language_code,
-    ...(translations ?? [])
-      .filter((t) => t.translation_status === "reviewed")
-      .map((t) => t.language_code),
-  ]);
-
-  const { data: channels } = await supabase
-    .from("distribution_channels")
-    .select("id, language_code")
-    .eq("is_active", true)
-    .in("language_code", Array.from(readyLanguages));
-
-  if (!channels || channels.length === 0) {
-    return NextResponse.json({ error: "no active channel for this post's languages" }, { status: 400 });
-  }
-
-  const configured = isTelegramConfigured();
-  const errorMessage = configured
-    ? "실제 텔레그램 발송 기능은 안전을 위해 이번 빌드에서 아직 구현되지 않았습니다. 큐에만 기록되었습니다."
-    : "텔레그램 연동 전입니다(TELEGRAM_BOT_TOKEN 미설정). 큐에만 기록되었습니다.";
-
-  const rows = channels.map((c) => ({
-    post_id: post.id,
-    language_code: c.language_code,
-    channel_id: c.id,
-    requested_by: admin.id,
-    status: "failed" as const,
-    completed_at: new Date().toISOString(),
-    error_message: errorMessage,
-  }));
-
-  const { error } = await supabase.from("distribution_logs").insert(rows);
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  await logAdminAction(admin.id, "request_distribution", "posts", post.id, {
-    channelCount: rows.length,
+  await logAdminAction(admin.id, "request_distribution", "posts", parsed.data.postId, {
+    channelCount: result.queued,
   });
 
-  return NextResponse.json({ ok: true, queued: rows.length });
+  return NextResponse.json({ ok: true, queued: result.queued });
 }
