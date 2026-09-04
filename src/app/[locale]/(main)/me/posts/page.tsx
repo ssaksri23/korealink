@@ -78,6 +78,9 @@ export default async function MyPostsPage({
                     >
                       광고 신청
                     </Link>
+                    <Link href={`/promo/${p.id}`} className="text-teal-700 hover:underline">
+                      홍보문구·QR
+                    </Link>
                   </>
                 )}
               </div>

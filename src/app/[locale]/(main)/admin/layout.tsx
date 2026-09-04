@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/admin/companies", label: "업체인증" },
   { href: "/admin/products", label: "상품" },
   { href: "/admin/orders", label: "주문·입금" },
+  { href: "/admin/distribution", label: "배포관리" },
 ];
 
 export default async function AdminLayout({

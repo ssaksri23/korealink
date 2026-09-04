@@ -24,6 +24,7 @@ export interface DraftPost {
   rejectionReason: string | null;
   title: string | null;
   content: string | null;
+  createdBy: string;
   images: { id: string; imageUrl: string; sortOrder: number; isPrimary: boolean }[];
   details: Record<string, unknown> | null;
 }
@@ -38,7 +39,7 @@ export async function getDraftPost(postId: string): Promise<DraftPost | null> {
   const { data: post, error } = await supabase
     .from("posts")
     .select(
-      "id, share_code, status, category_id, original_language_code, region_id, contact_name, contact_phone, rejection_reason, categories(slug)",
+      "id, share_code, status, category_id, original_language_code, region_id, contact_name, contact_phone, rejection_reason, created_by, categories(slug)",
     )
     .eq("id", postId)
     .maybeSingle();
@@ -82,6 +83,7 @@ export async function getDraftPost(postId: string): Promise<DraftPost | null> {
     rejectionReason: post.rejection_reason,
     title: translation?.translated_title ?? null,
     content: translation?.translated_content ?? null,
+    createdBy: post.created_by,
     images: (images ?? []).map((i) => ({
       id: i.id,
       imageUrl: i.image_url,
