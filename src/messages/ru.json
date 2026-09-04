@@ -131,6 +131,8 @@
     "selectRegionSido": "Выберите провинцию/город",
     "regionSigungu": "Город/уезд/район",
     "selectRegionSigungu": "Выберите город/уезд/район",
+    "addressDetail": "Подробный адрес (район)",
+    "addressDetailPlaceholder": "напр. Ёксам-дон",
     "contact": "Контакты",
     "contactName": "Контактное лицо",
     "contactPhone": "Номер телефона",

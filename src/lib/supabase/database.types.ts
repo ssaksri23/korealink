@@ -1329,6 +1329,7 @@ export type Database = {
       }
       posts: {
         Row: {
+          address_detail: string | null
           category_id: string
           company_id: string | null
           contact_name: string | null
@@ -1351,6 +1352,7 @@ export type Database = {
           view_count: number
         }
         Insert: {
+          address_detail?: string | null
           category_id: string
           company_id?: string | null
           contact_name?: string | null
@@ -1373,6 +1375,7 @@ export type Database = {
           view_count?: number
         }
         Update: {
+          address_detail?: string | null
           category_id?: string
           company_id?: string | null
           contact_name?: string | null

@@ -23,6 +23,7 @@ interface RawPostRow {
   is_featured: boolean;
   created_at: string;
   original_language_code: string;
+  address_detail: string | null;
   categories: { slug: PostCategory } | { slug: PostCategory }[] | null;
   regions: { sido: string; sigungu: string | null } | { sido: string; sigungu: string | null }[] | null;
   post_translations: {
@@ -77,7 +78,9 @@ function mapRow(row: RawPostRow, locale: string): PostCardData {
     isPending: resolved.isPending,
     isUrgent: row.is_urgent,
     isFeatured: row.is_featured,
-    region: region ? [region.sido, region.sigungu].filter(Boolean).join(" ") : null,
+    region: region
+      ? [region.sido, region.sigungu, row.address_detail].filter(Boolean).join(" ")
+      : null,
     createdAt: row.created_at,
     categorySlug: category?.slug ?? "jobs",
     thumbnailUrl: primaryImageUrl(row.post_images),
@@ -85,7 +88,7 @@ function mapRow(row: RawPostRow, locale: string): PostCardData {
 }
 
 const POST_SELECT =
-  "id, share_code, is_urgent, is_featured, created_at, original_language_code, categories(slug), regions(sido, sigungu), post_translations(language_code, translated_title, translated_content, translation_status), post_images(image_url, is_primary, sort_order)";
+  "id, share_code, is_urgent, is_featured, created_at, original_language_code, address_detail, categories(slug), regions(sido, sigungu), post_translations(language_code, translated_title, translated_content, translation_status), post_images(image_url, is_primary, sort_order)";
 
 export async function getCategoryPostCounts(): Promise<
   Record<PostCategory, number>
@@ -246,7 +249,9 @@ export async function getPostById(
     isFallback: resolved.isFallback,
     isUrgent: row.is_urgent,
     isFeatured: row.is_featured,
-    region: region ? [region.sido, region.sigungu].filter(Boolean).join(" ") : null,
+    region: region
+      ? [region.sido, region.sigungu, row.address_detail].filter(Boolean).join(" ")
+      : null,
     createdAt: row.created_at,
     categorySlug: category?.slug ?? "jobs",
     thumbnailUrl: primaryImageUrl(row.post_images),

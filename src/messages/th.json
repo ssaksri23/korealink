@@ -131,6 +131,8 @@
     "selectRegionSido": "เลือกจังหวัด/นครหลวง",
     "regionSigungu": "เขต/อำเภอ/เมือง",
     "selectRegionSigungu": "เลือกเขต/อำเภอ/เมือง",
+    "addressDetail": "ที่อยู่โดยละเอียด (ตำบล/หมู่บ้าน)",
+    "addressDetailPlaceholder": "เช่น Yeoksam-dong",
     "contact": "ติดต่อ",
     "contactName": "ผู้ติดต่อ",
     "contactPhone": "เบอร์โทร",

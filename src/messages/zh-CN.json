@@ -131,6 +131,8 @@
     "selectRegionSido": "选择道/市",
     "regionSigungu": "市/郡/区",
     "selectRegionSigungu": "选择市/郡/区",
+    "addressDetail": "详细地区(洞/邑/面)",
+    "addressDetailPlaceholder": "例：驿三洞",
     "contact": "联系方式",
     "contactName": "联系人",
     "contactPhone": "电话号码",

@@ -19,6 +19,7 @@ export interface DraftPost {
   categoryId: string;
   originalLanguageCode: string;
   regionId: string | null;
+  addressDetail: string | null;
   contactName: string | null;
   contactPhone: string | null;
   rejectionReason: string | null;
@@ -39,7 +40,7 @@ export async function getDraftPost(postId: string): Promise<DraftPost | null> {
   const { data: post, error } = await supabase
     .from("posts")
     .select(
-      "id, share_code, status, category_id, original_language_code, region_id, contact_name, contact_phone, rejection_reason, created_by, categories(slug)",
+      "id, share_code, status, category_id, original_language_code, region_id, address_detail, contact_name, contact_phone, rejection_reason, created_by, categories(slug)",
     )
     .eq("id", postId)
     .maybeSingle();
@@ -78,6 +79,7 @@ export async function getDraftPost(postId: string): Promise<DraftPost | null> {
     categoryId: post.category_id,
     originalLanguageCode: post.original_language_code,
     regionId: post.region_id,
+    addressDetail: post.address_detail,
     contactName: post.contact_name,
     contactPhone: post.contact_phone,
     rejectionReason: post.rejection_reason,

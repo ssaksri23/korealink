@@ -131,6 +131,8 @@
     "selectRegionSido": "시/도 선택",
     "regionSigungu": "시/군/구",
     "selectRegionSigungu": "시/군/구 선택",
+    "addressDetail": "상세 지역(동/읍/면)",
+    "addressDetailPlaceholder": "예: 역삼동",
     "contact": "연락처",
     "contactName": "담당자",
     "contactPhone": "전화번호",

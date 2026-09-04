@@ -74,6 +74,7 @@ export function PostWizard({
   const [selectedSido, setSelectedSido] = useState(
     regions.find((r) => r.id === draft.regionId)?.sido ?? "",
   );
+  const [addressDetail, setAddressDetail] = useState(draft.addressDetail ?? "");
   const [contactName, setContactName] = useState(draft.contactName ?? "");
   const [contactPhone, setContactPhone] = useState(draft.contactPhone ?? "");
   const [details, setDetails] = useState<DetailsState>(detailsToCamel(draft.details));
@@ -152,6 +153,7 @@ export function PostWizard({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         regionId: regionId || null,
+        addressDetail: addressDetail.trim() || null,
         contactName: contactName || null,
         contactPhone: contactPhone || null,
       }),
@@ -303,6 +305,16 @@ export function PostWizard({
                 ))}
               </Select>
             </div>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="address-detail">{t("addressDetail")}</Label>
+            <Input
+              id="address-detail"
+              value={addressDetail}
+              placeholder={t("addressDetailPlaceholder")}
+              maxLength={100}
+              onChange={(e) => setAddressDetail(e.target.value)}
+            />
           </div>
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="contact-name">{t("contactName")}</Label>

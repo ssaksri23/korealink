@@ -131,6 +131,8 @@
     "selectRegionSido": "Select province/city",
     "regionSigungu": "City/County/District",
     "selectRegionSigungu": "Select city/county/district",
+    "addressDetail": "Detailed area (neighborhood)",
+    "addressDetailPlaceholder": "e.g. Yeoksam-dong",
     "contact": "Contact",
     "contactName": "Contact person",
     "contactPhone": "Phone number",

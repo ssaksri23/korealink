@@ -7,6 +7,7 @@ const patchSchema = z.object({
   title: z.string().min(2).max(120).optional(),
   content: z.string().min(2).max(5000).optional(),
   regionId: z.string().uuid().nullable().optional(),
+  addressDetail: z.string().max(100).nullable().optional(),
   contactName: z.string().max(50).nullable().optional(),
   contactPhone: z.string().max(30).nullable().optional(),
 });
@@ -41,15 +42,22 @@ export async function PATCH(
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const { title, content, regionId, contactName, contactPhone } = parsed.data;
+  const { title, content, regionId, addressDetail, contactName, contactPhone } = parsed.data;
 
-  if (regionId !== undefined || contactName !== undefined || contactPhone !== undefined) {
+  if (
+    regionId !== undefined ||
+    addressDetail !== undefined ||
+    contactName !== undefined ||
+    contactPhone !== undefined
+  ) {
     const postUpdate: {
       region_id?: string | null;
+      address_detail?: string | null;
       contact_name?: string | null;
       contact_phone?: string | null;
     } = {};
     if (regionId !== undefined) postUpdate.region_id = regionId;
+    if (addressDetail !== undefined) postUpdate.address_detail = addressDetail;
     if (contactName !== undefined) postUpdate.contact_name = contactName;
     if (contactPhone !== undefined) postUpdate.contact_phone = contactPhone;
 

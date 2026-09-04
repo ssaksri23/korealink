@@ -131,6 +131,8 @@
     "selectRegionSido": "Chọn tỉnh/thành phố",
     "regionSigungu": "Quận/Huyện/Thành phố",
     "selectRegionSigungu": "Chọn quận/huyện/thành phố",
+    "addressDetail": "Địa chỉ chi tiết (phường/xã)",
+    "addressDetailPlaceholder": "VD: Yeoksam-dong",
     "contact": "Liên hệ",
     "contactName": "Người liên hệ",
     "contactPhone": "Số điện thoại",
