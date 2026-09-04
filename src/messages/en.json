@@ -14,7 +14,10 @@
     "share": "Share",
     "report": "Report",
     "translationPending": "Translation in progress",
-    "viewOriginal": "View original"
+    "viewOriginal": "View original",
+    "noPostsYet": "No posts yet.",
+    "urgentBadge": "Urgent",
+    "featuredBadge": "Featured"
   },
   "languageSelect": {
     "titleKo": "사용할 언어를 선택하세요",
@@ -65,6 +68,35 @@
     "loginError": "Incorrect email or password.",
     "signupSuccess": "Account created. Please check your email to verify.",
     "resetEmailSent": "Password reset email sent."
+  },
+  "search": {
+    "enterKeyword": "Please enter a search keyword.",
+    "noResultsFor": "No results for \"{query}\"."
+  },
+  "post": {
+    "viewCount": "{count} views",
+    "inquiry": "Inquiry",
+    "inquiryPlaceholder": "Enter your inquiry",
+    "inquirySend": "Send",
+    "inquirySent": "Your inquiry has been submitted.",
+    "inquiryError": "Failed to send. Please try again.",
+    "reportSubmit": "Submit report",
+    "reportDetailPlaceholder": "Details (optional)",
+    "reportSent": "Your report has been submitted.",
+    "reportError": "You already have a pending report, or sending failed."
+  },
+  "me": {
+    "preferredLanguage": "Preferred language",
+    "roles": "Roles",
+    "defaultRole": "Member"
+  },
+  "roles": {
+    "user": "Member",
+    "advertiser": "Advertiser",
+    "chatroom_manager": "Chat Room Manager",
+    "language_moderator": "Language Moderator",
+    "admin": "Admin",
+    "super_admin": "Super Admin"
   },
   "disclaimer": "KoreaLink is an information platform and does not directly guarantee employment conditions or transaction safety. Please verify all terms with the business before signing a contract, working, or trading."
 }

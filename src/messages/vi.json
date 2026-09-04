@@ -14,7 +14,10 @@
     "share": "Chia sẻ",
     "report": "Báo cáo",
     "translationPending": "Đang chuẩn bị bản dịch",
-    "viewOriginal": "Xem bản gốc"
+    "viewOriginal": "Xem bản gốc",
+    "noPostsYet": "Chưa có tin đăng nào.",
+    "urgentBadge": "Gấp",
+    "featuredBadge": "Đề xuất"
   },
   "languageSelect": {
     "titleKo": "사용할 언어를 선택하세요",
@@ -65,6 +68,35 @@
     "loginError": "Email hoặc mật khẩu không đúng.",
     "signupSuccess": "Đã tạo tài khoản. Vui lòng xác nhận qua email.",
     "resetEmailSent": "Đã gửi email đặt lại mật khẩu."
+  },
+  "search": {
+    "enterKeyword": "Vui lòng nhập từ khóa tìm kiếm.",
+    "noResultsFor": "Không có kết quả cho \"{query}\"."
+  },
+  "post": {
+    "viewCount": "{count} lượt xem",
+    "inquiry": "Hỏi đáp",
+    "inquiryPlaceholder": "Nhập nội dung cần hỏi",
+    "inquirySend": "Gửi",
+    "inquirySent": "Câu hỏi của bạn đã được gửi.",
+    "inquiryError": "Gửi thất bại. Vui lòng thử lại.",
+    "reportSubmit": "Báo cáo",
+    "reportDetailPlaceholder": "Chi tiết (không bắt buộc)",
+    "reportSent": "Báo cáo của bạn đã được tiếp nhận.",
+    "reportError": "Bạn đã có báo cáo đang chờ xử lý, hoặc gửi thất bại."
+  },
+  "me": {
+    "preferredLanguage": "Ngôn ngữ ưa thích",
+    "roles": "Vai trò",
+    "defaultRole": "Thành viên"
+  },
+  "roles": {
+    "user": "Thành viên",
+    "advertiser": "Nhà quảng cáo",
+    "chatroom_manager": "Quản trị phòng chat",
+    "language_moderator": "Kiểm duyệt ngôn ngữ",
+    "admin": "Quản trị viên",
+    "super_admin": "Quản trị viên cấp cao"
   },
   "disclaimer": "KoreaLink là nền tảng cung cấp thông tin và không trực tiếp đảm bảo điều kiện việc làm hay an toàn giao dịch. Vui lòng xác minh kỹ với doanh nghiệp trước khi ký hợp đồng, làm việc hoặc giao dịch."
 }

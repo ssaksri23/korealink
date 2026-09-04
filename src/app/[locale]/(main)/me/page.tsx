@@ -6,23 +6,16 @@ import { LogoutButton } from "@/components/auth/logout-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const ROLE_LABEL_KO: Record<string, string> = {
-  user: "일반회원",
-  advertiser: "광고주",
-  chatroom_manager: "채팅방 운영자",
-  language_moderator: "언어 운영자",
-  admin: "관리자",
-  super_admin: "최고관리자",
-};
-
 export default async function MePage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const [t, user, languages] = await Promise.all([
+  const [t, tMe, tRoles, user, languages] = await Promise.all([
     getTranslations("nav"),
+    getTranslations("me"),
+    getTranslations("roles"),
     getCurrentUser(),
     getLanguages(),
   ]);
@@ -47,7 +40,9 @@ export default async function MePage({
           <div className="text-sm text-slate-600">{user!.email}</div>
 
           <div className="flex items-center gap-2 text-sm text-slate-600">
-            <span className="font-medium text-slate-800">선호 언어</span>
+            <span className="font-medium text-slate-800">
+              {tMe("preferredLanguage")}
+            </span>
             {preferredLanguage ? (
               <span>
                 {preferredLanguage.flagEmoji} {preferredLanguage.nameNative}
@@ -58,13 +53,15 @@ export default async function MePage({
           </div>
 
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-sm font-medium text-slate-800">역할</span>
+            <span className="text-sm font-medium text-slate-800">
+              {tMe("roles")}
+            </span>
             {user!.roles.length === 0 ? (
-              <Badge variant="outline">일반회원</Badge>
+              <Badge variant="outline">{tMe("defaultRole")}</Badge>
             ) : (
               user!.roles.map((r, i) => (
                 <Badge key={`${r.code}-${i}`} variant="outline">
-                  {ROLE_LABEL_KO[r.code] ?? r.code}
+                  {tRoles(r.code as never)}
                   {r.scopeLanguageCode ? ` (${r.scopeLanguageCode})` : ""}
                 </Badge>
               ))

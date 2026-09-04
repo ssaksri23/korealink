@@ -98,7 +98,7 @@ export default async function HomePage({
         </h2>
         {recentPosts.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 py-12 text-center text-slate-500">
-            등록된 게시글이 없습니다.
+            {tCommon("noPostsYet")}
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

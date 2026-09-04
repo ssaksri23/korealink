@@ -14,7 +14,10 @@
     "share": "分享",
     "report": "举报",
     "translationPending": "翻译准备中",
-    "viewOriginal": "查看原文"
+    "viewOriginal": "查看原文",
+    "noPostsYet": "暂无帖子。",
+    "urgentBadge": "紧急",
+    "featuredBadge": "推荐"
   },
   "languageSelect": {
     "titleKo": "사용할 언어를 선택하세요",
@@ -65,6 +68,35 @@
     "loginError": "邮箱或密码不正确。",
     "signupSuccess": "账号已创建，请通过邮箱完成验证。",
     "resetEmailSent": "重置密码邮件已发送。"
+  },
+  "search": {
+    "enterKeyword": "请输入搜索关键词。",
+    "noResultsFor": "没有找到与\"{query}\"相关的结果。"
+  },
+  "post": {
+    "viewCount": "浏览 {count} 次",
+    "inquiry": "咨询",
+    "inquiryPlaceholder": "请输入咨询内容",
+    "inquirySend": "发送",
+    "inquirySent": "咨询已提交。",
+    "inquiryError": "发送失败，请重试。",
+    "reportSubmit": "举报",
+    "reportDetailPlaceholder": "详细说明（选填）",
+    "reportSent": "举报已受理。",
+    "reportError": "您已有待处理的举报，或发送失败。"
+  },
+  "me": {
+    "preferredLanguage": "偏好语言",
+    "roles": "角色",
+    "defaultRole": "普通会员"
+  },
+  "roles": {
+    "user": "普通会员",
+    "advertiser": "广告主",
+    "chatroom_manager": "聊天群管理员",
+    "language_moderator": "语言审核员",
+    "admin": "管理员",
+    "super_admin": "超级管理员"
   },
   "disclaimer": "KoreaLink 是信息提供平台，不直接保证雇佣条件或交易安全。签订合同、就业或交易前，请务必与商家核实相关条件。"
 }

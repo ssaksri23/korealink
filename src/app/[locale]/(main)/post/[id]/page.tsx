@@ -11,9 +11,11 @@ export default async function PostDetailPage({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { locale, id } = await params;
-  const [t, tCategories, post, bookmarked, user] = await Promise.all([
+  const [t, tCategories, tPost, tRoot, post, bookmarked, user] = await Promise.all([
     getTranslations("common"),
     getTranslations("categories"),
+    getTranslations("post"),
+    getTranslations(),
     getPostById(id, locale),
     isPostBookmarked(id),
     getCurrentUser(),
@@ -26,8 +28,8 @@ export default async function PostDetailPage({
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 pb-28">
       <div className="mb-3 flex flex-wrap items-center gap-1.5">
-        {post.isUrgent && <Badge variant="urgent">긴급</Badge>}
-        {post.isFeatured && <Badge variant="accent">추천</Badge>}
+        {post.isUrgent && <Badge variant="urgent">{t("urgentBadge")}</Badge>}
+        {post.isFeatured && <Badge variant="accent">{t("featuredBadge")}</Badge>}
         <Badge variant="outline">{tCategories(`${post.categorySlug}.name` as never)}</Badge>
       </div>
 
@@ -42,7 +44,7 @@ export default async function PostDetailPage({
       <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-slate-500">
         {post.region && <span>{post.region}</span>}
         <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-        <span>조회 {post.viewCount + 1}</span>
+        <span>{tPost("viewCount", { count: post.viewCount + 1 })}</span>
       </div>
 
       <div className="mt-6 whitespace-pre-wrap text-base leading-relaxed text-slate-800">
@@ -50,9 +52,7 @@ export default async function PostDetailPage({
       </div>
 
       <p className="mt-10 rounded-xl bg-slate-100 p-4 text-xs leading-relaxed text-slate-500">
-        KoreaLink는 정보 제공 플랫폼이며 고용조건과 거래 안전성을 직접
-        보증하지 않습니다. 계약, 취업 또는 거래 전에 업체와 조건을 반드시
-        확인하세요.
+        {tRoot("disclaimer")}
       </p>
 
       <PostActions

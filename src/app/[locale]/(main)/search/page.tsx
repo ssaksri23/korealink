@@ -12,10 +12,11 @@ export default async function SearchPage({
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ q?: string }>;
 }) {
-  const [{ locale }, { q }, t] = await Promise.all([
+  const [{ locale }, { q }, t, tSearch] = await Promise.all([
     params,
     searchParams,
     getTranslations("common"),
+    getTranslations("search"),
   ]);
 
   const query = q?.trim() ?? "";
@@ -37,10 +38,10 @@ export default async function SearchPage({
       </form>
 
       {!query ? (
-        <p className="text-center text-slate-500">검색어를 입력해주세요.</p>
+        <p className="text-center text-slate-500">{tSearch("enterKeyword")}</p>
       ) : posts.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-300 py-16 text-center text-slate-500">
-          &ldquo;{query}&rdquo;에 대한 검색결과가 없습니다.
+          {tSearch("noResultsFor", { query })}
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

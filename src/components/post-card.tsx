@@ -11,8 +11,8 @@ export function PostCard({ post }: { post: PostCardData }) {
     <Link href={`/post/${post.id}`}>
       <Card className="flex flex-col gap-1.5 p-4 transition hover:border-teal-400 hover:shadow-md">
         <div className="flex flex-wrap items-center gap-1.5">
-          {post.isUrgent && <Badge variant="urgent">긴급</Badge>}
-          {post.isFeatured && <Badge variant="accent">추천</Badge>}
+          {post.isUrgent && <Badge variant="urgent">{t("urgentBadge")}</Badge>}
+          {post.isFeatured && <Badge variant="accent">{t("featuredBadge")}</Badge>}
         </div>
         <h3 className="line-clamp-2 font-semibold text-slate-900">
           {post.title ?? t("translationPending")}

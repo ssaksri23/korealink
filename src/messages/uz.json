@@ -14,7 +14,10 @@
     "share": "Ulashish",
     "report": "Shikoyat",
     "translationPending": "Tarjima tayyorlanmoqda",
-    "viewOriginal": "Asl matnni ko'rish"
+    "viewOriginal": "Asl matnni ko'rish",
+    "noPostsYet": "Hozircha e'lonlar yo'q.",
+    "urgentBadge": "Shoshilinch",
+    "featuredBadge": "Tavsiya etilgan"
   },
   "languageSelect": {
     "titleKo": "사용할 언어를 선택하세요",
@@ -65,6 +68,35 @@
     "loginError": "Email yoki parol noto'g'ri.",
     "signupSuccess": "Hisob yaratildi. Iltimos, emailingiz orqali tasdiqlang.",
     "resetEmailSent": "Parolni tiklash xati yuborildi."
+  },
+  "search": {
+    "enterKeyword": "Qidiruv so'zini kiriting.",
+    "noResultsFor": "\"{query}\" bo'yicha natija topilmadi."
+  },
+  "post": {
+    "viewCount": "{count} marta ko'rilgan",
+    "inquiry": "Savol",
+    "inquiryPlaceholder": "Savolingizni kiriting",
+    "inquirySend": "Yuborish",
+    "inquirySent": "Savolingiz yuborildi.",
+    "inquiryError": "Yuborilmadi. Qaytadan urinib ko'ring.",
+    "reportSubmit": "Shikoyat qilish",
+    "reportDetailPlaceholder": "Tafsilotlar (ixtiyoriy)",
+    "reportSent": "Shikoyatingiz qabul qilindi.",
+    "reportError": "Sizda ko'rib chiqilayotgan shikoyat bor yoki yuborish muvaffaqiyatsiz tugadi."
+  },
+  "me": {
+    "preferredLanguage": "Afzal ko'rilgan til",
+    "roles": "Rollar",
+    "defaultRole": "A'zo"
+  },
+  "roles": {
+    "user": "A'zo",
+    "advertiser": "Reklama beruvchi",
+    "chatroom_manager": "Chat xonasi boshqaruvchisi",
+    "language_moderator": "Til moderatori",
+    "admin": "Administrator",
+    "super_admin": "Bosh administrator"
   },
   "disclaimer": "KoreaLink — ma'lumot platformasi bo'lib, ish sharoitlari yoki savdo xavfsizligiga bevosita kafolat bermaydi. Shartnoma tuzish, ishlash yoki savdo qilishdan oldin shartlarni kompaniya bilan albatta tekshiring."
 }

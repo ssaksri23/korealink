@@ -14,7 +14,10 @@
     "share": "แชร์",
     "report": "รายงาน",
     "translationPending": "กำลังเตรียมคำแปล",
-    "viewOriginal": "ดูต้นฉบับ"
+    "viewOriginal": "ดูต้นฉบับ",
+    "noPostsYet": "ยังไม่มีประกาศ",
+    "urgentBadge": "ด่วน",
+    "featuredBadge": "แนะนำ"
   },
   "languageSelect": {
     "titleKo": "사용할 언어를 선택하세요",
@@ -65,6 +68,35 @@
     "loginError": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
     "signupSuccess": "สร้างบัญชีสำเร็จ กรุณายืนยันผ่านอีเมล",
     "resetEmailSent": "ส่งอีเมลรีเซ็ตรหัสผ่านแล้ว"
+  },
+  "search": {
+    "enterKeyword": "กรุณาใส่คำค้นหา",
+    "noResultsFor": "ไม่พบผลลัพธ์สำหรับ \"{query}\""
+  },
+  "post": {
+    "viewCount": "เข้าชม {count} ครั้ง",
+    "inquiry": "สอบถาม",
+    "inquiryPlaceholder": "กรอกข้อความสอบถาม",
+    "inquirySend": "ส่ง",
+    "inquirySent": "ส่งคำถามของคุณแล้ว",
+    "inquiryError": "ส่งไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
+    "reportSubmit": "รายงาน",
+    "reportDetailPlaceholder": "รายละเอียด (ไม่บังคับ)",
+    "reportSent": "รับเรื่องรายงานแล้ว",
+    "reportError": "คุณมีรายงานที่รอดำเนินการอยู่แล้ว หรือส่งไม่สำเร็จ"
+  },
+  "me": {
+    "preferredLanguage": "ภาษาที่ต้องการ",
+    "roles": "บทบาท",
+    "defaultRole": "สมาชิกทั่วไป"
+  },
+  "roles": {
+    "user": "สมาชิกทั่วไป",
+    "advertiser": "ผู้ลงโฆษณา",
+    "chatroom_manager": "ผู้ดูแลห้องแชท",
+    "language_moderator": "ผู้ดูแลภาษา",
+    "admin": "ผู้ดูแลระบบ",
+    "super_admin": "ผู้ดูแลระบบสูงสุด"
   },
   "disclaimer": "KoreaLink เป็นแพลตฟอร์มให้ข้อมูลและไม่ได้รับประกันเงื่อนไขการจ้างงานหรือความปลอดภัยในการทำธุรกรรมโดยตรง กรุณาตรวจสอบเงื่อนไขกับธุรกิจก่อนทำสัญญา ทำงาน หรือทำธุรกรรม"
 }
