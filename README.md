@@ -6,7 +6,7 @@
 
 지원 언어(9개): 러시아어(ru) · 베트남어(vi) · 태국어(th) · 크메르어(km) · 우즈베크어(uz) · 몽골어(mn) · 중국어 간체(zh-CN) · 영어(en) · 한국어(ko)
 
-이 저장소는 전체 기획서 중 **1~4단계(저장소 분석/설계, 프로젝트 골격, DB/RLS, 9개 언어 + 회원가입/로그인/프로필/권한)** 까지 실제로 작동하도록 구현된 MVP입니다. 자세한 체크리스트와 다음 단계는 [`docs/DEVELOPMENT_PLAN.md`](./docs/DEVELOPMENT_PLAN.md)를 참고하세요.
+이 저장소는 기획서의 MVP 범위(회원/역할, 게시글 등록·번역·승인, 관리자 대시보드, 광고상품 주문·입금확인, 카카오 홍보문구/QR, 텔레그램 배포 관리자 화면, 9개 언어 샘플 데이터까지)가 실제로 작동하도록 구현되어 있습니다. 자세한 체크리스트와 설계는 [`docs/DEVELOPMENT_PLAN.md`](./docs/DEVELOPMENT_PLAN.md)를 참고하세요.
 
 ## 기술 스택
 
@@ -15,6 +15,7 @@
 - Supabase (Postgres + Auth + Storage, RLS)
 - React Hook Form + Zod
 - lucide-react 아이콘
+- qrcode (홍보 QR코드를 브라우저에서 직접 생성, 외부 API 미사용)
 
 ## 시작하기
 
@@ -44,7 +45,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **필수** | Supabase anon(public) key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 관리자 기능 필요 시 | RLS를 우회하는 서버 전용 키. **절대 브라우저에 노출 금지** (`server-only`로 보호됨) |
 | `TRANSLATION_PROVIDER`, `GOOGLE_TRANSLATE_API_KEY`, `DEEPL_API_KEY`, `OPENAI_API_KEY` | 선택 | 자동번역 연동(다음 단계에서 사용 예정). 없어도 사이트는 정상 동작하며 게시글은 "번역 준비 중"으로 표시됨 |
-| `TELEGRAM_BOT_TOKEN` | 선택 | 텔레그램 배포 연동(다음 단계에서 사용 예정). 없어도 관리자 화면에 "텔레그램 연동 전"으로 표시될 예정 |
+| `TELEGRAM_BOT_TOKEN` | 선택 | 텔레그램 배포 연동 여부 표시용. 설정 여부와 무관하게 실제 발송 기능은 안전을 위해 아직 구현하지 않았으며, `/admin/distribution`에서 배포 요청은 항상 큐/로그로만 기록됩니다 |
 | `NEXT_PUBLIC_DEFAULT_LOCALE` | 선택 | 기본값 `ko` |
 
 `NEXT_PUBLIC_SUPABASE_URL`이 없어도 앱 자체는 죽지 않습니다(언어 선택 화면 등은 `config/languages.ts` fallback으로 동작). 다만 로그인/게시글 등 실제 데이터 기능은 Supabase 연결이 필요합니다.
@@ -76,7 +77,8 @@ npm run build     # 프로덕션 빌드
 
 ## 데이터베이스
 
-- `supabase/migrations/00000000000001_*.sql` ~ `..._014_*.sql` 순서대로 적용합니다.
+- `supabase/migrations/00000000000001_*.sql` ~ `..._019_*.sql` 순서대로 적용합니다.
+- `..._019_sample_data.sql`은 super_admin 계정이 실제로 가입된 이후에만 의미가 있으므로, super_admin이 없는 환경에서는 조용히 아무 작업도 하지 않습니다(재실행해도 중복 삽입되지 않도록 가드되어 있음).
 - 모든 테이블에 Row Level Security가 적용되어 있으며, 프론트엔드 메뉴 숨김이 아니라 **DB 레벨에서 권한을 강제**합니다.
 - 실제 Postgres 16 엔진에 전체 마이그레이션을 적용하고, 다음 항목을 직접 검증했습니다.
   - 익명 사용자: `languages`/`categories` 등 공개 테이블만 조회 가능, `profiles`는 0건
@@ -89,7 +91,7 @@ npm run build     # 프로덕션 빌드
   지적한 `search_path` 미고정/트리거 함수 과다노출 경고도 `014_security_hardening.sql`로 조치했습니다
   (프로젝트 접속 정보는 대화창에서 별도로 전달했으며 저장소에는 커밋하지 않았습니다).
 
-`src/lib/supabase/database.types.ts`는 위 마이그레이션과 맞춰 손으로 작성한 최소 타입이며, 실제 프로젝트 연결 후에는 다음 명령으로 자동 생성 타입으로 교체하는 것을 권장합니다.
+`src/lib/supabase/database.types.ts`는 실제 라이브 Supabase 프로젝트 스키마로부터 생성된 타입입니다. 스키마를 변경한 뒤에는 다음 명령으로 다시 생성해 최신 상태로 맞춰주세요.
 
 ```bash
 npx supabase gen types typescript --project-id <PROJECT_ID> > src/lib/supabase/database.types.ts
@@ -105,16 +107,22 @@ npx supabase gen types typescript --project-id <PROJECT_ID> > src/lib/supabase/d
 - 카테고리별 게시글 목록(`/c/[category]`), 통합검색(`/search`)
 - 게시글 상세(`/post/[id]`), 조회수 증가, 원문/번역 우선순위 표시, 공유(클립보드/공유시트), 북마크, 문의 등록, 신고 접수(반복 신고 DB 차단)
 - 공유 전용 짧은 URL(`/p/[shareCode]`) → 상세로 리다이렉트
+- 게시글 등록/수정 마법사(`/write`, `/write/[id]`): 카테고리 선택 → 기본정보 → 카테고리별 상세정보 → 연락처 → 번역 언어 선택 → 이미지 업로드 → 제출, 단계마다 즉시 저장되어 이어서 작성 가능
+- 내 게시글(`/me/posts`, 상태/반려사유 표시), 내 북마크(`/me/bookmarks`), 내 주문(`/me/orders`)
+- 관리자 대시보드(`/admin`): 오늘 신규가입/신규게시글, 승인대기, 번역대기, 신고접수, 업체인증요청, 입금대기 통계
+- 관리자 게시글 승인/반려(사유 필수, 상태이력 기록), 번역검수(원문→번역 검수/수정)
+- 관리자 신고 처리(14종 신고사유, 반복신고 시 자동 숨김, 처리 액션 기록), 업체 서류 인증(승인/반려)
+- 광고상품 주문(`/orders/new`) → 무통장입금 안내 → 입금자명 접수(`/orders/[id]`) → 관리자 입금확인(`/admin/orders`) 시 긴급배지/상단고정 자동 적용, 관리자 상품 가격/기간/판매상태 관리(`/admin/products`)
+- 카카오 홍보문구·QR코드 생성(`/promo/[id]`, 게시글 소유자/관리자 전용): 공유 URL 기반 QR코드를 브라우저에서 직접 생성(외부 API 미사용)하고 홍보문구를 클립보드로 복사
+- 텔레그램 배포 관리자 화면(`/admin/distribution`): 언어별 배포채널 등록/활성화, 게시글 배포 요청 큐잉·로그 조회. `TELEGRAM_BOT_TOKEN` 설정 여부와 무관하게 **실제 발송은 아직 구현하지 않았으며** 항상 로그로만 기록되어, 실수로 실채널에 메시지가 나가는 일이 없습니다
+- 9개 언어 전체 번역이 달린 긴급 구인공고 샘플 1건 + 나머지 5개 카테고리 각 3건(한국어+영어) 샘플 게시글
 - Supabase RLS로 역할별 데이터 접근 통제(회원가입 시 자동 `user` 역할 부여)
 
-## 아직 작동하지 않는 기능 (다음 세션에서 진행 예정)
+## 아직 작동하지 않는 기능
 
-- 게시글 등록/수정 폼(12단계, 임시저장, 이미지 업로드), 내 게시글 관리
-- 관리자 대시보드(승인/반려/번역검수/신고처리/중복검사/업체인증)
-- 광고상품 주문 · 입금확인 플로우
-- 카카오 홍보문구/QR코드 생성
-- 텔레그램 배포
-- 9개 언어 샘플 게시글 시딩
+- 텔레그램/카카오 실제 발송(의도적 미구현 — 위 참고)
+- 채팅방 출처 기반 중복 게시글 자동 감지 UI
+- 실시간 채팅, AI 자동승인, 실제 PG 결제 연동(스펙상 MVP 제외 항목)
 - SEO(sitemap/robots/hreflang/OG 이미지), Docker 배포 구성
 
 ## 프로젝트 구조
