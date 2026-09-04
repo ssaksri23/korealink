@@ -33,12 +33,30 @@
     "me": "Profil"
   },
   "categories": {
-    "jobs": { "name": "Ish o'rinlari", "description": "Butun Koreya bo'ylab ish toping" },
-    "business": { "name": "Biznes reklamasi", "description": "Sizning tilingizda gaplashadigan kompaniyalar" },
-    "used": { "name": "Ishlatilgan buyumlar", "description": "Ishlatilgan buyumlarni sotib oling va soting" },
-    "housing": { "name": "Ko'chmas mulk·Turar joy", "description": "Xonalar va qisqa muddatli turar joy" },
-    "groupbuy": { "name": "Guruhli xarid", "description": "Birgalikda xarid qiling, ko'proq tejang" },
-    "events": { "name": "Tadbirlar", "description": "Uchrashuvlar va jamoat tadbirlari" }
+    "jobs": {
+      "name": "Ish o'rinlari",
+      "description": "Butun Koreya bo'ylab ish toping"
+    },
+    "business": {
+      "name": "Biznes reklamasi",
+      "description": "Sizning tilingizda gaplashadigan kompaniyalar"
+    },
+    "used": {
+      "name": "Ishlatilgan buyumlar",
+      "description": "Ishlatilgan buyumlarni sotib oling va soting"
+    },
+    "housing": {
+      "name": "Ko'chmas mulk·Turar joy",
+      "description": "Xonalar va qisqa muddatli turar joy"
+    },
+    "groupbuy": {
+      "name": "Guruhli xarid",
+      "description": "Birgalikda xarid qiling, ko'proq tejang"
+    },
+    "events": {
+      "name": "Tadbirlar",
+      "description": "Uchrashuvlar va jamoat tadbirlari"
+    }
   },
   "home": {
     "regionSelect": "Hudud",
@@ -132,7 +150,10 @@
     "noMyPosts": "Siz hali e'lon joylashtirmadingiz.",
     "rejectionReason": "Rad etish sababi",
     "continueEditing": "Tahrirlashni davom ettirish",
-    "viewPost": "E'lonni ko'rish"
+    "viewPost": "E'lonni ko'rish",
+    "deletePost": "O'chirish",
+    "deleteConfirm": "Bu e'lonni o'chirmoqchimisiz? Bu amalni bekor qilib bo'lmaydi.",
+    "deleteError": "E'lonni o'chirib bo'lmadi."
   },
   "postStatus": {
     "draft": "Qoralama",

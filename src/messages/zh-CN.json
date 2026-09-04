@@ -33,12 +33,30 @@
     "me": "我的"
   },
   "categories": {
-    "jobs": { "name": "招聘", "description": "在韩国各地寻找工作" },
-    "business": { "name": "商家推广", "description": "使用您语言的商家" },
-    "used": { "name": "二手交易", "description": "买卖二手物品" },
-    "housing": { "name": "房产·住宿", "description": "房间与短期住宿" },
-    "groupbuy": { "name": "拼团", "description": "一起购买，更省钱" },
-    "events": { "name": "活动·聚会", "description": "聚会与社区活动" }
+    "jobs": {
+      "name": "招聘",
+      "description": "在韩国各地寻找工作"
+    },
+    "business": {
+      "name": "商家推广",
+      "description": "使用您语言的商家"
+    },
+    "used": {
+      "name": "二手交易",
+      "description": "买卖二手物品"
+    },
+    "housing": {
+      "name": "房产·住宿",
+      "description": "房间与短期住宿"
+    },
+    "groupbuy": {
+      "name": "拼团",
+      "description": "一起购买，更省钱"
+    },
+    "events": {
+      "name": "活动·聚会",
+      "description": "聚会与社区活动"
+    }
   },
   "home": {
     "regionSelect": "地区",
@@ -132,7 +150,10 @@
     "noMyPosts": "您还没有发布任何帖子。",
     "rejectionReason": "驳回原因",
     "continueEditing": "继续编辑",
-    "viewPost": "查看帖子"
+    "viewPost": "查看帖子",
+    "deletePost": "删除",
+    "deleteConfirm": "确定要删除这篇帖子吗？删除后无法恢复。",
+    "deleteError": "删除失败。"
   },
   "postStatus": {
     "draft": "草稿",

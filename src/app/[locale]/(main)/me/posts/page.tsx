@@ -5,6 +5,7 @@ import { listMyPosts } from "@/lib/posts-write";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { PostDeleteButton } from "@/components/write/post-delete-button";
 
 const STATUS_VARIANT: Record<string, "default" | "accent" | "urgent" | "outline" | "success"> = {
   draft: "outline",
@@ -83,6 +84,9 @@ export default async function MyPostsPage({
                     </Link>
                   </>
                 )}
+                {(p.status === "draft" ||
+                  p.status === "pending_review" ||
+                  p.status === "rejected") && <PostDeleteButton postId={p.id} />}
               </div>
             </Card>
           ))}

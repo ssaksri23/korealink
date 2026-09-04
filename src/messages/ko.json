@@ -33,12 +33,30 @@
     "me": "내 정보"
   },
   "categories": {
-    "jobs": { "name": "일자리", "description": "전국 채용 공고 찾기" },
-    "business": { "name": "업체 홍보", "description": "내 언어로 소통하는 업체" },
-    "used": { "name": "중고거래", "description": "중고 물품 사고팔기" },
-    "housing": { "name": "부동산·숙소", "description": "방과 단기숙소 찾기" },
-    "groupbuy": { "name": "공동구매", "description": "함께 사서 더 저렴하게" },
-    "events": { "name": "행사·모임", "description": "모임과 커뮤니티 행사" }
+    "jobs": {
+      "name": "일자리",
+      "description": "전국 채용 공고 찾기"
+    },
+    "business": {
+      "name": "업체 홍보",
+      "description": "내 언어로 소통하는 업체"
+    },
+    "used": {
+      "name": "중고거래",
+      "description": "중고 물품 사고팔기"
+    },
+    "housing": {
+      "name": "부동산·숙소",
+      "description": "방과 단기숙소 찾기"
+    },
+    "groupbuy": {
+      "name": "공동구매",
+      "description": "함께 사서 더 저렴하게"
+    },
+    "events": {
+      "name": "행사·모임",
+      "description": "모임과 커뮤니티 행사"
+    }
   },
   "home": {
     "regionSelect": "지역",
@@ -132,7 +150,10 @@
     "noMyPosts": "작성한 게시글이 없습니다.",
     "rejectionReason": "반려 사유",
     "continueEditing": "이어서 작성",
-    "viewPost": "게시글 보기"
+    "viewPost": "게시글 보기",
+    "deletePost": "삭제",
+    "deleteConfirm": "정말 삭제하시겠습니까? 삭제한 게시글은 복구할 수 없습니다.",
+    "deleteError": "삭제에 실패했습니다."
   },
   "postStatus": {
     "draft": "임시저장",

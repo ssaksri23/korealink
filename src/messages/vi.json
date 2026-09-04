@@ -33,12 +33,30 @@
     "me": "Trang cá nhân"
   },
   "categories": {
-    "jobs": { "name": "Việc làm", "description": "Tìm việc khắp Hàn Quốc" },
-    "business": { "name": "Quảng bá doanh nghiệp", "description": "Doanh nghiệp nói ngôn ngữ của bạn" },
-    "used": { "name": "Đồ cũ", "description": "Mua bán đồ cũ" },
-    "housing": { "name": "Bất động sản·Nhà ở", "description": "Phòng trọ và chỗ ở ngắn hạn" },
-    "groupbuy": { "name": "Mua chung", "description": "Mua chung, tiết kiệm hơn" },
-    "events": { "name": "Sự kiện·Gặp mặt", "description": "Sự kiện và giao lưu cộng đồng" }
+    "jobs": {
+      "name": "Việc làm",
+      "description": "Tìm việc khắp Hàn Quốc"
+    },
+    "business": {
+      "name": "Quảng bá doanh nghiệp",
+      "description": "Doanh nghiệp nói ngôn ngữ của bạn"
+    },
+    "used": {
+      "name": "Đồ cũ",
+      "description": "Mua bán đồ cũ"
+    },
+    "housing": {
+      "name": "Bất động sản·Nhà ở",
+      "description": "Phòng trọ và chỗ ở ngắn hạn"
+    },
+    "groupbuy": {
+      "name": "Mua chung",
+      "description": "Mua chung, tiết kiệm hơn"
+    },
+    "events": {
+      "name": "Sự kiện·Gặp mặt",
+      "description": "Sự kiện và giao lưu cộng đồng"
+    }
   },
   "home": {
     "regionSelect": "Khu vực",
@@ -132,7 +150,10 @@
     "noMyPosts": "Bạn chưa đăng tin nào.",
     "rejectionReason": "Lý do từ chối",
     "continueEditing": "Tiếp tục chỉnh sửa",
-    "viewPost": "Xem tin đăng"
+    "viewPost": "Xem tin đăng",
+    "deletePost": "Xóa",
+    "deleteConfirm": "Bạn có chắc chắn muốn xóa bài đăng này không? Không thể hoàn tác.",
+    "deleteError": "Xóa bài đăng thất bại."
   },
   "postStatus": {
     "draft": "Bản nháp",

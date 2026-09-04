@@ -33,12 +33,30 @@
     "me": "ของฉัน"
   },
   "categories": {
-    "jobs": { "name": "งาน", "description": "หางานทั่วเกาหลี" },
-    "business": { "name": "ธุรกิจแนะนำ", "description": "ธุรกิจที่พูดภาษาของคุณ" },
-    "used": { "name": "ของมือสอง", "description": "ซื้อขายของมือสอง" },
-    "housing": { "name": "ที่พักอาศัย", "description": "ห้องพักและที่พักระยะสั้น" },
-    "groupbuy": { "name": "ซื้อกลุ่ม", "description": "ซื้อร่วมกัน ประหยัดกว่า" },
-    "events": { "name": "กิจกรรม", "description": "งานพบปะและกิจกรรมชุมชน" }
+    "jobs": {
+      "name": "งาน",
+      "description": "หางานทั่วเกาหลี"
+    },
+    "business": {
+      "name": "ธุรกิจแนะนำ",
+      "description": "ธุรกิจที่พูดภาษาของคุณ"
+    },
+    "used": {
+      "name": "ของมือสอง",
+      "description": "ซื้อขายของมือสอง"
+    },
+    "housing": {
+      "name": "ที่พักอาศัย",
+      "description": "ห้องพักและที่พักระยะสั้น"
+    },
+    "groupbuy": {
+      "name": "ซื้อกลุ่ม",
+      "description": "ซื้อร่วมกัน ประหยัดกว่า"
+    },
+    "events": {
+      "name": "กิจกรรม",
+      "description": "งานพบปะและกิจกรรมชุมชน"
+    }
   },
   "home": {
     "regionSelect": "พื้นที่",
@@ -132,7 +150,10 @@
     "noMyPosts": "คุณยังไม่ได้โพสต์ประกาศใดๆ",
     "rejectionReason": "เหตุผลที่ถูกปฏิเสธ",
     "continueEditing": "แก้ไขต่อ",
-    "viewPost": "ดูประกาศ"
+    "viewPost": "ดูประกาศ",
+    "deletePost": "ลบ",
+    "deleteConfirm": "คุณแน่ใจหรือไม่ว่าต้องการลบโพสต์นี้? ไม่สามารถย้อนกลับได้",
+    "deleteError": "ลบโพสต์ไม่สำเร็จ"
   },
   "postStatus": {
     "draft": "ฉบับร่าง",

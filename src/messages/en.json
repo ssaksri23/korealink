@@ -33,12 +33,30 @@
     "me": "My Page"
   },
   "categories": {
-    "jobs": { "name": "Jobs", "description": "Find work across Korea" },
-    "business": { "name": "Business", "description": "Businesses that speak your language" },
-    "used": { "name": "Marketplace", "description": "Buy and sell used items" },
-    "housing": { "name": "Housing", "description": "Rooms and short-term stays" },
-    "groupbuy": { "name": "Group Buy", "description": "Buy together, save more" },
-    "events": { "name": "Events", "description": "Meetups and community events" }
+    "jobs": {
+      "name": "Jobs",
+      "description": "Find work across Korea"
+    },
+    "business": {
+      "name": "Business",
+      "description": "Businesses that speak your language"
+    },
+    "used": {
+      "name": "Marketplace",
+      "description": "Buy and sell used items"
+    },
+    "housing": {
+      "name": "Housing",
+      "description": "Rooms and short-term stays"
+    },
+    "groupbuy": {
+      "name": "Group Buy",
+      "description": "Buy together, save more"
+    },
+    "events": {
+      "name": "Events",
+      "description": "Meetups and community events"
+    }
   },
   "home": {
     "regionSelect": "Region",
@@ -132,7 +150,10 @@
     "noMyPosts": "You haven't posted anything yet.",
     "rejectionReason": "Rejection reason",
     "continueEditing": "Continue editing",
-    "viewPost": "View post"
+    "viewPost": "View post",
+    "deletePost": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this post? This cannot be undone.",
+    "deleteError": "Failed to delete the post."
   },
   "postStatus": {
     "draft": "Draft",
