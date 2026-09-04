@@ -317,19 +317,37 @@ export async function listCompanyVerifications(
   const { data, error } = await query;
   if (error || !data) return [];
 
-  return data.map((row) => {
-    const company = Array.isArray(row.companies) ? row.companies[0] : row.companies;
-    return {
-      id: row.id,
-      companyId: row.company_id,
-      companyName: company?.name ?? "-",
-      status: row.status,
-      businessRegistrationDocUrl: row.business_registration_doc_url,
-      jobPlacementLicenseDocUrl: row.job_placement_license_doc_url,
-      representativeIdDocUrl: row.representative_id_doc_url,
-      createdAt: row.created_at,
-    };
-  });
+  // company-docs 버킷은 비공개이므로, 저장된 경로를 관리자만 열람 가능한 1시간짜리
+  // 서명 URL로 변환해서 내려준다(원본 경로를 그대로 노출하지 않음).
+  async function signedUrl(path: string | null): Promise<string | null> {
+    if (!path) return null;
+    const { data: signed } = await supabase.storage
+      .from("company-docs")
+      .createSignedUrl(path, 3600);
+    return signed?.signedUrl ?? null;
+  }
+
+  return Promise.all(
+    data.map(async (row) => {
+      const company = Array.isArray(row.companies) ? row.companies[0] : row.companies;
+      const [businessRegistrationDocUrl, jobPlacementLicenseDocUrl, representativeIdDocUrl] =
+        await Promise.all([
+          signedUrl(row.business_registration_doc_url),
+          signedUrl(row.job_placement_license_doc_url),
+          signedUrl(row.representative_id_doc_url),
+        ]);
+      return {
+        id: row.id,
+        companyId: row.company_id,
+        companyName: company?.name ?? "-",
+        status: row.status,
+        businessRegistrationDocUrl,
+        jobPlacementLicenseDocUrl,
+        representativeIdDocUrl,
+        createdAt: row.created_at,
+      };
+    }),
+  );
 }
 
 export async function logAdminAction(
