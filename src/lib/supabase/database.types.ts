@@ -44,6 +44,7 @@ export type RoleCode =
   | "admin"
   | "super_admin";
 
+
 export type Json =
   | string
   | number
@@ -1067,6 +1068,8 @@ export type Database = {
           method: string
           order_id: string
           provider: string
+          refund_reason: string | null
+          refund_requested_at: string | null
           status: string
           updated_at: string
         }
@@ -1082,6 +1085,8 @@ export type Database = {
           method?: string
           order_id: string
           provider?: string
+          refund_reason?: string | null
+          refund_requested_at?: string | null
           status?: string
           updated_at?: string
         }
@@ -1097,6 +1102,8 @@ export type Database = {
           method?: string
           order_id?: string
           provider?: string
+          refund_reason?: string | null
+          refund_requested_at?: string | null
           status?: string
           updated_at?: string
         }

@@ -64,14 +64,19 @@ export interface OrderRow {
   createdAt: string;
   productName: string;
   postId: string | null;
-  payment: { status: string; depositorName: string | null; amount: number } | null;
+  payment: {
+    status: string;
+    depositorName: string | null;
+    amount: number;
+    refundReason: string | null;
+  } | null;
 }
 
 export async function listMyOrders(userId: string): Promise<OrderRow[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("orders")
-    .select("id, status, total_price, created_at, post_id, products(name_ko), payments(status, depositor_name, amount)")
+    .select("id, status, total_price, created_at, post_id, products(name_ko), payments(status, depositor_name, amount, refund_reason)")
     .eq("profile_id", userId)
     .order("created_at", { ascending: false });
 
@@ -87,7 +92,12 @@ export async function listMyOrders(userId: string): Promise<OrderRow[]> {
       productName: product?.name_ko ?? "-",
       postId: o.post_id,
       payment: payment
-        ? { status: payment.status, depositorName: payment.depositor_name, amount: payment.amount }
+        ? {
+            status: payment.status,
+            depositorName: payment.depositor_name,
+            amount: payment.amount,
+            refundReason: payment.refund_reason,
+          }
         : null,
     };
   });
@@ -97,7 +107,7 @@ export async function getMyOrder(orderId: string, userId: string): Promise<Order
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("orders")
-    .select("id, status, total_price, created_at, post_id, products(name_ko), payments(status, depositor_name, amount)")
+    .select("id, status, total_price, created_at, post_id, products(name_ko), payments(status, depositor_name, amount, refund_reason)")
     .eq("id", orderId)
     .eq("profile_id", userId)
     .maybeSingle();
@@ -113,7 +123,12 @@ export async function getMyOrder(orderId: string, userId: string): Promise<Order
     productName: product?.name_ko ?? "-",
     postId: data.post_id,
     payment: payment
-      ? { status: payment.status, depositorName: payment.depositor_name, amount: payment.amount }
+      ? {
+          status: payment.status,
+          depositorName: payment.depositor_name,
+          amount: payment.amount,
+          refundReason: payment.refund_reason,
+        }
       : null,
   };
 }
@@ -128,7 +143,7 @@ export async function listAdminOrders(statusFilter?: string): Promise<AdminOrder
   let query = supabase
     .from("orders")
     .select(
-      "id, status, total_price, created_at, post_id, products(code, name_ko), payments(status, depositor_name, amount), profiles!orders_profile_id_fkey(display_name)",
+      "id, status, total_price, created_at, post_id, products(code, name_ko), payments(status, depositor_name, amount, refund_reason), profiles!orders_profile_id_fkey(display_name)",
     )
     .order("created_at", { ascending: false })
     .limit(100);
@@ -152,7 +167,12 @@ export async function listAdminOrders(statusFilter?: string): Promise<AdminOrder
       productCode: product?.code ?? "",
       buyerName: buyer?.display_name ?? null,
       payment: payment
-        ? { status: payment.status, depositorName: payment.depositor_name, amount: payment.amount }
+        ? {
+            status: payment.status,
+            depositorName: payment.depositor_name,
+            amount: payment.amount,
+            refundReason: payment.refund_reason,
+          }
         : null,
     };
   });

@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth/roles";
 import { getMyOrder } from "@/lib/orders";
 import { getSystemSetting } from "@/lib/system-settings";
 import { DepositForm } from "@/components/orders/deposit-form";
+import { CancelRefundButton } from "@/components/orders/cancel-refund-button";
 import { Badge } from "@/components/ui/badge";
 
 interface BankAccountInfo {
@@ -57,14 +58,39 @@ export default async function OrderDetailPage({
       </div>
 
       {order.payment?.status === "waiting" && (
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col gap-2">
           <DepositForm orderId={order.id} initialName={order.payment.depositorName ?? ""} />
+          <CancelRefundButton orderId={order.id} mode="cancel" />
         </div>
       )}
 
       {order.payment?.status === "confirmed" && (
-        <p className="mt-4 rounded-xl bg-teal-50 p-3 text-sm text-teal-700">
-          입금이 확인되어 상품이 적용되었습니다.
+        <div className="mt-4 flex flex-col gap-2">
+          <p className="rounded-xl bg-teal-50 p-3 text-sm text-teal-700">
+            입금이 확인되어 상품이 적용되었습니다.
+          </p>
+          <CancelRefundButton orderId={order.id} mode="refund" />
+        </div>
+      )}
+
+      {order.payment?.status === "refund_requested" && (
+        <div className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-700">
+          환불이 신청되었습니다. 관리자 확인 후 처리됩니다.
+          {order.payment.refundReason && (
+            <p className="mt-1 text-amber-600">사유: {order.payment.refundReason}</p>
+          )}
+        </div>
+      )}
+
+      {order.payment?.status === "refunded" && (
+        <p className="mt-4 rounded-xl bg-slate-100 p-3 text-sm text-slate-600">
+          환불이 완료되었습니다.
+        </p>
+      )}
+
+      {order.payment?.status === "rejected" && (
+        <p className="mt-4 rounded-xl bg-slate-100 p-3 text-sm text-slate-600">
+          취소된 주문입니다.
         </p>
       )}
     </div>
