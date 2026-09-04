@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { sendTelegramMessage } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 export function isTelegramConfigured(): boolean {
   return !!process.env.TELEGRAM_BOT_TOKEN;
@@ -88,7 +89,7 @@ export async function queueDistributionForPost(
   const readyLanguages = new Set([
     post.original_language_code,
     ...(translations ?? [])
-      .filter((t) => t.translation_status === "reviewed")
+      .filter((t) => t.translation_status === "translated" || t.translation_status === "reviewed")
       .map((t) => t.language_code),
   ]);
 
@@ -102,7 +103,7 @@ export async function queueDistributionForPost(
     return { ok: false, queued: 0, error: "no active channel for this post's languages" };
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+  const appUrl = await getAppUrl();
   const configured = isTelegramConfigured();
 
   const rows = await Promise.all(

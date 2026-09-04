@@ -1,6 +1,7 @@
 import { redirect, notFound } from "next/navigation";
 import { getCurrentUser, isAdmin } from "@/lib/auth/roles";
 import { getDraftPost } from "@/lib/posts-write";
+import { getAppUrl } from "@/lib/app-url";
 import { PromoPanel } from "@/components/promo/promo-panel";
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -25,7 +26,8 @@ export default async function PromoPage({
   if (!post) notFound();
   if (post.createdBy !== user!.id && !isAdmin(user!)) notFound();
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/${locale}/p/${post.shareCode}`;
+  const appUrl = await getAppUrl();
+  const shareUrl = `${appUrl}/${locale}/p/${post.shareCode}`;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-8">

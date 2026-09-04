@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 const INDUSTRIES = [
   "telecom", "insurance", "bank_remittance", "restaurant", "grocery", "auto",
@@ -150,7 +151,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "서류 업로드에 실패했습니다. 다시 시도해주세요." }, { status: 400 });
   }
 
-  const adminUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/ko/admin/companies`;
+  const adminUrl = `${await getAppUrl()}/ko/admin/companies`;
   await notifyAdmin(`🏢 업체인증 요청 접수됨\n업체명: ${name}\n\n확인하러 가기: ${adminUrl}`);
 
   return NextResponse.json({ ok: true });

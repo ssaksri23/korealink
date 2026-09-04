@@ -3,7 +3,8 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
 const bodySchema = z.object({
-  productId: z.string().uuid(),
+  productId: z.string().uuid().optional(),
+  productIds: z.array(z.string().uuid()).optional(),
   postId: z.string().uuid().optional(),
   quantity: z.number().int().positive().default(1),
 });
@@ -14,22 +15,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid input" }, { status: 400 });
   }
 
+  const productIds = parsed.data.productIds ?? (parsed.data.productId ? [parsed.data.productId] : []);
+  if (productIds.length === 0) {
+    return NextResponse.json({ error: "invalid input" }, { status: 400 });
+  }
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  }
-
-  const { data: product } = await supabase
-    .from("products")
-    .select("id, price, duration_days, is_active")
-    .eq("id", parsed.data.productId)
-    .maybeSingle();
-
-  if (!product || !product.is_active) {
-    return NextResponse.json({ error: "product not found" }, { status: 404 });
   }
 
   if (parsed.data.postId) {
@@ -44,34 +40,49 @@ export async function POST(request: Request) {
     }
   }
 
-  const totalPrice = product.price * parsed.data.quantity;
+  const { data: products } = await supabase
+    .from("products")
+    .select("id, price, is_active")
+    .in("id", productIds);
 
-  const { data: order, error: orderError } = await supabase
-    .from("orders")
-    .insert({
-      post_id: parsed.data.postId ?? null,
-      product_id: product.id,
-      profile_id: user.id,
-      quantity: parsed.data.quantity,
-      total_price: totalPrice,
-      status: "payment_pending",
-    })
-    .select("id")
-    .single();
+  const orderIds: string[] = [];
+  for (const productId of productIds) {
+    const product = products?.find((p) => p.id === productId);
+    if (!product || !product.is_active) {
+      return NextResponse.json({ error: "product not found" }, { status: 404 });
+    }
 
-  if (orderError || !order) {
-    return NextResponse.json({ error: orderError?.message ?? "order failed" }, { status: 500 });
+    const totalPrice = product.price * parsed.data.quantity;
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        post_id: parsed.data.postId ?? null,
+        product_id: product.id,
+        profile_id: user.id,
+        quantity: parsed.data.quantity,
+        total_price: totalPrice,
+        status: "payment_pending",
+      })
+      .select("id")
+      .single();
+
+    if (orderError || !order) {
+      return NextResponse.json({ error: orderError?.message ?? "order failed" }, { status: 500 });
+    }
+
+    const { error: paymentError } = await supabase.from("payments").insert({
+      order_id: order.id,
+      amount: totalPrice,
+      status: "waiting",
+    });
+
+    if (paymentError) {
+      return NextResponse.json({ error: paymentError.message }, { status: 500 });
+    }
+
+    orderIds.push(order.id);
   }
 
-  const { error: paymentError } = await supabase.from("payments").insert({
-    order_id: order.id,
-    amount: totalPrice,
-    status: "waiting",
-  });
-
-  if (paymentError) {
-    return NextResponse.json({ error: paymentError.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ id: order.id });
+  return NextResponse.json({ id: orderIds[0], ids: orderIds });
 }

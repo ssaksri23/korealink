@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,39 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { LanguageRow } from "@/lib/languages";
+
+declare global {
+  interface Window {
+    daum?: {
+      Postcode: new (options: {
+        oncomplete: (data: { address: string; roadAddress?: string; jibunAddress?: string }) => void;
+      }) => { open: () => void };
+    };
+  }
+}
+
+// 카카오(다음) 우편번호 서비스: 무료·비로그인으로 사용 가능한 주소 검색 팝업.
+// 별도 API 키 발급이 필요 없어 유료 API 제약과 무관하다.
+function loadDaumPostcodeScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.daum?.Postcode) {
+      resolve();
+      return;
+    }
+    const existing = document.getElementById("daum-postcode-script") as HTMLScriptElement | null;
+    if (existing) {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("script load failed")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "daum-postcode-script";
+    script.src = "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("script load failed"));
+    document.head.appendChild(script);
+  });
+}
 
 const INDUSTRIES: [string, string][] = [
   ["telecom", "통신"], ["insurance", "보험"], ["bank_remittance", "은행·송금"],
@@ -36,6 +70,19 @@ export function BusinessVerifyForm({ languages }: { languages: LanguageRow[] }) 
     setSupportedLanguages((prev) =>
       prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code],
     );
+  }
+
+  async function handleAddressSearch() {
+    try {
+      await loadDaumPostcodeScript();
+      new window.daum!.Postcode({
+        oncomplete: (data) => {
+          setAddress(data.roadAddress || data.jibunAddress || data.address);
+        },
+      }).open();
+    } catch {
+      setError("주소 검색을 불러오지 못했습니다. 직접 입력해주세요.");
+    }
   }
 
   async function submit() {
@@ -103,7 +150,17 @@ export function BusinessVerifyForm({ languages }: { languages: LanguageRow[] }) 
 
       <div className="flex flex-col gap-1.5">
         <Label>주소</Label>
-        <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+        <div className="flex gap-2">
+          <Input
+            value={address}
+            placeholder="주소 검색을 눌러주세요"
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <Button type="button" variant="outline" onClick={handleAddressSearch}>
+            <Search className="size-4" />
+            주소 검색
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-1.5">

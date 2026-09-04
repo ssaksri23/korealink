@@ -98,6 +98,7 @@
     "inquiryPlaceholder": "请输入咨询内容",
     "inquirySend": "发送",
     "inquirySent": "咨询已提交。",
+    "receivedInquiries": "收到的咨询",
     "inquiryError": "发送失败，请重试。",
     "reportSubmit": "举报",
     "reportDetailPlaceholder": "详细说明（选填）",

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 const bodySchema = z.object({
   postId: z.string().uuid(),
@@ -32,5 +34,11 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  const postUrl = `${await getAppUrl()}/ko/post/${parsed.data.postId}`;
+  await notifyAdmin(
+    `💬 새 문의 등록됨\n${parsed.data.message.slice(0, 200)}\n\n게시글 보기(작성자에게 전달해주세요): ${postUrl}`,
+  );
+
   return NextResponse.json({ ok: true });
 }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 const REPORT_TYPES = [
   "false_info",
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 409 });
   }
 
-  const adminUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/ko/admin/reports`;
+  const adminUrl = `${await getAppUrl()}/ko/admin/reports`;
   await notifyAdmin(
     `🚨 신고 접수됨\n사유: ${REPORT_TYPE_LABEL_KO[parsed.data.reportType]}\n\n확인하러 가기: ${adminUrl}`,
   );

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getPostById, isPostBookmarked } from "@/lib/posts";
 import { getCurrentUser, isAdmin } from "@/lib/auth/roles";
+import { listPostInquiries } from "@/lib/inquiries";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { PostActions } from "@/components/post-actions";
@@ -31,6 +32,7 @@ export default async function PostDetailPage({
   const isOwner = !!user && (post.createdBy === user.id || isAdmin(user));
   const isDeletable = post.status !== "blocked" && post.status !== "deleted";
   const TRANSACTION_CATEGORIES = ["jobs", "business", "used", "housing", "groupbuy"];
+  const inquiries = isOwner ? await listPostInquiries(post.id) : [];
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-6 pb-28">
@@ -76,6 +78,26 @@ export default async function PostDetailPage({
       <p className="mt-10 rounded-xl bg-slate-100 p-4 text-xs leading-relaxed text-slate-500">
         {tRoot("disclaimer")}
       </p>
+
+      {isOwner && inquiries.length > 0 && (
+        <div className="mt-6">
+          <h2 className="mb-2 text-sm font-semibold text-slate-700">
+            {tPost("receivedInquiries")} ({inquiries.length})
+          </h2>
+          <div className="flex flex-col gap-2">
+            {inquiries.map((inquiry) => (
+              <div key={inquiry.id} className="rounded-xl border border-slate-200 p-3 text-sm">
+                <p className="whitespace-pre-wrap text-slate-800">{inquiry.message}</p>
+                <div className="mt-1.5 flex flex-wrap gap-x-3 text-xs text-slate-500">
+                  {inquiry.senderName && <span>{inquiry.senderName}</span>}
+                  {inquiry.contactPhone && <span>{inquiry.contactPhone}</span>}
+                  <span>{new Date(inquiry.createdAt).toLocaleString()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <PostActions
         postId={post.id}

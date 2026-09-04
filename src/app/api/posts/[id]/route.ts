@@ -85,6 +85,7 @@ export async function PATCH(
         language_code: post.original_language_code,
         ...(title !== undefined ? { translated_title: title } : {}),
         ...(content !== undefined ? { translated_content: content } : {}),
+        translation_status: "reviewed",
         translation_source: "human",
         created_by: user.id,
       },

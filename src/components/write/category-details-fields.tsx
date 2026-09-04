@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
@@ -17,6 +18,31 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+const JOBS_INDUSTRY = [
+  "manufacturing", "auto_parts", "electronics", "construction", "logistics",
+  "farming", "cleaning", "restaurant", "delivery", "service", "office", "other",
+] as const;
+
+const BUSINESS_INDUSTRY = [
+  "telecom", "insurance", "bank_remittance", "restaurant", "grocery", "auto",
+  "mobile_phone", "legal_admin", "travel", "beauty", "hospital", "education", "other",
+] as const;
+
+const USED_CATEGORY = [
+  "car", "auto_parts", "mobile_phone", "appliance", "furniture",
+  "household", "clothing", "tools", "other",
+] as const;
+
+const HOUSING_PROPERTY_TYPE = [
+  "studio", "two_room", "apartment", "dormitory", "short_stay",
+  "roommate", "factory_dorm", "commercial", "other",
+] as const;
+
+const EVENT_TYPE = [
+  "culture", "sports", "nationality_meetup", "regional_meetup",
+  "education", "korean_study", "religious", "other",
+] as const;
+
 export function CategoryDetailsFields({
   categorySlug,
   details,
@@ -26,6 +52,8 @@ export function CategoryDetailsFields({
   details: DetailsState;
   onChange: (next: DetailsState) => void;
 }) {
+  const t = useTranslations("detailFields");
+
   function set(key: string, value: string | number | boolean | undefined) {
     onChange({ ...details, [key]: value });
   }
@@ -33,60 +61,55 @@ export function CategoryDetailsFields({
   if (categorySlug === "jobs") {
     return (
       <div className="flex flex-col gap-4">
-        <Field label="업종">
+        <Field label={t("jobs.industry")}>
           <Select value={(details.industry as string) ?? ""} onChange={(e) => set("industry", e.target.value)}>
-            <option value="">선택</option>
-            {[
-              ["manufacturing", "제조·생산"], ["auto_parts", "자동차부품"], ["electronics", "전자부품"],
-              ["construction", "건설"], ["logistics", "물류·포장"], ["farming", "농장·축산"],
-              ["cleaning", "청소"], ["restaurant", "식당·주방"], ["delivery", "배달"],
-              ["service", "서비스"], ["office", "사무직"], ["other", "기타"],
-            ].map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
+            <option value="">{t("select")}</option>
+            {JOBS_INDUSTRY.map((v) => (
+              <option key={v} value={v}>{t(`jobs.industryOptions.${v}` as never)}</option>
             ))}
           </Select>
         </Field>
         <div className="grid grid-cols-3 gap-2">
-          <Field label="급여형태">
+          <Field label={t("jobs.wageType")}>
             <Select value={(details.wageType as string) ?? ""} onChange={(e) => set("wageType", e.target.value)}>
-              <option value="">선택</option>
-              <option value="hourly">시급</option>
-              <option value="daily">일당</option>
-              <option value="monthly">월급</option>
+              <option value="">{t("select")}</option>
+              <option value="hourly">{t("jobs.wageTypeHourly")}</option>
+              <option value="daily">{t("jobs.wageTypeDaily")}</option>
+              <option value="monthly">{t("jobs.wageTypeMonthly")}</option>
             </Select>
           </Field>
-          <Field label="최소 급여">
+          <Field label={t("jobs.wageMin")}>
             <Input type="number" value={(details.wageMin as number) ?? ""} onChange={(e) => set("wageMin", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="최대 급여">
+          <Field label={t("jobs.wageMax")}>
             <Input type="number" value={(details.wageMax as number) ?? ""} onChange={(e) => set("wageMax", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Field label="근무시간">
-            <Input placeholder="예: 08:00~17:00" value={(details.workHours as string) ?? ""} onChange={(e) => set("workHours", e.target.value)} />
+          <Field label={t("jobs.workHours")}>
+            <Input placeholder={t("jobs.workHoursPlaceholder")} value={(details.workHours as string) ?? ""} onChange={(e) => set("workHours", e.target.value)} />
           </Field>
-          <Field label="모집인원">
+          <Field label={t("jobs.recruitCount")}>
             <Input type="number" value={(details.recruitCount as number) ?? ""} onChange={(e) => set("recruitCount", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
         </div>
-        <Field label="한국어 수준">
+        <Field label={t("jobs.koreanLevel")}>
           <Select value={(details.koreanLevel as string) ?? ""} onChange={(e) => set("koreanLevel", e.target.value)}>
-            <option value="">무관</option>
-            <option value="none">필요 없음</option>
-            <option value="basic">기초</option>
-            <option value="intermediate">중급</option>
-            <option value="advanced">고급</option>
+            <option value="">{t("jobs.koreanLevelAny")}</option>
+            <option value="none">{t("jobs.koreanLevelNone")}</option>
+            <option value="basic">{t("jobs.koreanLevelBasic")}</option>
+            <option value="intermediate">{t("jobs.koreanLevelIntermediate")}</option>
+            <option value="advanced">{t("jobs.koreanLevelAdvanced")}</option>
           </Select>
         </Field>
-        <Field label="근무기간">
+        <Field label={t("jobs.workPeriod")}>
           <Input value={(details.workPeriod as string) ?? ""} onChange={(e) => set("workPeriod", e.target.value)} />
         </Field>
         <div className="flex flex-wrap gap-4">
-          <Checkbox label="외국인 가능" checked={(details.foreignerAllowed as boolean) ?? true} onChange={(e) => set("foreignerAllowed", e.target.checked)} />
-          <Checkbox label="숙소 제공" checked={(details.housingProvided as boolean) ?? false} onChange={(e) => set("housingProvided", e.target.checked)} />
-          <Checkbox label="통근버스 제공" checked={(details.commuteBusProvided as boolean) ?? false} onChange={(e) => set("commuteBusProvided", e.target.checked)} />
-          <Checkbox label="식사 제공" checked={(details.mealProvided as boolean) ?? false} onChange={(e) => set("mealProvided", e.target.checked)} />
+          <Checkbox label={t("jobs.foreignerAllowed")} checked={(details.foreignerAllowed as boolean) ?? true} onChange={(e) => set("foreignerAllowed", e.target.checked)} />
+          <Checkbox label={t("jobs.housingProvided")} checked={(details.housingProvided as boolean) ?? false} onChange={(e) => set("housingProvided", e.target.checked)} />
+          <Checkbox label={t("jobs.commuteBusProvided")} checked={(details.commuteBusProvided as boolean) ?? false} onChange={(e) => set("commuteBusProvided", e.target.checked)} />
+          <Checkbox label={t("jobs.mealProvided")} checked={(details.mealProvided as boolean) ?? false} onChange={(e) => set("mealProvided", e.target.checked)} />
         </div>
       </div>
     );
@@ -95,20 +118,15 @@ export function CategoryDetailsFields({
   if (categorySlug === "business") {
     return (
       <div className="flex flex-col gap-4">
-        <Field label="업종">
+        <Field label={t("business.industry")}>
           <Select value={(details.industry as string) ?? ""} onChange={(e) => set("industry", e.target.value)}>
-            <option value="">선택</option>
-            {[
-              ["telecom", "통신"], ["insurance", "보험"], ["bank_remittance", "은행·송금"],
-              ["restaurant", "식당"], ["grocery", "식품점"], ["auto", "자동차"],
-              ["mobile_phone", "휴대전화"], ["legal_admin", "법률·행정"], ["travel", "여행"],
-              ["beauty", "미용"], ["hospital", "병원"], ["education", "교육"], ["other", "기타"],
-            ].map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
+            <option value="">{t("select")}</option>
+            {BUSINESS_INDUSTRY.map((v) => (
+              <option key={v} value={v}>{t(`business.industryOptions.${v}` as never)}</option>
             ))}
           </Select>
         </Field>
-        <Field label="할인/쿠폰 안내">
+        <Field label={t("business.discountInfo")}>
           <Input value={(details.discountInfo as string) ?? ""} onChange={(e) => set("discountInfo", e.target.value)} />
         </Field>
       </div>
@@ -118,37 +136,33 @@ export function CategoryDetailsFields({
   if (categorySlug === "used") {
     return (
       <div className="flex flex-col gap-4">
-        <Field label="카테고리">
+        <Field label={t("used.category")}>
           <Select value={(details.category as string) ?? ""} onChange={(e) => set("category", e.target.value)}>
-            <option value="">선택</option>
-            {[
-              ["car", "자동차"], ["auto_parts", "자동차부품"], ["mobile_phone", "휴대전화"],
-              ["appliance", "가전제품"], ["furniture", "가구"], ["household", "생활용품"],
-              ["clothing", "의류"], ["tools", "공구"], ["other", "기타"],
-            ].map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
+            <option value="">{t("select")}</option>
+            {USED_CATEGORY.map((v) => (
+              <option key={v} value={v}>{t(`used.categoryOptions.${v}` as never)}</option>
             ))}
           </Select>
         </Field>
         <div className="grid grid-cols-2 gap-2">
-          <Field label="가격(원)">
+          <Field label={t("used.price")}>
             <Input type="number" value={(details.price as number) ?? ""} onChange={(e) => set("price", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="상품상태">
+          <Field label={t("used.itemCondition")}>
             <Select value={(details.itemCondition as string) ?? ""} onChange={(e) => set("itemCondition", e.target.value)}>
-              <option value="">선택</option>
-              <option value="new">새상품</option>
-              <option value="like_new">거의 새것</option>
-              <option value="used">사용감 있음</option>
-              <option value="for_parts">부품용</option>
+              <option value="">{t("select")}</option>
+              <option value="new">{t("used.itemConditionNew")}</option>
+              <option value="like_new">{t("used.itemConditionLikeNew")}</option>
+              <option value="used">{t("used.itemConditionUsed")}</option>
+              <option value="for_parts">{t("used.itemConditionForParts")}</option>
             </Select>
           </Field>
         </div>
-        <Field label="판매상태">
+        <Field label={t("used.saleStatus")}>
           <Select value={(details.saleStatus as string) ?? "selling"} onChange={(e) => set("saleStatus", e.target.value)}>
-            <option value="selling">판매중</option>
-            <option value="reserved">예약중</option>
-            <option value="sold">판매완료</option>
+            <option value="selling">{t("used.saleStatusSelling")}</option>
+            <option value="reserved">{t("used.saleStatusReserved")}</option>
+            <option value="sold">{t("used.saleStatusSold")}</option>
           </Select>
         </Field>
       </div>
@@ -158,38 +172,34 @@ export function CategoryDetailsFields({
   if (categorySlug === "housing") {
     return (
       <div className="flex flex-col gap-4">
-        <Field label="매물유형">
+        <Field label={t("housing.propertyType")}>
           <Select value={(details.propertyType as string) ?? ""} onChange={(e) => set("propertyType", e.target.value)}>
-            <option value="">선택</option>
-            {[
-              ["studio", "원룸"], ["two_room", "투룸"], ["apartment", "아파트"], ["dormitory", "기숙사"],
-              ["short_stay", "단기숙소"], ["roommate", "룸메이트"], ["factory_dorm", "공장숙소"],
-              ["commercial", "상가"], ["other", "기타"],
-            ].map(([v, l]) => (
-              <option key={v} value={v}>{l}</option>
+            <option value="">{t("select")}</option>
+            {HOUSING_PROPERTY_TYPE.map((v) => (
+              <option key={v} value={v}>{t(`housing.propertyTypeOptions.${v}` as never)}</option>
             ))}
           </Select>
         </Field>
         <div className="grid grid-cols-3 gap-2">
-          <Field label="보증금(원)">
+          <Field label={t("housing.deposit")}>
             <Input type="number" value={(details.deposit as number) ?? ""} onChange={(e) => set("deposit", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="월세(원)">
+          <Field label={t("housing.monthlyRent")}>
             <Input type="number" value={(details.monthlyRent as number) ?? ""} onChange={(e) => set("monthlyRent", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="관리비(원)">
+          <Field label={t("housing.maintenanceFee")}>
             <Input type="number" value={(details.maintenanceFee as number) ?? ""} onChange={(e) => set("maintenanceFee", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Field label="수용인원">
+          <Field label={t("housing.capacity")}>
             <Input type="number" value={(details.capacity as number) ?? ""} onChange={(e) => set("capacity", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="성별조건">
+          <Field label={t("housing.genderCondition")}>
             <Select value={(details.genderCondition as string) ?? "any"} onChange={(e) => set("genderCondition", e.target.value)}>
-              <option value="any">무관</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
+              <option value="any">{t("housing.genderConditionAny")}</option>
+              <option value="male">{t("housing.genderConditionMale")}</option>
+              <option value="female">{t("housing.genderConditionFemale")}</option>
             </Select>
           </Field>
         </div>
@@ -201,17 +211,17 @@ export function CategoryDetailsFields({
     return (
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-2">
-          <Field label="가격(원)">
+          <Field label={t("groupbuy.price")}>
             <Input type="number" value={(details.price as number) ?? ""} onChange={(e) => set("price", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
-          <Field label="목표인원">
+          <Field label={t("groupbuy.targetCount")}>
             <Input type="number" value={(details.targetCount as number) ?? ""} onChange={(e) => set("targetCount", e.target.value ? Number(e.target.value) : undefined)} />
           </Field>
         </div>
-        <Field label="신청마감일">
+        <Field label={t("groupbuy.deadline")}>
           <Input type="date" value={(details.deadline as string) ?? ""} onChange={(e) => set("deadline", e.target.value)} />
         </Field>
-        <Field label="수령방법">
+        <Field label={t("groupbuy.pickupMethod")}>
           <Input value={(details.pickupMethod as string) ?? ""} onChange={(e) => set("pickupMethod", e.target.value)} />
         </Field>
       </div>
@@ -220,41 +230,37 @@ export function CategoryDetailsFields({
 
   return (
     <div className="flex flex-col gap-4">
-      <Field label="행사유형">
+      <Field label={t("events.eventType")}>
         <Select value={(details.eventType as string) ?? ""} onChange={(e) => set("eventType", e.target.value)}>
-          <option value="">선택</option>
-          {[
-            ["culture", "문화행사"], ["sports", "체육행사"], ["nationality_meetup", "국가별 모임"],
-            ["regional_meetup", "지역모임"], ["education", "교육"], ["korean_study", "한국어 공부"],
-            ["religious", "종교행사"], ["other", "기타"],
-          ].map(([v, l]) => (
-            <option key={v} value={v}>{l}</option>
+          <option value="">{t("select")}</option>
+          {EVENT_TYPE.map((v) => (
+            <option key={v} value={v}>{t(`events.eventTypeOptions.${v}` as never)}</option>
           ))}
         </Select>
       </Field>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <Field label="날짜">
+        <Field label={t("events.date")}>
           <Input type="date" value={(details.eventDate as string) ?? ""} onChange={(e) => set("eventDate", e.target.value)} />
         </Field>
-        <Field label="시간">
+        <Field label={t("events.time")}>
           <Input type="time" value={(details.eventTime as string) ?? ""} onChange={(e) => set("eventTime", e.target.value)} />
         </Field>
       </div>
-      <Field label="장소">
+      <Field label={t("events.venue")}>
         <Input value={(details.venue as string) ?? ""} onChange={(e) => set("venue", e.target.value)} />
       </Field>
       <div className="grid grid-cols-2 gap-2">
-        <Field label="참가비(원)">
+        <Field label={t("events.fee")}>
           <Input type="number" value={(details.fee as number) ?? 0} onChange={(e) => set("fee", e.target.value ? Number(e.target.value) : 0)} />
         </Field>
-        <Field label="정원">
+        <Field label={t("events.capacity")}>
           <Input type="number" value={(details.capacity as number) ?? ""} onChange={(e) => set("capacity", e.target.value ? Number(e.target.value) : undefined)} />
         </Field>
       </div>
-      <Field label="주최자">
+      <Field label={t("events.organizer")}>
         <Input value={(details.organizer as string) ?? ""} onChange={(e) => set("organizer", e.target.value)} />
       </Field>
-      <Field label="신청방법">
+      <Field label={t("events.applicationMethod")}>
         <Input value={(details.applicationMethod as string) ?? ""} onChange={(e) => set("applicationMethod", e.target.value)} />
       </Field>
     </div>

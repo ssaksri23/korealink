@@ -98,6 +98,7 @@
     "inquiryPlaceholder": "กรอกข้อความสอบถาม",
     "inquirySend": "ส่ง",
     "inquirySent": "ส่งคำถามของคุณแล้ว",
+    "receivedInquiries": "คำถามที่ได้รับ",
     "inquiryError": "ส่งไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
     "reportSubmit": "รายงาน",
     "reportDetailPlaceholder": "รายละเอียด (ไม่บังคับ)",

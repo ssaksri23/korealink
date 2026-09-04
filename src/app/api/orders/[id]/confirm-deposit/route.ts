@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
 
 const bodySchema = z.object({ depositorName: z.string().min(1).max(50) });
 
@@ -24,7 +26,7 @@ export async function POST(
 
   const { data: order } = await supabase
     .from("orders")
-    .select("id")
+    .select("id, total_price, products(name_ko)")
     .eq("id", id)
     .eq("profile_id", user.id)
     .maybeSingle();
@@ -41,6 +43,12 @@ export async function POST(
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  const product = Array.isArray(order.products) ? order.products[0] : order.products;
+  const appUrl = await getAppUrl();
+  await notifyAdmin(
+    `💰 입금확인 요청\n${product?.name_ko ?? "광고상품"} · ${order.total_price.toLocaleString()}원\n입금자명: ${parsed.data.depositorName}\n\n확인하러 가기: ${appUrl}/ko/admin/orders`,
+  );
 
   return NextResponse.json({ ok: true });
 }

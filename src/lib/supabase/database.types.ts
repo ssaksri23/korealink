@@ -44,7 +44,6 @@ export type RoleCode =
   | "admin"
   | "super_admin";
 
-
 export type Json =
   | string
   | number
@@ -1902,6 +1901,19 @@ export type Database = {
       owns_post: {
         Args: { target_post: string; target_profile?: string }
         Returns: boolean
+      }
+      queue_post_translations: {
+        Args: { target_langs: string[]; target_post: string }
+        Returns: undefined
+      }
+      save_machine_translation: {
+        Args: {
+          content: string
+          target_lang: string
+          target_post: string
+          title: string
+        }
+        Returns: undefined
       }
     }
     Enums: {

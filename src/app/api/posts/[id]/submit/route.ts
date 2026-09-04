@@ -4,6 +4,12 @@ import { createClient } from "@/lib/supabase/server";
 import { LOCALE_CODES } from "@/config/languages";
 import { findProhibitedWords } from "@/lib/prohibited-words";
 import { notifyAdmin } from "@/lib/telegram";
+import { getAppUrl } from "@/lib/app-url";
+import { machineTranslate } from "@/lib/machine-translate";
+
+// 여러 언어를 한 번에 기계번역하면 외부 API 왕복 시간이 누적될 수 있어 기본 10초
+// 제한보다 여유를 둔다.
+export const maxDuration = 30;
 
 const bodySchema = z.object({
   mode: z.enum(["original_only", "selected", "all"]),
@@ -80,19 +86,33 @@ export async function POST(
   }
 
   if (targetLanguages.length > 0) {
-    // RLS가 "제목/본문이 비어 있는 행"에 한해 소유자의 직접 삽입을 허용하므로,
-    // 서비스 롤 없이도 "번역 대기" 빈 행을 안전하게 만들 수 있다.
-    const { error } = await supabase.from("post_translations").upsert(
-      targetLanguages.map((code) => ({
-        post_id: id,
-        language_code: code,
-        translation_status: "pending" as const,
-      })),
-      { onConflict: "post_id,language_code", ignoreDuplicates: true },
-    );
+    // RLS(post_translations_insert)는 소유자에게 원문 언어 행만 허용하므로, 다른
+    // 언어의 "번역 대기" 빈 행은 SECURITY DEFINER 함수를 통해서만 만들 수 있다.
+    const { error } = await supabase.rpc("queue_post_translations", {
+      target_post: id,
+      target_langs: targetLanguages,
+    });
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    // 무료(비로그인) 기계번역으로 초벌 번역을 채운다. 실패한 언어는 'pending'
+    // 상태로 남아 관리자가 번역검수 화면에서 직접 입력할 수 있다.
+    await Promise.all(
+      targetLanguages.map(async (code) => {
+        const [translatedTitle, translatedContent] = await Promise.all([
+          machineTranslate(translation.translated_title!, post.original_language_code, code),
+          machineTranslate(translation.translated_content!, post.original_language_code, code),
+        ]);
+        if (!translatedTitle || !translatedContent) return;
+        await supabase.rpc("save_machine_translation", {
+          target_post: id,
+          target_lang: code,
+          title: translatedTitle,
+          content: translatedContent,
+        });
+      }),
+    );
   }
 
   const { error: statusError } = await supabase
@@ -105,7 +125,7 @@ export async function POST(
   }
 
   const category = Array.isArray(post.categories) ? post.categories[0] : post.categories;
-  const adminUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/ko/admin/posts/${id}`;
+  const adminUrl = `${await getAppUrl()}/ko/admin/posts/${id}`;
   await notifyAdmin(
     `🆕 새 게시글 제출됨\n[${category?.name_ko ?? "카테고리"}] ${translation.translated_title}\n\n검수하러 가기: ${adminUrl}`,
   );
