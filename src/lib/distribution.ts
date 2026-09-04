@@ -1,6 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
-import { sendTelegramMessage } from "@/lib/telegram";
+import { sendTelegramMessage, sendTelegramPhoto } from "@/lib/telegram";
 import { getAppUrl } from "@/lib/app-url";
 
 export function isTelegramConfigured(): boolean {
@@ -73,9 +73,20 @@ function buildDistributionMessage(
   title: string | null,
   content: string | null,
   shareUrl: string,
+  bodyLimit = 500,
 ): string {
-  const body = (content ?? "").slice(0, 500);
+  const body = (content ?? "").slice(0, bodyLimit);
   return [title ?? "(제목 없음)", "", body, "", shareUrl].join("\n");
+}
+
+function primaryImageUrl(
+  images: { image_url: string; is_primary: boolean; sort_order: number }[] | null | undefined,
+): string | null {
+  const sorted = [...(images ?? [])].sort((a, b) => {
+    if (a.is_primary !== b.is_primary) return a.is_primary ? -1 : 1;
+    return a.sort_order - b.sort_order;
+  });
+  return sorted[0]?.image_url ?? null;
 }
 
 /**
@@ -93,7 +104,7 @@ export async function queueDistributionForPost(
   const { data: post } = await supabase
     .from("posts")
     .select(
-      "id, status, share_code, original_language_code, post_translations(language_code, translation_status, translated_title, translated_content)",
+      "id, status, share_code, original_language_code, post_translations(language_code, translation_status, translated_title, translated_content), post_images(image_url, is_primary, sort_order)",
     )
     .eq("id", postId)
     .maybeSingle();
@@ -101,6 +112,8 @@ export async function queueDistributionForPost(
   if (!post || post.status !== "published") {
     return { ok: false, queued: 0, error: "post not found or not published" };
   }
+
+  const imageUrl = primaryImageUrl(post.post_images);
 
   const translations = post.post_translations as
     | {
@@ -159,12 +172,27 @@ export async function queueDistributionForPost(
         };
       }
 
-      const text = buildDistributionMessage(
-        translation?.translated_title ?? null,
-        translation?.translated_content ?? null,
-        shareUrl,
-      );
-      const result = await sendTelegramMessage(c.telegram_chat_id, text);
+      // Telegram의 사진 캡션은 1024자로 텍스트 메시지(4096자)보다 짧으므로 사진을
+      // 함께 보낼 때는 본문을 더 짧게 자른다.
+      const result = imageUrl
+        ? await sendTelegramPhoto(
+            c.telegram_chat_id,
+            imageUrl,
+            buildDistributionMessage(
+              translation?.translated_title ?? null,
+              translation?.translated_content ?? null,
+              shareUrl,
+              200,
+            ).slice(0, 1024),
+          )
+        : await sendTelegramMessage(
+            c.telegram_chat_id,
+            buildDistributionMessage(
+              translation?.translated_title ?? null,
+              translation?.translated_content ?? null,
+              shareUrl,
+            ),
+          );
 
       return {
         post_id: post.id,
