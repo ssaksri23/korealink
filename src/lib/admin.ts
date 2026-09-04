@@ -246,6 +246,92 @@ export async function getTranslationReviewDetail(
   };
 }
 
+export interface AdminReportRow {
+  id: string;
+  reportType: string;
+  detail: string | null;
+  status: string;
+  createdAt: string;
+  postId: string | null;
+  postTitle: string | null;
+  reporterName: string | null;
+}
+
+export async function listReports(statusFilter?: string): Promise<AdminReportRow[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from("reports")
+    .select(
+      "id, report_type, detail, status, created_at, post_id, posts(post_translations(language_code, translated_title)), profiles!reports_reporter_id_fkey(display_name)",
+    )
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (statusFilter) query = query.eq("status", statusFilter);
+
+  const { data, error } = await query;
+  if (error || !data) return [];
+
+  return data.map((row) => {
+    const post = Array.isArray(row.posts) ? row.posts[0] : row.posts;
+    const translations = post?.post_translations as
+      | { language_code: string; translated_title: string | null }[]
+      | undefined;
+    const reporter = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+    return {
+      id: row.id,
+      reportType: row.report_type,
+      detail: row.detail,
+      status: row.status,
+      createdAt: row.created_at,
+      postId: row.post_id,
+      postTitle: translations?.find((t) => t.translated_title)?.translated_title ?? null,
+      reporterName: reporter?.display_name ?? null,
+    };
+  });
+}
+
+export interface AdminCompanyVerificationRow {
+  id: string;
+  companyId: string;
+  companyName: string;
+  status: string;
+  businessRegistrationDocUrl: string | null;
+  jobPlacementLicenseDocUrl: string | null;
+  representativeIdDocUrl: string | null;
+  createdAt: string;
+}
+
+export async function listCompanyVerifications(
+  statusFilter?: string,
+): Promise<AdminCompanyVerificationRow[]> {
+  const supabase = await createClient();
+  let query = supabase
+    .from("company_verifications")
+    .select("id, company_id, status, business_registration_doc_url, job_placement_license_doc_url, representative_id_doc_url, created_at, companies(name)")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (statusFilter) query = query.eq("status", statusFilter);
+
+  const { data, error } = await query;
+  if (error || !data) return [];
+
+  return data.map((row) => {
+    const company = Array.isArray(row.companies) ? row.companies[0] : row.companies;
+    return {
+      id: row.id,
+      companyId: row.company_id,
+      companyName: company?.name ?? "-",
+      status: row.status,
+      businessRegistrationDocUrl: row.business_registration_doc_url,
+      jobPlacementLicenseDocUrl: row.job_placement_license_doc_url,
+      representativeIdDocUrl: row.representative_id_doc_url,
+      createdAt: row.created_at,
+    };
+  });
+}
+
 export async function logAdminAction(
   actorId: string,
   action: string,
