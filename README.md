@@ -45,7 +45,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **필수** | Supabase anon(public) key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 관리자 기능 필요 시 | RLS를 우회하는 서버 전용 키. **절대 브라우저에 노출 금지** (`server-only`로 보호됨) |
 | `TRANSLATION_PROVIDER`, `GOOGLE_TRANSLATE_API_KEY`, `DEEPL_API_KEY`, `OPENAI_API_KEY` | 선택 | 자동번역 연동(다음 단계에서 사용 예정). 없어도 사이트는 정상 동작하며 게시글은 "번역 준비 중"으로 표시됨 |
-| `TELEGRAM_BOT_TOKEN` | 선택 | 텔레그램 배포 연동 여부 표시용. 설정 여부와 무관하게 실제 발송 기능은 안전을 위해 아직 구현하지 않았으며, `/admin/distribution`에서 배포 요청은 항상 큐/로그로만 기록됩니다 |
+| `TELEGRAM_BOT_TOKEN` | 선택 | 텔레그램 봇 API 토큰(@BotFather에서 발급, 무료). 설정하고 `/admin/distribution`에서 채널에 telegram chat id를 등록하면, 배포 요청 시 해당 채널로 실제 메시지가 발송됩니다. 미설정 시에는 발송 없이 큐/로그로만 기록됩니다 |
 | `NEXT_PUBLIC_DEFAULT_LOCALE` | 선택 | 기본값 `ko` |
 
 `NEXT_PUBLIC_SUPABASE_URL`이 없어도 앱 자체는 죽지 않습니다(언어 선택 화면 등은 `config/languages.ts` fallback으로 동작). 다만 로그인/게시글 등 실제 데이터 기능은 Supabase 연결이 필요합니다.
@@ -114,13 +114,13 @@ npx supabase gen types typescript --project-id <PROJECT_ID> > src/lib/supabase/d
 - 관리자 신고 처리(14종 신고사유, 반복신고 시 자동 숨김, 처리 액션 기록), 업체 서류 인증(승인/반려)
 - 광고상품 주문(`/orders/new`) → 무통장입금 안내 → 입금자명 접수(`/orders/[id]`) → 관리자 입금확인(`/admin/orders`) 시 긴급배지/상단고정 자동 적용, 관리자 상품 가격/기간/판매상태 관리(`/admin/products`)
 - 카카오 홍보문구·QR코드 생성(`/promo/[id]`, 게시글 소유자/관리자 전용): 공유 URL 기반 QR코드를 브라우저에서 직접 생성(외부 API 미사용)하고 홍보문구를 클립보드로 복사
-- 텔레그램 배포 관리자 화면(`/admin/distribution`): 언어별 배포채널 등록/활성화, 게시글 배포 요청 큐잉·로그 조회. `TELEGRAM_BOT_TOKEN` 설정 여부와 무관하게 **실제 발송은 아직 구현하지 않았으며** 항상 로그로만 기록되어, 실수로 실채널에 메시지가 나가는 일이 없습니다
+- 텔레그램 배포 관리자 화면(`/admin/distribution`): 언어별 배포채널 등록/활성화, 게시글 배포 요청. `TELEGRAM_BOT_TOKEN`이 설정되어 있고 채널에 telegram chat id가 등록되어 있으면 실제로 해당 채널에 메시지가 발송됩니다(Telegram Bot API 직접 호출, 별도 유료 API 아님). 토큰이 없거나 채널에 chat id가 없으면 발송 없이 큐/로그로만 기록됩니다
 - 9개 언어 전체 번역이 달린 긴급 구인공고 샘플 1건 + 나머지 5개 카테고리 각 3건(한국어+영어) 샘플 게시글
 - Supabase RLS로 역할별 데이터 접근 통제(회원가입 시 자동 `user` 역할 부여)
 
 ## 아직 작동하지 않는 기능
 
-- 텔레그램/카카오 실제 발송(의도적 미구현 — 위 참고)
+- 카카오 실제 발송(카카오톡 공유는 브라우저 공유시트/문구 복사로 대체, 카카오 API 미연동)
 - 채팅방 출처 기반 중복 게시글 자동 감지 UI
 - 실시간 채팅, AI 자동승인, 실제 PG 결제 연동(스펙상 MVP 제외 항목)
 - SEO(sitemap/robots/hreflang/OG 이미지), Docker 배포 구성

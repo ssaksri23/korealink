@@ -24,13 +24,15 @@ export default async function AdminDistributionPage() {
     <div className="flex flex-col gap-6">
       {configured ? (
         <div className="rounded-xl bg-teal-50 p-3 text-sm text-teal-700">
-          TELEGRAM_BOT_TOKEN이 설정되어 있습니다. (단, 안전을 위해 이번 빌드에서는 실제 발송 기능은 아직
-          구현되어 있지 않으며, 배포 요청은 큐/로그로만 기록됩니다.)
+          TELEGRAM_BOT_TOKEN이 설정되어 있습니다. 아래에서 배포 요청을 하면, chat id가
+          등록된 채널로 실제 메시지가 발송됩니다. chat id가 없는 채널은 발송 없이
+          로그만 남습니다.
         </div>
       ) : (
         <div className="rounded-xl bg-amber-50 p-3 text-sm text-amber-700">
-          텔레그램 연동 전입니다 (TELEGRAM_BOT_TOKEN 환경변수 미설정). 배포 요청은 실제 발송 없이
-          큐/로그로만 기록됩니다.
+          텔레그램 연동 전입니다 (TELEGRAM_BOT_TOKEN 환경변수 미설정). 지금 배포 요청을
+          하면 실제 발송 없이 큐/로그로만 기록됩니다. 봇 토큰을 설정하면 이후 요청부터
+          실제로 발송됩니다.
         </div>
       )}
 

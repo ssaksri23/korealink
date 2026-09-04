@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
+import { sendTelegramMessage } from "@/lib/telegram";
 
 export function isTelegramConfigured(): boolean {
   return !!process.env.TELEGRAM_BOT_TOKEN;
@@ -43,10 +44,20 @@ export interface DistributionLogRow {
   requestedAt: string;
 }
 
+function buildDistributionMessage(
+  title: string | null,
+  content: string | null,
+  shareUrl: string,
+): string {
+  const body = (content ?? "").slice(0, 500);
+  return [title ?? "(제목 없음)", "", body, "", shareUrl].join("\n");
+}
+
 /**
- * 게시글을 활성 배포채널에 큐잉한다(admin/distribution의 수동 "배포 요청"과
- * 텔레그램 배포 상품 주문 승인 시 자동 호출 양쪽에서 공유). 실제 텔레그램 발송은
- * 안전을 위해 구현하지 않으므로 항상 status='failed'로 기록된다.
+ * 게시글을 활성 배포채널에 큐잉하고, TELEGRAM_BOT_TOKEN이 설정되어 있으며 채널에
+ * telegram_chat_id가 등록되어 있으면 실제로 텔레그램 메시지를 발송한다(admin/distribution의
+ * 수동 "배포 요청"과 텔레그램 배포 상품 주문 승인 시 자동 호출 양쪽에서 공유).
+ * 토큰 미설정이거나 채널에 chat_id가 없으면 실제 발송 없이 큐/로그로만 남긴다.
  */
 export async function queueDistributionForPost(
   postId: string,
@@ -56,7 +67,9 @@ export async function queueDistributionForPost(
 
   const { data: post } = await supabase
     .from("posts")
-    .select("id, status, original_language_code, post_translations(language_code, translation_status)")
+    .select(
+      "id, status, share_code, original_language_code, post_translations(language_code, translation_status, translated_title, translated_content)",
+    )
     .eq("id", postId)
     .maybeSingle();
 
@@ -65,7 +78,12 @@ export async function queueDistributionForPost(
   }
 
   const translations = post.post_translations as
-    | { language_code: string; translation_status: string }[]
+    | {
+        language_code: string;
+        translation_status: string;
+        translated_title: string | null;
+        translated_content: string | null;
+      }[]
     | null;
   const readyLanguages = new Set([
     post.original_language_code,
@@ -76,7 +94,7 @@ export async function queueDistributionForPost(
 
   const { data: channels } = await supabase
     .from("distribution_channels")
-    .select("id, language_code")
+    .select("id, language_code, telegram_chat_id")
     .eq("is_active", true)
     .in("language_code", Array.from(readyLanguages));
 
@@ -84,19 +102,57 @@ export async function queueDistributionForPost(
     return { ok: false, queued: 0, error: "no active channel for this post's languages" };
   }
 
-  const errorMessage = isTelegramConfigured()
-    ? "실제 텔레그램 발송 기능은 안전을 위해 이번 빌드에서 아직 구현되지 않았습니다. 큐에만 기록되었습니다."
-    : "텔레그램 연동 전입니다(TELEGRAM_BOT_TOKEN 미설정). 큐에만 기록되었습니다.";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+  const configured = isTelegramConfigured();
 
-  const rows = channels.map((c) => ({
-    post_id: post.id,
-    language_code: c.language_code,
-    channel_id: c.id,
-    requested_by: requestedBy,
-    status: "failed" as const,
-    completed_at: new Date().toISOString(),
-    error_message: errorMessage,
-  }));
+  const rows = await Promise.all(
+    channels.map(async (c) => {
+      const translation = (translations ?? []).find((t) => t.language_code === c.language_code);
+      const shareUrl = `${appUrl}/${c.language_code}/p/${post.share_code}`;
+      const now = new Date().toISOString();
+
+      if (!configured) {
+        return {
+          post_id: post.id,
+          language_code: c.language_code,
+          channel_id: c.id,
+          requested_by: requestedBy,
+          status: "failed" as const,
+          completed_at: now,
+          error_message: "텔레그램 연동 전입니다(TELEGRAM_BOT_TOKEN 미설정). 큐에만 기록되었습니다.",
+        };
+      }
+      if (!c.telegram_chat_id) {
+        return {
+          post_id: post.id,
+          language_code: c.language_code,
+          channel_id: c.id,
+          requested_by: requestedBy,
+          status: "failed" as const,
+          completed_at: now,
+          error_message: "이 채널에 텔레그램 chat_id가 등록되어 있지 않습니다.",
+        };
+      }
+
+      const text = buildDistributionMessage(
+        translation?.translated_title ?? null,
+        translation?.translated_content ?? null,
+        shareUrl,
+      );
+      const result = await sendTelegramMessage(c.telegram_chat_id, text);
+
+      return {
+        post_id: post.id,
+        language_code: c.language_code,
+        channel_id: c.id,
+        requested_by: requestedBy,
+        status: (result.ok ? "completed" : "failed") as "completed" | "failed",
+        completed_at: now,
+        telegram_message_id: result.messageId ?? null,
+        error_message: result.ok ? null : result.error,
+      };
+    }),
+  );
 
   const { error } = await supabase.from("distribution_logs").insert(rows);
   if (error) {
