@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { redirect } from "@/i18n/navigation";
-import { getCurrentUser } from "@/lib/auth/roles";
+import { ChevronRight, FileText, Bookmark, ShieldCheck } from "lucide-react";
+import { Link, redirect } from "@/i18n/navigation";
+import { getCurrentUser, isAdmin } from "@/lib/auth/roles";
 import { getLanguages } from "@/lib/languages";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,6 +74,35 @@ export default async function MePage({
           </div>
         </CardContent>
       </Card>
+
+      <Card className="divide-y divide-slate-100 overflow-hidden p-0">
+        <MenuLink href="/me/posts" icon={FileText} label="내 게시글" />
+        <MenuLink href="/me/bookmarks" icon={Bookmark} label="저장한 게시글" />
+        {isAdmin(user) && (
+          <MenuLink href="/admin" icon={ShieldCheck} label="관리자" />
+        )}
+      </Card>
     </div>
+  );
+}
+
+function MenuLink({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-3 px-4 py-3.5 text-sm font-medium text-slate-800 hover:bg-slate-50"
+    >
+      <Icon className="size-4.5 text-slate-500" />
+      <span className="flex-1">{label}</span>
+      <ChevronRight className="size-4 text-slate-400" />
+    </Link>
   );
 }

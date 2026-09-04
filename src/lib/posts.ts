@@ -300,3 +300,23 @@ export async function searchPosts(
   if (error || !data) return [];
   return data.map((row) => mapRow(row, locale));
 }
+
+export async function listMyBookmarks(
+  userId: string,
+  locale: string,
+): Promise<PostCardData[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("bookmarks")
+    .select(`created_at, posts(${POST_SELECT})`)
+    .eq("profile_id", userId)
+    .order("created_at", { ascending: false })
+    .returns<{ created_at: string; posts: RawPostRow | null }[]>();
+
+  if (error || !data) return [];
+  return data
+    .filter((row): row is { created_at: string; posts: RawPostRow } => row.posts !== null)
+    .map((row) => mapRow(row.posts, locale));
+}
