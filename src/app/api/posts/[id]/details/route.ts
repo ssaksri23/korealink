@@ -102,7 +102,8 @@ export async function PATCH(
     .upsert(row as never, { onConflict: "post_id" });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("post details upsert failed", error);
+    return NextResponse.json({ error: "필수 항목을 확인해주세요." }, { status: 400 });
   }
 
   return NextResponse.json({ ok: true });

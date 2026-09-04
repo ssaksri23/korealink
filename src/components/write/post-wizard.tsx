@@ -32,6 +32,17 @@ function detailsToCamel(details: Record<string, unknown> | null): DetailsState {
   return out;
 }
 
+// 카테고리별 상세정보 테이블의 NOT NULL 컬럼과 대응. 여기서 막지 않으면 DB
+// 제약 위반 에러가 그대로 화면에 노출되는 문제가 있었다(제출 시점까지 안 걸러짐).
+const REQUIRED_DETAIL_FIELDS: Record<string, string[]> = {
+  jobs: ["industry"],
+  business: ["industry"],
+  used: ["category", "price"],
+  housing: ["propertyType"],
+  groupbuy: ["price", "targetCount"],
+  events: ["eventType"],
+};
+
 const STEP_KEYS = [
   "basicInfo",
   "categoryDetails",
@@ -108,6 +119,16 @@ export function PostWizard({
   }
 
   async function saveDetails(): Promise<boolean> {
+    const required = REQUIRED_DETAIL_FIELDS[draft.categorySlug] ?? [];
+    const hasMissing = required.some((key) => {
+      const value = details[key];
+      return value === undefined || value === null || value === "";
+    });
+    if (hasMissing) {
+      setError(t("categoryDetailsRequired"));
+      return false;
+    }
+
     setSaving(true);
     setError(null);
     const res = await fetch(`/api/posts/${draft.id}/details`, {
@@ -117,7 +138,7 @@ export function PostWizard({
     });
     setSaving(false);
     if (!res.ok) {
-      setError((await res.json().catch(() => null))?.error ?? "저장 실패");
+      setError(t("detailsSaveError"));
       return false;
     }
     return true;

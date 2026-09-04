@@ -123,6 +123,8 @@
     "titleLabel": "หัวข้อ",
     "contentLabel": "รายละเอียด",
     "categoryDetails": "รายละเอียดเพิ่มเติม",
+    "categoryDetailsRequired": "กรุณากรอกข้อมูลที่จำเป็น",
+    "detailsSaveError": "บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง",
     "region": "พื้นที่",
     "selectRegion": "เลือกพื้นที่",
     "regionSido": "จังหวัด/นครหลวง",

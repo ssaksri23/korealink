@@ -123,6 +123,8 @@
     "titleLabel": "Tiêu đề",
     "contentLabel": "Nội dung",
     "categoryDetails": "Chi tiết",
+    "categoryDetailsRequired": "Vui lòng điền các mục bắt buộc.",
+    "detailsSaveError": "Lưu thất bại. Vui lòng thử lại.",
     "region": "Khu vực",
     "selectRegion": "Chọn khu vực",
     "regionSido": "Tỉnh/Thành phố",

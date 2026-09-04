@@ -43,7 +43,8 @@ export async function POST(
     .upload(path, file, { contentType: file.type, upsert: false });
 
   if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+    console.error("post image upload failed", uploadError);
+    return NextResponse.json({ error: "업로드에 실패했습니다. 다시 시도해주세요." }, { status: 400 });
   }
 
   const {
@@ -62,8 +63,9 @@ export async function POST(
     .single();
 
   if (insertError) {
+    console.error("post image insert failed", insertError);
     await supabase.storage.from("post-images").remove([path]);
-    return NextResponse.json({ error: insertError.message }, { status: 500 });
+    return NextResponse.json({ error: "업로드에 실패했습니다. 다시 시도해주세요." }, { status: 400 });
   }
 
   return NextResponse.json(image);

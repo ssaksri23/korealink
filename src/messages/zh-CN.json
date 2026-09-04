@@ -123,6 +123,8 @@
     "titleLabel": "标题",
     "contentLabel": "内容",
     "categoryDetails": "详细条件",
+    "categoryDetailsRequired": "请填写必填项。",
+    "detailsSaveError": "保存失败，请重试。",
     "region": "地区",
     "selectRegion": "选择地区",
     "regionSido": "道/市",

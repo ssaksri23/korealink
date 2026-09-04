@@ -55,7 +55,8 @@ export async function PATCH(
 
     const { error } = await supabase.from("posts").update(postUpdate).eq("id", id);
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("post update failed", error);
+      return NextResponse.json({ error: "저장에 실패했습니다. 다시 시도해주세요." }, { status: 400 });
     }
   }
 
@@ -83,7 +84,8 @@ export async function PATCH(
     );
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("post translation upsert failed", error);
+      return NextResponse.json({ error: "저장에 실패했습니다. 다시 시도해주세요." }, { status: 400 });
     }
   }
 

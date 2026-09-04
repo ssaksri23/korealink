@@ -123,6 +123,8 @@
     "titleLabel": "Title",
     "contentLabel": "Description",
     "categoryDetails": "Details",
+    "categoryDetailsRequired": "Please fill in the required fields.",
+    "detailsSaveError": "Failed to save. Please try again.",
     "region": "Region",
     "selectRegion": "Select region",
     "regionSido": "Province/City",

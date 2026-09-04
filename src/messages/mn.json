@@ -123,6 +123,8 @@
     "titleLabel": "Гарчиг",
     "contentLabel": "Дэлгэрэнгүй",
     "categoryDetails": "Дэлгэрэнгүй нөхцөл",
+    "categoryDetailsRequired": "Заавал бөглөх талбаруудыг бөглөнө үү.",
+    "detailsSaveError": "Хадгалж чадсангүй. Дахин оролдоно уу.",
     "region": "Бүс нутаг",
     "selectRegion": "Бүс нутаг сонгох",
     "regionSido": "Муж/Хот",

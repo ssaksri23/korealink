@@ -123,6 +123,8 @@
     "titleLabel": "Заголовок",
     "contentLabel": "Описание",
     "categoryDetails": "Детали",
+    "categoryDetailsRequired": "Пожалуйста, заполните обязательные поля.",
+    "detailsSaveError": "Не удалось сохранить. Попробуйте снова.",
     "region": "Регион",
     "selectRegion": "Выбрать регион",
     "regionSido": "Провинция/город",

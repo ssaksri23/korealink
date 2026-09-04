@@ -123,6 +123,8 @@
     "titleLabel": "제목",
     "contentLabel": "본문",
     "categoryDetails": "상세조건",
+    "categoryDetailsRequired": "필수 항목을 입력해주세요.",
+    "detailsSaveError": "저장에 실패했습니다. 다시 시도해주세요.",
     "region": "지역",
     "selectRegion": "지역 선택",
     "regionSido": "시/도",

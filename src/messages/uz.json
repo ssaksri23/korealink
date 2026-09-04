@@ -123,6 +123,8 @@
     "titleLabel": "Sarlavha",
     "contentLabel": "Tavsif",
     "categoryDetails": "Batafsil shartlar",
+    "categoryDetailsRequired": "Iltimos, majburiy maydonlarni to'ldiring.",
+    "detailsSaveError": "Saqlab bo'lmadi. Iltimos, qayta urinib ko'ring.",
     "region": "Hudud",
     "selectRegion": "Hududni tanlang",
     "regionSido": "Viloyat/Shahar",

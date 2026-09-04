@@ -123,6 +123,8 @@
     "titleLabel": "ចំណងជើង",
     "contentLabel": "ព័ត៌មានលម្អិត",
     "categoryDetails": "លក្ខខណ្ឌលម្អិត",
+    "categoryDetailsRequired": "សូមបំពេញព័ត៌មានចាំបាច់។",
+    "detailsSaveError": "រក្សាទុកបរាជ័យ។ សូមព្យាយាមម្តងទៀត។",
     "region": "តំបន់",
     "selectRegion": "ជ្រើសរើសតំបន់",
     "regionSido": "ខេត្ត/ក្រុង",
