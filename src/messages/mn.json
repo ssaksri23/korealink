@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "Ачаалж байна...",
+    "save": "Хадгалах",
+    "cancel": "Цуцлах",
+    "confirm": "Баталгаажуулах",
+    "back": "Буцах",
+    "next": "Дараах",
+    "submit": "Илгээх",
+    "search": "Хайх",
+    "share": "Хуваалцах",
+    "report": "Мэдээлэх",
+    "translationPending": "Орчуулга бэлтгэж байна",
+    "viewOriginal": "Эх хувийг үзэх"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "Та дээд цэснээс хэдийд ч хэлээ солих боломжтой.",
+    "select": "Сонгох"
+  },
+  "nav": {
+    "home": "Нүүр",
+    "search": "Хайх",
+    "write": "Нийтлэх",
+    "bookmarks": "Хадгалсан",
+    "me": "Миний хуудас"
+  },
+  "categories": {
+    "jobs": { "name": "Ажлын байр", "description": "Солонгос даяар ажил хайх" },
+    "business": { "name": "Бизнес сурталчилгаа", "description": "Таны хэлээр харилцдаг бизнес" },
+    "used": { "name": "Хэрэглэсэн бараа", "description": "Хэрэглэсэн бараа худалдах, худалдан авах" },
+    "housing": { "name": "Орон сууц·Байр", "description": "Өрөө болон түр байр хайх" },
+    "groupbuy": { "name": "Хамтын худалдан авалт", "description": "Хамтдаа авч, илүү хэмнэ" },
+    "events": { "name": "Арга хэмжээ", "description": "Уулзалт, олон нийтийн арга хэмжээ" }
+  },
+  "home": {
+    "regionSelect": "Бүс нутаг",
+    "notifications": "Мэдэгдэл",
+    "searchPlaceholder": "Ажил, байр, бараа хайх...",
+    "urgentJobs": "Яаралтай ажил",
+    "recommended": "Санал болгох",
+    "newToday": "Өнөөдөр нэмэгдсэн",
+    "closingSoon": "Хугацаа дуусах гэж байна",
+    "recommendedBusinesses": "Санал болгох бизнес",
+    "popularChatRooms": "Алдартай чат өрөө",
+    "recentlyViewed": "Саяхан үзсэн",
+    "newPosts": "шинэ нийтлэл"
+  },
+  "auth": {
+    "login": "Нэвтрэх",
+    "signup": "Бүртгүүлэх",
+    "logout": "Гарах",
+    "email": "Имэйл",
+    "password": "Нууц үг",
+    "confirmPassword": "Нууц үг баталгаажуулах",
+    "displayName": "Нэр",
+    "forgotPassword": "Нууц үгээ мартсан уу?",
+    "resetPassword": "Нууц үг сэргээх",
+    "noAccount": "Бүртгэлгүй байна уу?",
+    "haveAccount": "Бүртгэлтэй юу?",
+    "loginError": "Имэйл эсвэл нууц үг буруу байна.",
+    "signupSuccess": "Бүртгэл үүслээ. Имэйлээр баталгаажуулна уу.",
+    "resetEmailSent": "Нууц үг сэргээх имэйл илгээгдлээ."
+  },
+  "disclaimer": "KoreaLink нь мэдээлэл түгээх платформ бөгөөд ажлын нөхцөл, гүйлгээний аюулгүй байдлыг шууд баталгаажуулдаггүй. Гэрээ байгуулах, ажиллах, худалдаа хийхийн өмнө нөхцлийг бизнестэй заавал баталгаажуулна уу."
+}

@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "កំពុងផ្ទុក...",
+    "save": "រក្សាទុក",
+    "cancel": "បោះបង់",
+    "confirm": "បញ្ជាក់",
+    "back": "ត្រឡប់ក្រោយ",
+    "next": "បន្ទាប់",
+    "submit": "ដាក់ស្នើ",
+    "search": "ស្វែងរក",
+    "share": "ចែករំលែក",
+    "report": "រាយការណ៍",
+    "translationPending": "កំពុងរៀបចំការបកប្រែ",
+    "viewOriginal": "មើលអត្ថបទដើម"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "អ្នកអាចផ្លាស់ប្តូរភាសាបានគ្រប់ពេលនៅម៉ឺនុយខាងលើ។",
+    "select": "ជ្រើសរើស"
+  },
+  "nav": {
+    "home": "ទំព័រដើម",
+    "search": "ស្វែងរក",
+    "write": "ប្រកាស",
+    "bookmarks": "បានរក្សាទុក",
+    "me": "គណនីខ្ញុំ"
+  },
+  "categories": {
+    "jobs": { "name": "ការងារ", "description": "ស្វែងរកការងារនៅទូទាំងកូរ៉េ" },
+    "business": { "name": "ការផ្សព្វផ្សាយអាជីវកម្ម", "description": "អាជីវកម្មដែលនិយាយភាសារបស់អ្នក" },
+    "used": { "name": "ទំនិញប្រើប្រាស់", "description": "ទិញនិងលក់ទំនិញប្រើប្រាស់" },
+    "housing": { "name": "លំនៅដ្ឋាន", "description": "បន្ទប់ និងកន្លែងស្នាក់នៅរយៈពេលខ្លី" },
+    "groupbuy": { "name": "ទិញជាក្រុម", "description": "ទិញរួមគ្នា សន្សំបានច្រើនជាង" },
+    "events": { "name": "ព្រឹត្តិការណ៍", "description": "ការជួបជុំ និងសកម្មភាពសហគមន៍" }
+  },
+  "home": {
+    "regionSelect": "តំបន់",
+    "notifications": "ការជូនដំណឹង",
+    "searchPlaceholder": "ស្វែងរកការងារ លំនៅដ្ឋាន ទំនិញ...",
+    "urgentJobs": "ការងារបន្ទាន់",
+    "recommended": "ណែនាំ",
+    "newToday": "ប្រកាសថ្ងៃនេះ",
+    "closingSoon": "ជិតផុតកំណត់",
+    "recommendedBusinesses": "អាជីវកម្មណែនាំ",
+    "popularChatRooms": "បន្ទប់ជជែកពេញនិយម",
+    "recentlyViewed": "បានមើលថ្មីៗ",
+    "newPosts": "ប្រកាសថ្មី"
+  },
+  "auth": {
+    "login": "ចូលគណនី",
+    "signup": "ចុះឈ្មោះ",
+    "logout": "ចាកចេញ",
+    "email": "អ៊ីមែល",
+    "password": "ពាក្យសម្ងាត់",
+    "confirmPassword": "បញ្ជាក់ពាក្យសម្ងាត់",
+    "displayName": "ឈ្មោះ",
+    "forgotPassword": "ភ្លេចពាក្យសម្ងាត់?",
+    "resetPassword": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ",
+    "noAccount": "មិនទាន់មានគណនី?",
+    "haveAccount": "មានគណនីរួចហើយ?",
+    "loginError": "អ៊ីមែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ។",
+    "signupSuccess": "គណនីត្រូវបានបង្កើត។ សូមផ្ទៀងផ្ទាត់តាមអ៊ីមែល។",
+    "resetEmailSent": "បានផ្ញើអ៊ីមែលកំណត់ពាក្យសម្ងាត់ឡើងវិញ។"
+  },
+  "disclaimer": "KoreaLink គឺជាវេទិកាផ្តល់ព័ត៌មាន ហើយមិនធានាដោយផ្ទាល់នូវលក្ខខណ្ឌការងារ ឬសុវត្ថិភាពប្រតិបត្តិការទេ។ សូមផ្ទៀងផ្ទាត់លក្ខខណ្ឌជាមួយអាជីវកម្មមុននឹងចុះកិច្ចសន្យា ធ្វើការ ឬធ្វើប្រតិបត្តិការ។"
+}

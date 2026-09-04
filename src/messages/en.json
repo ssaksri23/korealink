@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "share": "Share",
+    "report": "Report",
+    "translationPending": "Translation in progress",
+    "viewOriginal": "View original"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "You can change this anytime from the top menu.",
+    "select": "Select"
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Search",
+    "write": "Write",
+    "bookmarks": "Saved",
+    "me": "My Page"
+  },
+  "categories": {
+    "jobs": { "name": "Jobs", "description": "Find work across Korea" },
+    "business": { "name": "Business", "description": "Businesses that speak your language" },
+    "used": { "name": "Marketplace", "description": "Buy and sell used items" },
+    "housing": { "name": "Housing", "description": "Rooms and short-term stays" },
+    "groupbuy": { "name": "Group Buy", "description": "Buy together, save more" },
+    "events": { "name": "Events", "description": "Meetups and community events" }
+  },
+  "home": {
+    "regionSelect": "Region",
+    "notifications": "Notifications",
+    "searchPlaceholder": "Search jobs, housing, items...",
+    "urgentJobs": "Urgent Jobs",
+    "recommended": "Recommended",
+    "newToday": "New Today",
+    "closingSoon": "Closing Soon",
+    "recommendedBusinesses": "Recommended Businesses",
+    "popularChatRooms": "Popular Chat Rooms",
+    "recentlyViewed": "Recently Viewed",
+    "newPosts": "new posts"
+  },
+  "auth": {
+    "login": "Log In",
+    "signup": "Sign Up",
+    "logout": "Log Out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "displayName": "Name",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginError": "Incorrect email or password.",
+    "signupSuccess": "Account created. Please check your email to verify.",
+    "resetEmailSent": "Password reset email sent."
+  },
+  "disclaimer": "KoreaLink is an information platform and does not directly guarantee employment conditions or transaction safety. Please verify all terms with the business before signing a contract, working, or trading."
+}

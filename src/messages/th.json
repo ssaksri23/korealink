@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "กำลังโหลด...",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "back": "ย้อนกลับ",
+    "next": "ถัดไป",
+    "submit": "ส่ง",
+    "search": "ค้นหา",
+    "share": "แชร์",
+    "report": "รายงาน",
+    "translationPending": "กำลังเตรียมคำแปล",
+    "viewOriginal": "ดูต้นฉบับ"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "คุณสามารถเปลี่ยนภาษาได้ทุกเมื่อจากเมนูด้านบน",
+    "select": "เลือก"
+  },
+  "nav": {
+    "home": "หน้าแรก",
+    "search": "ค้นหา",
+    "write": "โพสต์",
+    "bookmarks": "รายการที่บันทึก",
+    "me": "ของฉัน"
+  },
+  "categories": {
+    "jobs": { "name": "งาน", "description": "หางานทั่วเกาหลี" },
+    "business": { "name": "ธุรกิจแนะนำ", "description": "ธุรกิจที่พูดภาษาของคุณ" },
+    "used": { "name": "ของมือสอง", "description": "ซื้อขายของมือสอง" },
+    "housing": { "name": "ที่พักอาศัย", "description": "ห้องพักและที่พักระยะสั้น" },
+    "groupbuy": { "name": "ซื้อกลุ่ม", "description": "ซื้อร่วมกัน ประหยัดกว่า" },
+    "events": { "name": "กิจกรรม", "description": "งานพบปะและกิจกรรมชุมชน" }
+  },
+  "home": {
+    "regionSelect": "พื้นที่",
+    "notifications": "การแจ้งเตือน",
+    "searchPlaceholder": "ค้นหางาน ที่พัก สินค้า...",
+    "urgentJobs": "งานด่วน",
+    "recommended": "แนะนำ",
+    "newToday": "โพสต์วันนี้",
+    "closingSoon": "ใกล้ปิดรับสมัคร",
+    "recommendedBusinesses": "ธุรกิจแนะนำ",
+    "popularChatRooms": "ห้องแชทยอดนิยม",
+    "recentlyViewed": "ดูล่าสุด",
+    "newPosts": "รายการใหม่"
+  },
+  "auth": {
+    "login": "เข้าสู่ระบบ",
+    "signup": "สมัครสมาชิก",
+    "logout": "ออกจากระบบ",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "confirmPassword": "ยืนยันรหัสผ่าน",
+    "displayName": "ชื่อ",
+    "forgotPassword": "ลืมรหัสผ่าน?",
+    "resetPassword": "รีเซ็ตรหัสผ่าน",
+    "noAccount": "ยังไม่มีบัญชี?",
+    "haveAccount": "มีบัญชีอยู่แล้ว?",
+    "loginError": "อีเมลหรือรหัสผ่านไม่ถูกต้อง",
+    "signupSuccess": "สร้างบัญชีสำเร็จ กรุณายืนยันผ่านอีเมล",
+    "resetEmailSent": "ส่งอีเมลรีเซ็ตรหัสผ่านแล้ว"
+  },
+  "disclaimer": "KoreaLink เป็นแพลตฟอร์มให้ข้อมูลและไม่ได้รับประกันเงื่อนไขการจ้างงานหรือความปลอดภัยในการทำธุรกรรมโดยตรง กรุณาตรวจสอบเงื่อนไขกับธุรกิจก่อนทำสัญญา ทำงาน หรือทำธุรกรรม"
+}

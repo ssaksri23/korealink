@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "Загрузка...",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "back": "Назад",
+    "next": "Далее",
+    "submit": "Отправить",
+    "search": "Поиск",
+    "share": "Поделиться",
+    "report": "Пожаловаться",
+    "translationPending": "Перевод готовится",
+    "viewOriginal": "Посмотреть оригинал"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "Вы можете изменить язык в любое время в верхнем меню.",
+    "select": "Выбрать"
+  },
+  "nav": {
+    "home": "Главная",
+    "search": "Поиск",
+    "write": "Написать",
+    "bookmarks": "Сохранённые",
+    "me": "Профиль"
+  },
+  "categories": {
+    "jobs": { "name": "Работа", "description": "Найдите работу по всей Корее" },
+    "business": { "name": "Бизнес", "description": "Компании, говорящие на вашем языке" },
+    "used": { "name": "Барахолка", "description": "Купить и продать б/у вещи" },
+    "housing": { "name": "Жильё", "description": "Комнаты и временное жильё" },
+    "groupbuy": { "name": "Групповая закупка", "description": "Покупайте вместе — экономьте больше" },
+    "events": { "name": "События", "description": "Встречи и мероприятия сообщества" }
+  },
+  "home": {
+    "regionSelect": "Регион",
+    "notifications": "Уведомления",
+    "searchPlaceholder": "Поиск работы, жилья, товаров...",
+    "urgentJobs": "Срочные вакансии",
+    "recommended": "Рекомендуем",
+    "newToday": "Новое сегодня",
+    "closingSoon": "Скоро закрытие",
+    "recommendedBusinesses": "Рекомендуемые компании",
+    "popularChatRooms": "Популярные чаты",
+    "recentlyViewed": "Недавно просмотренные",
+    "newPosts": "новых"
+  },
+  "auth": {
+    "login": "Войти",
+    "signup": "Регистрация",
+    "logout": "Выйти",
+    "email": "Эл. почта",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "displayName": "Имя",
+    "forgotPassword": "Забыли пароль?",
+    "resetPassword": "Сбросить пароль",
+    "noAccount": "Нет аккаунта?",
+    "haveAccount": "Уже есть аккаунт?",
+    "loginError": "Неверный email или пароль.",
+    "signupSuccess": "Аккаунт создан. Подтвердите его по ссылке в письме.",
+    "resetEmailSent": "Письмо для сброса пароля отправлено."
+  },
+  "disclaimer": "KoreaLink — информационная платформа и не гарантирует напрямую условия трудоустройства или безопасность сделок. Пожалуйста, проверяйте все условия у компании перед заключением договора, трудоустройством или сделкой."
+}

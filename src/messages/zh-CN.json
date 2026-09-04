@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "KoreaLink",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "back": "上一步",
+    "next": "下一步",
+    "submit": "提交",
+    "search": "搜索",
+    "share": "分享",
+    "report": "举报",
+    "translationPending": "翻译准备中",
+    "viewOriginal": "查看原文"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "您可以随时在顶部菜单更改语言。",
+    "select": "选择"
+  },
+  "nav": {
+    "home": "首页",
+    "search": "搜索",
+    "write": "发布",
+    "bookmarks": "收藏",
+    "me": "我的"
+  },
+  "categories": {
+    "jobs": { "name": "招聘", "description": "在韩国各地寻找工作" },
+    "business": { "name": "商家推广", "description": "使用您语言的商家" },
+    "used": { "name": "二手交易", "description": "买卖二手物品" },
+    "housing": { "name": "房产·住宿", "description": "房间与短期住宿" },
+    "groupbuy": { "name": "拼团", "description": "一起购买，更省钱" },
+    "events": { "name": "活动·聚会", "description": "聚会与社区活动" }
+  },
+  "home": {
+    "regionSelect": "地区",
+    "notifications": "通知",
+    "searchPlaceholder": "搜索工作、住宿、物品...",
+    "urgentJobs": "急聘职位",
+    "recommended": "推荐帖子",
+    "newToday": "今日新增",
+    "closingSoon": "即将截止",
+    "recommendedBusinesses": "推荐商家",
+    "popularChatRooms": "热门聊天群",
+    "recentlyViewed": "最近浏览",
+    "newPosts": "条新帖"
+  },
+  "auth": {
+    "login": "登录",
+    "signup": "注册",
+    "logout": "退出登录",
+    "email": "邮箱",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "displayName": "姓名",
+    "forgotPassword": "忘记密码？",
+    "resetPassword": "重置密码",
+    "noAccount": "还没有账号？",
+    "haveAccount": "已有账号？",
+    "loginError": "邮箱或密码不正确。",
+    "signupSuccess": "账号已创建，请通过邮箱完成验证。",
+    "resetEmailSent": "重置密码邮件已发送。"
+  },
+  "disclaimer": "KoreaLink 是信息提供平台，不直接保证雇佣条件或交易安全。签订合同、就业或交易前，请务必与商家核实相关条件。"
+}

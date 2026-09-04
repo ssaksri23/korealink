@@ -1,0 +1,70 @@
+{
+  "common": {
+    "appName": "코리아링크",
+    "taglineKo": "한국에서 필요한 정보, 내 언어로 한곳에서.",
+    "taglineEn": "Jobs and life in Korea, in your language.",
+    "loading": "불러오는 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "back": "이전",
+    "next": "다음",
+    "submit": "제출",
+    "search": "검색",
+    "share": "공유",
+    "report": "신고",
+    "translationPending": "번역 준비 중",
+    "viewOriginal": "원문 보기"
+  },
+  "languageSelect": {
+    "titleKo": "사용할 언어를 선택하세요",
+    "titleEn": "Choose your language",
+    "subtitle": "상단 메뉴에서 언제든 변경할 수 있습니다.",
+    "select": "선택"
+  },
+  "nav": {
+    "home": "홈",
+    "search": "검색",
+    "write": "글쓰기",
+    "bookmarks": "저장",
+    "me": "내 정보"
+  },
+  "categories": {
+    "jobs": { "name": "일자리", "description": "전국 채용 공고 찾기" },
+    "business": { "name": "업체 홍보", "description": "내 언어로 소통하는 업체" },
+    "used": { "name": "중고거래", "description": "중고 물품 사고팔기" },
+    "housing": { "name": "부동산·숙소", "description": "방과 단기숙소 찾기" },
+    "groupbuy": { "name": "공동구매", "description": "함께 사서 더 저렴하게" },
+    "events": { "name": "행사·모임", "description": "모임과 커뮤니티 행사" }
+  },
+  "home": {
+    "regionSelect": "지역",
+    "notifications": "알림",
+    "searchPlaceholder": "일자리, 숙소, 물품 검색...",
+    "urgentJobs": "긴급 일자리",
+    "recommended": "추천 게시글",
+    "newToday": "오늘 등록",
+    "closingSoon": "마감임박",
+    "recommendedBusinesses": "추천 업체",
+    "popularChatRooms": "인기 채팅방",
+    "recentlyViewed": "최근 본 게시글",
+    "newPosts": "건 신규"
+  },
+  "auth": {
+    "login": "로그인",
+    "signup": "회원가입",
+    "logout": "로그아웃",
+    "email": "이메일",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "displayName": "이름",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "resetPassword": "비밀번호 재설정",
+    "noAccount": "계정이 없으신가요?",
+    "haveAccount": "이미 계정이 있으신가요?",
+    "loginError": "이메일 또는 비밀번호가 올바르지 않습니다.",
+    "signupSuccess": "가입이 완료되었습니다. 이메일에서 인증을 완료해주세요.",
+    "resetEmailSent": "비밀번호 재설정 이메일을 보냈습니다."
+  },
+  "disclaimer": "KoreaLink는 정보 제공 플랫폼이며 고용조건과 거래 안전성을 직접 보증하지 않습니다. 계약, 취업 또는 거래 전에 업체와 조건을 반드시 확인하세요."
+}

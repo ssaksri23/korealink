@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+  --brand-navy: #0b2447;
+  --brand-navy-light: #14375e;
+  --brand-teal: #0d9488;
+  --brand-teal-light: #14b8a6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-teal: var(--brand-teal);
+  --font-sans: "Noto Sans KR", "Noto Sans SC", "Noto Sans Thai",
+    "Noto Sans Khmer", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+
+/* 태국어/크메르어 등 줄바꿈 규칙이 다른 언어에서 CJK 전용 keep-all 이 줄바꿈을 막지 않도록 예외 처리 */
+html[lang="th"] body,
+html[lang="km"] body {
+  word-break: normal;
+  line-break: auto;
+}
