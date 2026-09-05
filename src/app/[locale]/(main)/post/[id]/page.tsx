@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { PostActions } from "@/components/post-actions";
 import { PostDeleteButton } from "@/components/write/post-delete-button";
+import { InquiryDeleteButton } from "@/components/inquiries/inquiry-delete-button";
 
 export default async function PostDetailPage({
   params,
@@ -87,7 +88,10 @@ export default async function PostDetailPage({
           <div className="flex flex-col gap-2">
             {inquiries.map((inquiry) => (
               <div key={inquiry.id} className="rounded-xl border border-slate-200 p-3 text-sm">
-                <p className="whitespace-pre-wrap text-slate-800">{inquiry.message}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <p className="whitespace-pre-wrap text-slate-800">{inquiry.message}</p>
+                  <InquiryDeleteButton inquiryId={inquiry.id} />
+                </div>
                 <div className="mt-1.5 flex flex-wrap gap-x-3 text-xs text-slate-500">
                   {inquiry.senderName && <span>{inquiry.senderName}</span>}
                   {inquiry.contactPhone && <span>{inquiry.contactPhone}</span>}
