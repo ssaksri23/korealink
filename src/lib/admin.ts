@@ -42,7 +42,11 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     supabase.from("posts").select("id", { count: "exact", head: true }).gte("created_at", todayStart.toISOString()),
     supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "pending_review"),
     supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "rejected"),
-    supabase.from("post_translations").select("id", { count: "exact", head: true }).in("translation_status", ["pending", "review_required", "re_review_required"]),
+    supabase
+      .from("post_translations")
+      .select("id, posts!inner(deleted_at)", { count: "exact", head: true })
+      .in("translation_status", ["pending", "review_required", "re_review_required"])
+      .is("posts.deleted_at", null),
     supabase.from("reports").select("id", { count: "exact", head: true }).eq("status", "received"),
     supabase.from("company_verifications").select("id", { count: "exact", head: true }).eq("status", "requested"),
     supabase.from("payments").select("id", { count: "exact", head: true }).eq("status", "waiting"),
@@ -186,9 +190,10 @@ export async function listPendingTranslations(): Promise<PendingTranslationRow[]
   const { data, error } = await supabase
     .from("post_translations")
     .select(
-      "post_id, language_code, translation_status, posts(original_language_code, categories(slug), post_translations(language_code, translated_title))",
+      "post_id, language_code, translation_status, posts!inner(original_language_code, categories(slug), post_translations(language_code, translated_title))",
     )
     .in("translation_status", ["pending", "review_required", "re_review_required"])
+    .is("posts.deleted_at", null)
     .order("created_at", { ascending: true })
     .limit(100);
 
