@@ -29,6 +29,44 @@ interface NicepayCheckAmountResponse {
   tid: string;
 }
 
+interface NicepayAccessTokenResponse {
+  accessToken: string;
+  tokenType: string;
+  expireAt: string;
+}
+
+/**
+ * 이 가맹점의 클라이언트키/시크릿키는 "Token 인증" 방식으로 등록돼 있어(콘솔에
+ * "시크릿 키 - Token 인증"으로 표시됨), Basic 인증으로 API를 호출하면
+ * "사용자 인증타입이 맞지 않습니다" 오류가 난다. 먼저 Basic 인증으로 액세스
+ * 토큰을 발급받고, 그 토큰을 Bearer로 실제 API 호출에 사용해야 한다.
+ */
+async function getNicepayAccessToken(): Promise<{ token?: string; error?: string }> {
+  const clientKey = process.env.NICEPAY_CLIENT_KEY;
+  const secretKey = process.env.NICEPAY_SECRET_KEY;
+  if (!clientKey || !secretKey) {
+    return { error: "NICEPAY_CLIENT_KEY/NICEPAY_SECRET_KEY not configured" };
+  }
+  const auth = Buffer.from(`${clientKey}:${secretKey}`).toString("base64");
+
+  try {
+    const res = await fetch("https://api.nicepay.co.kr/v1/access-token", {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${auth}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = (await res.json().catch(() => null)) as NicepayAccessTokenResponse | null;
+    if (!res.ok || !data?.accessToken) {
+      return { error: `access-token failed: HTTP ${res.status}` };
+    }
+    return { token: data.accessToken };
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "network error" };
+  }
+}
+
 /**
  * Client 승인 모델은 결제창 인증이 곧 결제 완료이므로 별도 승인 호출이 필요 없다.
  * 대신 나이스페이 서버에 금액이 위변조되지 않았는지 한 번 더 물어보는 "금액 검증
@@ -38,13 +76,16 @@ export async function checkNicepayAmount(
   tid: string,
   amount: number,
 ): Promise<{ ok: boolean; error?: string }> {
-  const clientKey = process.env.NICEPAY_CLIENT_KEY;
   const secretKey = process.env.NICEPAY_SECRET_KEY;
-  if (!clientKey || !secretKey) {
-    return { ok: false, error: "NICEPAY_CLIENT_KEY/NICEPAY_SECRET_KEY not configured" };
+  if (!secretKey) {
+    return { ok: false, error: "NICEPAY_SECRET_KEY not configured" };
   }
 
-  const auth = Buffer.from(`${clientKey}:${secretKey}`).toString("base64");
+  const { token, error: tokenError } = await getNicepayAccessToken();
+  if (!token) {
+    return { ok: false, error: tokenError ?? "failed to obtain access token" };
+  }
+
   const ediDate = new Date().toISOString();
   const signData = sha256Hex(`${tid}${amount}${ediDate}${secretKey}`);
 
@@ -52,7 +93,7 @@ export async function checkNicepayAmount(
     const res = await fetch(`https://api.nicepay.co.kr/v1/check-amount/${tid}`, {
       method: "POST",
       headers: {
-        Authorization: `Basic ${auth}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ amount, ediDate, signData, returnCharSet: "utf-8" }),
