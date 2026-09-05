@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { SUPPORTED_LANGUAGES, type LanguageDefinition } from "@/config/languages";
 
@@ -13,7 +14,10 @@ export interface LanguageRow extends LanguageDefinition {
  * fallback으로 사용해 화면이 죽지 않도록 한다. 이렇게 하면 어떤 화면도 언어 목록을
  * 직접 하드코딩하지 않고 이 함수 하나만 호출하면 된다.
  */
-export async function getLanguages(): Promise<LanguageRow[]> {
+// React cache()로 감싸 같은 요청 안에서 레이아웃(헤더)과 페이지가 각자 호출해도
+// 실제 DB 조회는 한 번만 실행되도록 한다(레이아웃 헤더가 모든 페이지에서 항상
+// 호출하기 때문에 이 중복이 특히 잦았다).
+export const getLanguages = cache(async (): Promise<LanguageRow[]> => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     return fallbackLanguages();
   }
@@ -45,7 +49,7 @@ export async function getLanguages(): Promise<LanguageRow[]> {
   } catch {
     return fallbackLanguages();
   }
-}
+});
 
 function fallbackLanguages(): LanguageRow[] {
   return SUPPORTED_LANGUAGES.map((l) => ({

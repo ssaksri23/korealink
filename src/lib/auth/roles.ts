@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import type { RoleCode } from "@/lib/supabase/database.types";
 
@@ -15,7 +16,13 @@ export interface CurrentUser {
  * 반드시 서버 컴포넌트/서버 액션/라우트 핸들러에서만 사용하고,
  * 이 값을 신뢰해 민감한 작업을 수행하기 전에는 최종적으로 RLS가 다시 검증한다.
  */
-export async function getCurrentUser(): Promise<CurrentUser | null> {
+/**
+ * React cache()로 감싸 같은 요청(페이지 렌더) 안에서 레이아웃/페이지가 각자
+ * getCurrentUser()를 호출해도 실제 Supabase 조회(auth.getUser + 2개 쿼리)는
+ * 한 번만 실행되도록 중복 호출을 제거한다. 요청마다 새로 캐시되므로 로그인
+ * 상태가 오래된 채로 남는 문제는 없다.
+ */
+export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return null;
   const supabase = await createClient();
   const {
@@ -46,7 +53,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       scopeLanguageCode: r.scope_language_code,
     })),
   };
-}
+});
 
 export function hasRole(
   user: CurrentUser | null,
