@@ -12,10 +12,21 @@ export interface DashboardStats {
   paymentsWaiting: number;
 }
 
+/**
+ * 서버(Vercel)는 UTC로 동작하므로 new Date().setHours(0,0,0,0)로 "오늘"을 구하면
+ * 한국 시각 기준 오늘 새벽에 생긴 데이터가 "어제"로 잘못 잡히는 문제가 있었다.
+ * 한국(KST, UTC+9) 기준 자정을 명시적으로 계산한다.
+ */
+function getKstTodayStartUtc(): Date {
+  const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+  const kstNow = new Date(Date.now() + KST_OFFSET_MS);
+  const kstDateStr = kstNow.toISOString().slice(0, 10);
+  return new Date(`${kstDateStr}T00:00:00+09:00`);
+}
+
 export async function getDashboardStats(): Promise<DashboardStats> {
   const supabase = await createClient();
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  const todayStart = getKstTodayStartUtc();
 
   const [
     newUsersToday,
