@@ -39,7 +39,11 @@ export async function getDashboardStats(): Promise<DashboardStats> {
     paymentsWaiting,
   ] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }).gte("created_at", todayStart.toISOString()),
-    supabase.from("posts").select("id", { count: "exact", head: true }).gte("created_at", todayStart.toISOString()),
+    supabase
+      .from("posts")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", todayStart.toISOString())
+      .is("deleted_at", null),
     supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "pending_review"),
     supabase.from("posts").select("id", { count: "exact", head: true }).eq("status", "rejected"),
     supabase
