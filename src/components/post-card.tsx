@@ -10,17 +10,13 @@ export function PostCard({ post }: { post: PostCardData }) {
   return (
     <Link href={`/post/${post.id}`}>
       <Card className="flex h-full flex-col gap-1.5 overflow-hidden p-0 transition hover:border-teal-400 hover:shadow-md">
-        {post.thumbnailUrl ? (
+        {post.thumbnailUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={post.thumbnailUrl}
             alt=""
             className="aspect-video w-full object-cover"
           />
-        ) : (
-          <div className="flex aspect-video w-full items-center justify-center bg-slate-100 text-xs text-slate-400">
-            {t("appName")}
-          </div>
         )}
         <div className="flex flex-col gap-1.5 p-4">
           <div className="flex flex-wrap items-center gap-1.5">
