@@ -45,6 +45,7 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **필수** | Supabase anon(public) key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 관리자 기능 필요 시 | RLS를 우회하는 서버 전용 키. **절대 브라우저에 노출 금지** (`server-only`로 보호됨) |
 | `TELEGRAM_BOT_TOKEN` | 선택 | 텔레그램 봇 API 토큰(@BotFather에서 발급, 무료). 설정하고 `/admin/distribution`에서 채널에 telegram chat id를 등록하면, 배포 요청 시 해당 채널로 실제 메시지가 발송됩니다. 미설정 시에는 발송 없이 큐/로그로만 기록됩니다 |
+| `NICEPAY_CLIENT_KEY`, `NICEPAY_SECRET_KEY` | 선택 | 나이스페이 카드결제 연동 키. 설정하면 광고상품 주문(`/orders/[id]`)에 "카드로 결제하기" 버튼이 나타나 계좌입금 없이 즉시 결제·자동승인됩니다. 미설정 시에는 카드결제 버튼이 숨겨지고 기존 계좌입금 방식만 보입니다 |
 | `NEXT_PUBLIC_DEFAULT_LOCALE` | 선택 | 기본값 `ko` |
 
 `NEXT_PUBLIC_SUPABASE_URL`이 없어도 앱 자체는 죽지 않습니다(언어 선택 화면 등은 `config/languages.ts` fallback으로 동작). 다만 로그인/게시글 등 실제 데이터 기능은 Supabase 연결이 필요합니다.
@@ -112,7 +113,7 @@ npx supabase gen types typescript --project-id <PROJECT_ID> > src/lib/supabase/d
 - 관리자 대시보드(`/admin`): 오늘 신규가입/신규게시글, 승인대기, 번역대기, 신고접수, 업체인증요청, 입금대기 통계
 - 관리자 게시글 승인/반려(사유 필수, 상태이력 기록), 번역검수(원문→번역 검수/수정)
 - 관리자 신고 처리(14종 신고사유, 반복신고 시 자동 숨김, 처리 액션 기록), 업체 서류 인증(승인/반려)
-- 광고상품 주문(`/orders/new`, 여러 상품 동시 선택 가능) → 무통장입금 안내 → 입금자명 접수(`/orders/[id]`, 접수 시 관리자에게 텔레그램 알림) → 관리자 입금확인(`/admin/orders`) 시 긴급배지/상단고정 자동 적용, 관리자 상품 가격/기간/판매상태 관리(`/admin/products`)
+- 광고상품 주문(`/orders/new`, 여러 상품 동시 선택 가능) → 무통장입금 안내 또는 나이스페이 카드결제(`NICEPAY_CLIENT_KEY`/`NICEPAY_SECRET_KEY` 설정 시, 결제 즉시 자동승인) → 계좌입금은 입금자명 접수(`/orders/[id]`, 접수 시 관리자에게 텔레그램 알림) → 관리자 입금확인(`/admin/orders`) 시 긴급배지/상단고정 자동 적용, 관리자 상품 가격/기간/판매상태 관리(`/admin/products`)
 - 업체 인증 신청(`/business/verify`): 주소는 카카오(다음) 우편번호 서비스로 자동입력 가능, 본인의 신청 현황/반려 사유 확인 가능
 - 카카오 홍보문구·QR코드 생성(`/promo/[id]`, 게시글 소유자/관리자 전용): 공유 URL 기반 QR코드를 브라우저에서 직접 생성(외부 API 미사용)하고 홍보문구를 클립보드로 복사
 - 텔레그램 배포 관리자 화면(`/admin/distribution`): 언어별 배포채널 등록/활성화, 게시글 배포 요청. `TELEGRAM_BOT_TOKEN`이 설정되어 있고 채널에 telegram chat id가 등록되어 있으면 실제로 해당 채널에 메시지가 발송됩니다(Telegram Bot API 직접 호출, 별도 유료 API 아님). 토큰이 없거나 채널에 chat id가 없으면 발송 없이 큐/로그로만 기록됩니다

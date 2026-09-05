@@ -4,6 +4,7 @@ import { getMyOrder } from "@/lib/orders";
 import { getSystemSetting } from "@/lib/system-settings";
 import { DepositForm } from "@/components/orders/deposit-form";
 import { CancelRefundButton } from "@/components/orders/cancel-refund-button";
+import { NicepayButton } from "@/components/orders/nicepay-button";
 import { Badge } from "@/components/ui/badge";
 
 interface BankAccountInfo {
@@ -14,10 +15,13 @@ interface BankAccountInfo {
 
 export default async function OrderDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; id: string }>;
+  searchParams: Promise<{ payment?: string }>;
 }) {
   const { locale, id } = await params;
+  const { payment: paymentQuery } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect(`/${locale}/login`);
 
@@ -57,10 +61,26 @@ export default async function OrderDetailPage({
         )}
       </div>
 
+      {paymentQuery === "failed" && (
+        <p className="mt-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">
+          카드 결제에 실패했습니다. 다시 시도하시거나 계좌입금을 이용해주세요.
+        </p>
+      )}
+
       {order.payment?.status === "waiting" && (
-        <div className="mt-4 flex flex-col gap-2">
-          <DepositForm orderId={order.id} initialName={order.payment.depositorName ?? ""} />
-          <CancelRefundButton orderId={order.id} mode="cancel" />
+        <div className="mt-4 flex flex-col gap-3">
+          {process.env.NICEPAY_CLIENT_KEY && (
+            <NicepayButton
+              clientKey={process.env.NICEPAY_CLIENT_KEY}
+              orderId={order.id}
+              amount={order.totalPrice}
+              goodsName={order.productName}
+            />
+          )}
+          <div className="flex flex-col gap-2">
+            <DepositForm orderId={order.id} initialName={order.payment.depositorName ?? ""} />
+            <CancelRefundButton orderId={order.id} mode="cancel" />
+          </div>
         </div>
       )}
 

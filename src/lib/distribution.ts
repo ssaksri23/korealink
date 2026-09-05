@@ -98,8 +98,11 @@ function primaryImageUrl(
 export async function queueDistributionForPost(
   postId: string,
   requestedBy: string,
+  client?: Awaited<ReturnType<typeof createClient>>,
 ): Promise<{ ok: boolean; queued: number; error?: string }> {
-  const supabase = await createClient();
+  // distribution_logs 삽입은 관리자 전용 RLS가 걸려 있어, 주문자 본인 세션으로 호출되는
+  // 경로(카드결제 자동승인 등)에서는 서비스 롤 클라이언트를 주입받아 사용한다.
+  const supabase = client ?? (await createClient());
 
   const { data: post } = await supabase
     .from("posts")
