@@ -2,6 +2,7 @@ import { listAdminPosts } from "@/lib/admin";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { PostDeleteButton } from "@/components/write/post-delete-button";
 
 const STATUS_LABEL_KO: Record<string, string> = {
   draft: "임시저장",
@@ -53,19 +54,20 @@ export default async function AdminPostsPage({
       ) : (
         <div className="flex flex-col gap-2">
           {posts.map((p) => (
-            <Link key={p.id} href={`/admin/posts/${p.id}`}>
-              <Card className="flex items-center justify-between gap-3 p-3 transition hover:border-teal-400">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium text-slate-900">
-                    {p.title ?? "(제목 없음)"}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {p.createdByName ?? "-"} · {new Date(p.createdAt).toLocaleString()}
-                  </p>
-                </div>
+            <Card key={p.id} className="flex items-center justify-between gap-3 p-3 transition hover:border-teal-400">
+              <Link href={`/admin/posts/${p.id}`} className="min-w-0 flex-1">
+                <p className="truncate font-medium text-slate-900">
+                  {p.title ?? "(제목 없음)"}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {p.createdByName ?? "-"} · {new Date(p.createdAt).toLocaleString()}
+                </p>
+              </Link>
+              <div className="flex shrink-0 items-center gap-2">
                 <Badge variant="outline">{STATUS_LABEL_KO[p.status] ?? p.status}</Badge>
-              </Card>
-            </Link>
+                <PostDeleteButton postId={p.id} />
+              </div>
+            </Card>
           ))}
         </div>
       )}
