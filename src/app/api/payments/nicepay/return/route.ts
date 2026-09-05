@@ -9,6 +9,20 @@ import { getAppUrl } from "@/lib/app-url";
 export async function POST(request: Request) {
   const appUrl = await getAppUrl();
   const formData = await request.formData().catch(() => null);
+  const admin = createAdminClient();
+
+  const rawFields: Record<string, string> = {};
+  if (formData) {
+    for (const [key, value] of formData.entries()) {
+      rawFields[key] = String(value);
+    }
+  }
+  // 나이스페이 콜백 필드명이 계약 모델(Server/Client 승인)에 따라 달라질 수 있어,
+  // 원인 파악을 위해 실제로 받은 값을 항상 남겨둔다.
+  await admin.from("admin_logs").insert({
+    action: "nicepay_return_received",
+    detail: rawFields as never,
+  });
 
   function redirectTo(orderId: string | null, status: "paid" | "failed") {
     const path = orderId ? `/ko/orders/${orderId}?payment=${status}` : `/ko/orders?payment=${status}`;
@@ -19,12 +33,17 @@ export async function POST(request: Request) {
     return redirectTo(null, "failed");
   }
 
-  const authResultCode = String(formData.get("authResultCode") ?? "");
-  const rawOrderId = String(formData.get("orderId") ?? "");
-  const tid = String(formData.get("tid") ?? "");
+  const tid = rawFields.tid ?? "";
+  const rawOrderId = rawFields.orderId ?? "";
   // 결제 시도마다 유니크한 orderId가 필요해 "{주문UUID}-{타임스탬프}" 형태로 보냈으므로
   // 앞 36자(UUID 길이)만 잘라 실제 주문 id를 복원한다.
   const orderId = rawOrderId.slice(0, 36);
+  // 계약 모델에 따라 authResultCode(Server 승인) 또는 resultCode/success(Client 승인)로
+  // 성공 여부가 온다. 둘 다 지원한다.
+  const isAuthSuccess =
+    rawFields.authResultCode === "0000" ||
+    rawFields.resultCode === "0000" ||
+    rawFields.success === "true";
 
   const supabase = await createClient();
   const {
@@ -45,7 +64,7 @@ export async function POST(request: Request) {
     return redirectTo(null, "failed");
   }
 
-  if (authResultCode !== "0000" || !tid) {
+  if (!isAuthSuccess || !tid) {
     return redirectTo(order.id, "failed");
   }
 
@@ -65,13 +84,18 @@ export async function POST(request: Request) {
 
   const approval = await approveNicepayPayment(tid, order.total_price);
   if (!approval.ok || approval.approvedAmount !== order.total_price) {
+    await admin.from("admin_logs").insert({
+      action: "nicepay_approve_failed",
+      target_table: "orders",
+      target_id: order.id,
+      detail: { error: approval.error, tid } as never,
+    });
     return redirectTo(order.id, "failed");
   }
 
   // 여기부터는 나이스페이가 실제로 승인한, 검증된 결제이므로 서비스 롤로 확정 처리한다.
   // (payments/orders의 소유자 UPDATE 정책은 대상 상태를 제한하지 않아, 카드결제
   // 자동승인처럼 신뢰할 수 있는 검증을 거친 흐름은 이렇게 서버가 직접 확정한다.)
-  const admin = createAdminClient();
   const now = new Date();
   const product = Array.isArray(order.products) ? order.products[0] : order.products;
   const endsAt = product?.duration_days
